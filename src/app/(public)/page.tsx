@@ -1,4 +1,11 @@
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "JGEC Alumni Association Pune | Official Website",
+  description: "Join the network of Jalpaiguri Government Engineering College alumni in Pune. Stay updated with events, mentorship programs, and success stories.",
+};
+
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Calendar, Users, Award, MapPin, ArrowRight, Star } from "lucide-react";
