@@ -1,5 +1,8 @@
+"use client";
+
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -16,14 +19,14 @@ const navItems = [
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation();
+  const pathname = usePathname();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-primary/95 backdrop-blur-md shadow-lg">
       <div className="container-custom">
         <div className="flex items-center justify-between h-20 px-4">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center">
               <span className="text-accent-foreground font-serif font-bold text-xl">JG</span>
             </div>
@@ -42,10 +45,10 @@ const Header = () => {
             {navItems.map((item) => (
               <Link
                 key={item.path}
-                to={item.path}
+                href={item.path}
                 className={cn(
                   "px-4 py-2 text-sm font-medium rounded-md transition-colors",
-                  location.pathname === item.path
+                  pathname === item.path
                     ? "text-accent bg-white/10"
                     : "text-primary-foreground/90 hover:text-accent hover:bg-white/5"
                 )}
@@ -57,12 +60,12 @@ const Header = () => {
 
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center gap-3">
-            <Link to="/donate">
+            <Link href="/donate">
               <Button variant="gold" size="sm">
                 Donate
               </Button>
             </Link>
-            <Link to="/login">
+            <Link href="/login">
               <Button variant="heroOutline" size="sm">
                 Alumni Login
               </Button>
@@ -91,11 +94,11 @@ const Header = () => {
           {navItems.map((item) => (
             <Link
               key={item.path}
-              to={item.path}
+              href={item.path}
               onClick={() => setIsOpen(false)}
               className={cn(
                 "block px-4 py-3 text-sm font-medium rounded-md transition-colors",
-                location.pathname === item.path
+                pathname === item.path
                   ? "text-accent bg-white/10"
                   : "text-primary-foreground/90 hover:text-accent hover:bg-white/5"
               )}
@@ -104,12 +107,12 @@ const Header = () => {
             </Link>
           ))}
           <div className="pt-4 flex flex-col gap-3">
-            <Link to="/donate" onClick={() => setIsOpen(false)}>
+            <Link href="/donate" onClick={() => setIsOpen(false)}>
               <Button variant="gold" size="lg" className="w-full">
                 Donate
               </Button>
             </Link>
-            <Link to="/login" onClick={() => setIsOpen(false)}>
+            <Link href="/login" onClick={() => setIsOpen(false)}>
               <Button variant="heroOutline" size="lg" className="w-full">
                 Alumni Login
               </Button>

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin } from "lucide-react";
 
 const Footer = () => {
@@ -36,7 +36,7 @@ const Footer = () => {
               ].map((link) => (
                 <li key={link.path}>
                   <Link
-                    to={link.path}
+                    href={link.path}
                     className="text-primary-foreground/80 hover:text-accent transition-colors text-sm"
                   >
                     {link.name}
@@ -123,10 +123,10 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-primary-foreground/70">
             <p>© 2026 JGEC Alumni Association Pune. All rights reserved.</p>
             <div className="flex gap-6">
-              <Link to="/privacy" className="hover:text-accent transition-colors">
+              <Link href="/privacy" className="hover:text-accent transition-colors">
                 Privacy Policy
               </Link>
-              <Link to="/terms" className="hover:text-accent transition-colors">
+              <Link href="/terms" className="hover:text-accent transition-colors">
                 Terms of Use
               </Link>
             </div>
