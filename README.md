@@ -1,73 +1,89 @@
-# Welcome to your Lovable project
+# JGEC Pune Chapter Website
 
-## Project info
+A dedicated platform for the JGEC Alumni Association Pune Chapter to connect alumni, share achievements, organize events, and foster a strong community.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+**Live Demo:** [https://jgec-pune-chapter.onrender.com/](https://jgec-pune-chapter.onrender.com/)
 
-## How can I edit this code?
+## 🚀 Tech Stack
 
-There are several ways of editing your application.
+-   **Framework:** [Next.js 15](https://nextjs.org/) (App Router)
+-   **Language:** [TypeScript](https://www.typescriptlang.org/)
+-   **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+-   **UI Components:** [Shadcn UI](https://ui.shadcn.com/) (Radix UI)
+-   **Runtime & Package Manager:** [Bun](https://bun.sh/)
+-   **Deployment:** [Render](https://render.com/)
 
-**Use Lovable**
+## ✨ Features
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+-   **Public Pages:**
+    -   **Home:** Landing page with overview.
+    -   **About:** Information about the chapter.
+    -   **Achievements:** Showcasing alumni success stories.
+    -   **Chapters:** Details about other chapters or sub-groups.
+    -   **Events:** Upcoming and past events.
+    -   **Gallery:** Photo collection from events.
+    -   **Contact:** Get in touch form.
+    -   **Donate:** Support the chapter.
+-   **Authentication:**
+    -   **Login:** Secure access for members `(src/app/(auth)/login)`.
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🛠️ Getting Started
 
-**Use your preferred IDE**
+### Prerequisites
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Ensure you have [Bun](https://bun.sh/) installed on your machine.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```bash
+# Install Bun (macOS/Linux/WSL)
+curl -fsSL https://bun.sh/install | bash
 ```
 
-**Edit a file directly in GitHub**
+### Installation
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+1.  **Clone the repository:**
 
-**Use GitHub Codespaces**
+    ```bash
+    git clone https://github.com/sayantan007pal/JGEC-PUNE-CHAPTER-WEBSITE.git
+    cd JGEC-PUNE-CHAPTER-WEBSITE
+    ```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+2.  **Install dependencies:**
 
-## What technologies are used for this project?
+    ```bash
+    bun install
+    ```
 
-This project is built with:
+### Running Locally
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Start the development server:
 
-## How can I deploy this project?
+```bash
+bun dev
+```
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Can I connect a custom domain to my Lovable project?
+### Building for Production
 
-Yes, you can!
+To create an optimized production build:
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+```bash
+bun run build
+```
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+To start the production server:
+
+```bash
+bun start
+```
+
+## 📂 Project Structure
+
+-   `src/app/(public)`: Contains public-facing pages (About, Contact, Events, etc.).
+-   `src/app/(auth)`: Contains authentication-related pages (Login).
+-   `src/components`: Reusable UI components.
+-   `public`: Static assets.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
