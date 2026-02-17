@@ -23,11 +23,19 @@ const InputOTPGroup = React.forwardRef<React.ElementRef<"div">, React.ComponentP
 );
 InputOTPGroup.displayName = "InputOTPGroup";
 
+interface OTPInputContextValue {
+  slots: {
+    char: string;
+    hasFakeCaret: boolean;
+    isActive: boolean;
+  }[]
+}
+
 const InputOTPSlot = React.forwardRef<
   React.ElementRef<"div">,
   React.ComponentPropsWithoutRef<"div"> & { index: number }
 >(({ index, className, ...props }, ref) => {
-  const inputOTPContext = React.useContext(OTPInputContext) as any;
+  const inputOTPContext = React.useContext(OTPInputContext) as OTPInputContextValue;
   const { char, hasFakeCaret, isActive } = inputOTPContext.slots[index];
 
   return (
