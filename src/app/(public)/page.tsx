@@ -11,7 +11,7 @@ import event2 from "@/assets/event-2.jpg";
 
 const stats = [
   { number: "5000+", label: "Alumni Members", icon: Users },
-  { number: "25+", label: "Regional Chapters", icon: MapPin },
+  { number: "25+", label: "Member Benefits", icon: MapPin },
   { number: "100+", label: "Annual Events", icon: Calendar },
   { number: "50+", label: "Years of Legacy", icon: Award },
 ];

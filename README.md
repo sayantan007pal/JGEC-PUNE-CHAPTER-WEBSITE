@@ -19,7 +19,7 @@ A dedicated platform for the JGEC Alumni Association Pune Chapter to connect alu
     -   **Home:** Landing page with overview.
     -   **About:** Information about the chapter.
     -   **Achievements:** Showcasing alumni success stories.
-    -   **Chapters:** Details about other chapters or sub-groups.
+    -   **Benefits:** Explore membership advantages.
     -   **Events:** Upcoming and past events.
     -   **Gallery:** Photo collection from events.
     -   **Contact:** Get in touch form.
