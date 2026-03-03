@@ -11,8 +11,10 @@ const playfair = Playfair_Display({
   variable: "--font-playfair",
 });
 
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://jgec-pune-chapter.vercel.app';
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://jgec-pune-chapter.onrender.com"),
+  metadataBase: new URL(baseUrl),
   title: {
     default: "JGEC Alumni Association Pune | Jalpaiguri Government Engineering College",
     template: "%s | JGEC Alumni Pune",
@@ -24,7 +26,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://jgec-pune-chapter.onrender.com",
+    url: baseUrl,
     title: "JGEC Alumni Association Pune Chapter",
     description: "Official community for JGEC alumni in Pune. Join us to network, mentor, and give back.",
     siteName: "JGEC Alumni Pune",
