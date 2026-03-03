@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Menu, X, LogOut, User, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -17,9 +17,64 @@ const navItems = [
   { name: "Contact", path: "/contact" },
 ];
 
+interface AuthUser {
+  fullName: string;
+  email: string;
+  photoLink?: string;
+}
+
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState<AuthUser | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const pathname = usePathname();
+  const router = useRouter();
+
+  // Check auth status on mount and pathname change
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await fetch("/api/auth/me", { credentials: "include" });
+        if (res.ok) {
+          const data = await res.json();
+          setUser(data.user);
+        } else {
+          setUser(null);
+        }
+      } catch {
+        setUser(null);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, [pathname]);
+
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+      setUser(null);
+      setIsOpen(false);
+      router.push("/");
+      router.refresh();
+    } catch {
+      // Silently fail
+    }
+  };
+
+  // Get initials for avatar
+  const getInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-primary/95 backdrop-blur-md shadow-lg">
@@ -65,11 +120,39 @@ const Header = () => {
                 Donate
               </Button>
             </Link>
-            <Link href="/login">
-              <Button variant="heroOutline" size="sm">
-                Alumni Login
-              </Button>
-            </Link>
+
+            {isLoading ? (
+              <div className="w-20 h-9 bg-white/10 rounded-md animate-pulse" />
+            ) : user ? (
+              <div className="flex items-center gap-3">
+                <Link href="/dashboard">
+                  <Button variant="heroOutline" size="sm" className="gap-2">
+                    <LayoutDashboard className="w-4 h-4" />
+                    Dashboard
+                  </Button>
+                </Link>
+                <div className="flex items-center gap-2">
+                  <div className="w-9 h-9 rounded-full bg-accent flex items-center justify-center">
+                    <span className="text-accent-foreground font-bold text-xs">
+                      {getInitials(user.fullName)}
+                    </span>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="text-primary-foreground/70 hover:text-red-400 transition-colors p-2 rounded-md hover:bg-white/5"
+                    title="Logout"
+                  >
+                    <LogOut className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <Link href="/login">
+                <Button variant="heroOutline" size="sm">
+                  Alumni Login
+                </Button>
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -87,7 +170,7 @@ const Header = () => {
       <div
         className={cn(
           "lg:hidden overflow-hidden transition-all duration-300 bg-primary",
-          isOpen ? "max-h-[500px]" : "max-h-0"
+          isOpen ? "max-h-[600px]" : "max-h-0"
         )}
       >
         <nav className="container-custom px-4 py-4 space-y-2">
@@ -106,17 +189,51 @@ const Header = () => {
               {item.name}
             </Link>
           ))}
+
           <div className="pt-4 flex flex-col gap-3">
             <Link href="/donate" onClick={() => setIsOpen(false)}>
               <Button variant="gold" size="lg" className="w-full">
                 Donate
               </Button>
             </Link>
-            <Link href="/login" onClick={() => setIsOpen(false)}>
-              <Button variant="heroOutline" size="lg" className="w-full">
-                Alumni Login
-              </Button>
-            </Link>
+
+            {!isLoading && user ? (
+              <>
+                {/* Logged-in user info on mobile */}
+                <div className="flex items-center gap-3 px-4 py-3 bg-white/5 rounded-md">
+                  <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center">
+                    <span className="text-accent-foreground font-bold text-sm">
+                      {getInitials(user.fullName)}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="text-primary-foreground font-medium text-sm">{user.fullName}</p>
+                    <p className="text-primary-foreground/60 text-xs">{user.email}</p>
+                  </div>
+                </div>
+                <Link href="/dashboard" onClick={() => setIsOpen(false)}>
+                  <Button variant="heroOutline" size="lg" className="w-full gap-2">
+                    <LayoutDashboard className="w-4 h-4" />
+                    Dashboard
+                  </Button>
+                </Link>
+                <Button
+                  variant="heroOutline"
+                  size="lg"
+                  className="w-full gap-2 text-red-400 border-red-400/30 hover:bg-red-400/10"
+                  onClick={handleLogout}
+                >
+                  <LogOut className="w-4 h-4" />
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <Link href="/login" onClick={() => setIsOpen(false)}>
+                <Button variant="heroOutline" size="lg" className="w-full">
+                  Alumni Login
+                </Button>
+              </Link>
+            )}
           </div>
         </nav>
       </div>
