@@ -32,7 +32,9 @@ interface FormData {
   currentOrLastOrganization: string;
   designation: string;
   rolesAndResponsibility: string;
-  tenure: string;
+  tenureStartDate: string;
+  tenureEndDate: string;
+  isCurrentlyWorking: boolean;
   addressInPune: string;
   contributionInterest: string;
   bloodGroup: string;
@@ -57,7 +59,9 @@ export default function SignupPage() {
     currentOrLastOrganization: "",
     designation: "",
     rolesAndResponsibility: "",
-    tenure: "",
+    tenureStartDate: "",
+    tenureEndDate: "",
+    isCurrentlyWorking: false,
     addressInPune: "",
     contributionInterest: "",
     bloodGroup: "",
@@ -88,7 +92,8 @@ export default function SignupPage() {
         if (!formData.currentOrLastOrganization.trim()) { setError("Organization is required"); return false; }
         if (!formData.designation.trim()) { setError("Designation is required"); return false; }
         if (!formData.rolesAndResponsibility.trim()) { setError("Roles & responsibilities are required"); return false; }
-        if (!formData.tenure.trim()) { setError("Tenure is required"); return false; }
+        if (!formData.tenureStartDate.trim()) { setError("Start date is required"); return false; }
+        if (!formData.isCurrentlyWorking && !formData.tenureEndDate.trim()) { setError("End date is required if not currently working"); return false; }
         return true;
       case 4:
         if (!formData.addressInPune.trim()) { setError("Address in Pune is required"); return false; }
@@ -119,8 +124,13 @@ export default function SignupPage() {
     setIsLoading(true);
 
     try {
-      const { confirmPassword, ...submitData } = formData;
+      const { confirmPassword, isCurrentlyWorking, ...rest } = formData;
       void confirmPassword;
+      const submitData = {
+        ...rest,
+        isCurrentlyWorking,
+        tenureEndDate: isCurrentlyWorking ? undefined : rest.tenureEndDate,
+      };
 
       const res = await fetch("/api/auth/signup", {
         method: "POST",
@@ -415,14 +425,47 @@ export default function SignupPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-1.5">
-                    Tenure <span className="text-destructive">*</span>
+                    Tenure Start Date <span className="text-destructive">*</span>
                   </label>
                   <Input
-                    value={formData.tenure}
-                    onChange={(e) => updateField("tenure", e.target.value)}
-                    placeholder="e.g., 2 years 3 months"
+                    type="date"
+                    value={formData.tenureStartDate}
+                    onChange={(e) => updateField("tenureStartDate", e.target.value)}
                   />
                 </div>
+
+                <div>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={formData.isCurrentlyWorking}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          isCurrentlyWorking: e.target.checked,
+                          tenureEndDate: e.target.checked ? "" : prev.tenureEndDate,
+                        }))
+                      }
+                      className="rounded border-border"
+                    />
+                    <span className="text-sm font-medium text-foreground">
+                      I am currently working here
+                    </span>
+                  </label>
+                </div>
+
+                {!formData.isCurrentlyWorking && (
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-1.5">
+                      Tenure End Date <span className="text-destructive">*</span>
+                    </label>
+                    <Input
+                      type="date"
+                      value={formData.tenureEndDate}
+                      onChange={(e) => updateField("tenureEndDate", e.target.value)}
+                    />
+                  </div>
+                )}
               </>
             )}
 
