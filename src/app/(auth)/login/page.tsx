@@ -2,14 +2,53 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Eye, EyeOff, LogIn, UserPlus } from "lucide-react";
+import { Eye, EyeOff, LogIn, Loader2 } from "lucide-react";
 import heroBanner from "@/assets/hero-banner.jpg";
 
 export default function LoginPage() {
-  const [isLogin, setIsLogin] = useState(true);
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setIsLoading(true);
+
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        if (data.needsVerification) {
+          router.push(`/verify-email?email=${encodeURIComponent(data.email)}`);
+          return;
+        }
+        setError(data.error || "Login failed");
+        return;
+      }
+
+      router.push("/");
+      router.refresh();
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex">
@@ -28,7 +67,7 @@ export default function LoginPage() {
             Welcome Back!
           </h1>
           <p className="text-primary-foreground/80 text-lg max-w-md">
-            Connect with your fellow alumni, access exclusive resources, and stay 
+            Connect with your fellow alumni, access exclusive resources, and stay
             updated with the latest from JGEC Alumni Association.
           </p>
         </div>
@@ -50,178 +89,93 @@ export default function LoginPage() {
             </Link>
           </div>
 
-          {/* Tab Switcher */}
-          <div className="flex bg-secondary rounded-lg p-1 mb-8">
-            <button
-              onClick={() => setIsLogin(true)}
-              className={`flex-1 py-3 rounded-md text-sm font-medium transition-colors ${
-                isLogin
-                  ? "bg-card text-card-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              <LogIn className="w-4 h-4 inline mr-2" />
-              Login
-            </button>
-            <button
-              onClick={() => setIsLogin(false)}
-              className={`flex-1 py-3 rounded-md text-sm font-medium transition-colors ${
-                !isLogin
-                  ? "bg-card text-card-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              <UserPlus className="w-4 h-4 inline mr-2" />
-              Register
-            </button>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <h2 className="text-2xl font-serif font-bold text-foreground mb-2">
+                Alumni Login
+              </h2>
+              <p className="text-muted-foreground">
+                Enter your credentials to access your account
+              </p>
+            </div>
+
+            {error && (
+              <div className="bg-destructive/10 text-destructive text-sm p-3 rounded-lg border border-destructive/20">
+                {error}
+              </div>
+            )}
+
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-2">
+                Email Address
+              </label>
+              <Input
+                type="email"
+                placeholder="your.email@example.com"
+                required
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-2">
+                Password
+              </label>
+              <div className="relative">
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  className="pr-10"
+                  required
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <label className="flex items-center gap-2">
+                <input type="checkbox" className="rounded border-border" />
+                <span className="text-sm text-muted-foreground">Remember me</span>
+              </label>
+              <Link href="/forgot-password" className="text-sm text-accent hover:underline">
+                Forgot password?
+              </Link>
+            </div>
+
+            <Button type="submit" variant="default" size="lg" className="w-full" disabled={isLoading}>
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Logging in...
+                </>
+              ) : (
+                <>
+                  Login
+                  <LogIn className="w-4 h-4" />
+                </>
+              )}
+            </Button>
+          </form>
+
+          <div className="mt-6 text-center">
+            <p className="text-sm text-muted-foreground">
+              Don&apos;t have an account?{" "}
+              <Link href="/signup" className="text-accent font-medium hover:underline">
+                Register here
+              </Link>
+            </p>
           </div>
 
-          {isLogin ? (
-            /* Login Form */
-            <form className="space-y-6">
-              <div>
-                <h2 className="text-2xl font-serif font-bold text-foreground mb-2">
-                  Alumni Login
-                </h2>
-                <p className="text-muted-foreground">
-                  Enter your credentials to access your account
-                </p>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Email Address
-                </label>
-                <Input
-                  type="email"
-                  placeholder="your.email@example.com"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Password
-                </label>
-                <div className="relative">
-                  <Input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="••••••••"
-                    className="pr-10"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                  >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </button>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <label className="flex items-center gap-2">
-                  <input type="checkbox" className="rounded border-border" />
-                  <span className="text-sm text-muted-foreground">Remember me</span>
-                </label>
-                <a href="#" className="text-sm text-accent hover:underline">
-                  Forgot password?
-                </a>
-              </div>
-
-              <Button type="submit" variant="default" size="lg" className="w-full">
-                Login
-                <LogIn className="w-4 h-4" />
-              </Button>
-            </form>
-          ) : (
-            /* Registration Form */
-            <form className="space-y-6">
-              <div>
-                <h2 className="text-2xl font-serif font-bold text-foreground mb-2">
-                  Create Account
-                </h2>
-                <p className="text-muted-foreground">
-                  Join the JGEC Alumni network today
-                </p>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    First Name
-                  </label>
-                  <Input type="text" placeholder="John" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Last Name
-                  </label>
-                  <Input type="text" placeholder="Doe" />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Email Address
-                </label>
-                <Input type="email" placeholder="your.email@example.com" />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Batch Year
-                  </label>
-                  <Input type="text" placeholder="e.g., 2010" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Branch
-                  </label>
-                  <Input type="text" placeholder="e.g., CSE" />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Password
-                </label>
-                <div className="relative">
-                  <Input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="••••••••"
-                    className="pr-10"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                  >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </button>
-                </div>
-              </div>
-
-              <div>
-                <label className="flex items-start gap-2">
-                  <input type="checkbox" className="rounded border-border mt-1" />
-                  <span className="text-sm text-muted-foreground">
-                    I agree to the{" "}
-                    <a href="#" className="text-accent hover:underline">Terms of Service</a>
-                    {" "}and{" "}
-                    <a href="#" className="text-accent hover:underline">Privacy Policy</a>
-                  </span>
-                </label>
-              </div>
-
-              <Button type="submit" variant="default" size="lg" className="w-full">
-                Create Account
-                <UserPlus className="w-4 h-4" />
-              </Button>
-            </form>
-          )}
-
-          <div className="mt-8 text-center">
+          <div className="mt-4 text-center">
             <Link href="/" className="text-sm text-muted-foreground hover:text-accent">
               ← Back to Home
             </Link>
