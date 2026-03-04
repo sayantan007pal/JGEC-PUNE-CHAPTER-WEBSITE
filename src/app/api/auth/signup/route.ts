@@ -7,9 +7,15 @@ import { sendVerificationEmail } from "@/lib/email";
 
 export async function POST(request: NextRequest) {
   try {
+    // STEP 1: Connect to database
+    console.log("[SIGNUP] Step 1: Connecting to database...");
     await dbConnect();
+    console.log("[SIGNUP] Step 1: Database connected successfully.");
 
+    // STEP 2: Parse request body
+    console.log("[SIGNUP] Step 2: Parsing request body...");
     const body = await request.json();
+    console.log("[SIGNUP] Step 2: Body parsed. Keys:", Object.keys(body));
 
     const {
       fullName,
@@ -31,7 +37,8 @@ export async function POST(request: NextRequest) {
       photoLink,
     } = body;
 
-    // Validate required fields
+    // STEP 3: Validate required fields
+    console.log("[SIGNUP] Step 3: Validating required fields...");
     const requiredFields = {
       fullName,
       email,
@@ -59,6 +66,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+    console.log("[SIGNUP] Step 3: All required fields present.");
 
     // Email format validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -77,7 +85,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check if user already exists
+    // STEP 4: Check if user already exists
+    console.log("[SIGNUP] Step 4: Checking for existing user with email:", email.toLowerCase());
     const existingUser = await User.findOne({ email: email.toLowerCase() });
     if (existingUser) {
       return NextResponse.json(
@@ -85,12 +94,16 @@ export async function POST(request: NextRequest) {
         { status: 409 }
       );
     }
+    console.log("[SIGNUP] Step 4: No existing user found.");
 
-    // Generate 6-digit OTP
+    // STEP 5: Generate OTP
+    console.log("[SIGNUP] Step 5: Generating OTP...");
     const otp = crypto.randomInt(100000, 999999).toString();
     const hashedOTP = await bcrypt.hash(otp, 10);
+    console.log("[SIGNUP] Step 5: OTP generated and hashed.");
 
-    // Create user
+    // STEP 6: Create user
+    console.log("[SIGNUP] Step 6: Creating user in database...");
     const user = await User.create({
       fullName: fullName.trim(),
       email: email.toLowerCase().trim(),
@@ -113,9 +126,24 @@ export async function POST(request: NextRequest) {
       emailVerificationOTP: hashedOTP,
       emailVerificationExpiry: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes
     });
+    console.log("[SIGNUP] Step 6: User created successfully. ID:", user._id);
 
-    // Send verification email
-    await sendVerificationEmail(user.email, otp);
+    // STEP 7: Send verification email
+    console.log("[SIGNUP] Step 7: Sending verification email to:", user.email);
+    try {
+      await sendVerificationEmail(user.email, otp);
+      console.log("[SIGNUP] Step 7: Verification email sent successfully.");
+    } catch (emailError) {
+      console.error("[SIGNUP] Step 7: FAILED to send verification email:", emailError);
+      // Still return success since user was created - they can resend OTP later
+      return NextResponse.json(
+        {
+          message: "Account created successfully. There was an issue sending the verification email. Please use the 'Resend OTP' option.",
+          email: user.email,
+        },
+        { status: 201 }
+      );
+    }
 
     return NextResponse.json(
       {
@@ -125,7 +153,10 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
   } catch (error: unknown) {
-    console.error("Signup error:", error);
+    console.error("[SIGNUP] ERROR - Full error:", error);
+    console.error("[SIGNUP] ERROR - Name:", error instanceof Error ? error.name : "unknown");
+    console.error("[SIGNUP] ERROR - Message:", error instanceof Error ? error.message : String(error));
+    console.error("[SIGNUP] ERROR - Stack:", error instanceof Error ? error.stack : "no stack");
 
     if (error instanceof Error && error.name === "ValidationError") {
       return NextResponse.json(
@@ -134,9 +165,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Return detailed error in development/debugging
+    const errorMessage = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { error: "Internal server error. Please try again later." },
+      { 
+        error: "Internal server error. Please try again later.",
+        debug: errorMessage,
+      },
       { status: 500 }
     );
   }
 }
+
