@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Mail, Loader2, CheckCircle2, RefreshCw } from "lucide-react";
 import heroBanner from "@/assets/hero-banner.jpg";
+import axios from "axios";
+import apiClient from "@/lib/axios";
 
 function VerifyEmailContent() {
   const router = useRouter();
@@ -38,23 +40,15 @@ function VerifyEmailContent() {
     setIsLoading(true);
 
     try {
-      const res = await fetch("/api/auth/verify-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, otp }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error || "Verification failed");
-        return;
-      }
-
+      await apiClient.post("/api/auth/verify-email", { email, otp });
       setSuccess(true);
       setTimeout(() => router.push("/login"), 3000);
-    } catch {
-      setError("Something went wrong. Please try again.");
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
+        setError(err.response.data?.error || "Verification failed");
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -66,22 +60,14 @@ function VerifyEmailContent() {
     setError("");
 
     try {
-      const res = await fetch("/api/auth/resend-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error || "Failed to resend code");
-        return;
-      }
-
+      await apiClient.post("/api/auth/resend-otp", { email });
       setCooldown(60);
-    } catch {
-      setError("Failed to resend code. Please try again.");
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
+        setError(err.response.data?.error || "Failed to resend code");
+      } else {
+        setError("Failed to resend code. Please try again.");
+      }
     } finally {
       setIsResending(false);
     }

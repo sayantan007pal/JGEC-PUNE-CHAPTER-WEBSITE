@@ -3,6 +3,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { jwtVerify } from "jose";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
 import {
   User,
   Calendar,
@@ -20,7 +21,20 @@ export const metadata: Metadata = {
   description: "Your JGEC Alumni Pune member dashboard",
 };
 
-async function getUser() {
+interface DashboardUser {
+  fullName?: string;
+  email?: string;
+  phoneNumber?: string;
+  bloodGroup?: string;
+  addressInPune?: string;
+  designation?: string;
+  currentOrLastOrganization?: string;
+  department?: string;
+  passingYear?: string | number;
+  photoLink?: string;
+}
+
+async function getUser(): Promise<DashboardUser | null> {
   const cookieStore = await cookies();
   const token = cookieStore.get("jgec-auth-token")?.value;
 
@@ -34,17 +48,18 @@ async function getUser() {
 
     // Fetch user data from the API internally
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001";
-    const res = await fetch(`${baseUrl}/api/auth/me`, {
-      headers: { Cookie: `jgec-auth-token=${token}` },
-      cache: "no-store",
-    });
-
-    if (res.ok) {
-      const data = await res.json();
+    try {
+      const { data } = await axios.get<{ user: DashboardUser }>(
+        `${baseUrl}/api/auth/me`,
+        {
+          headers: { Cookie: `jgec-auth-token=${token}` },
+        }
+      );
       return data.user;
+    } catch {
+      // API error – fall back to JWT payload
+      return { email: payload.email as string | undefined };
     }
-
-    return { email: payload.email };
   } catch {
     return null;
   }

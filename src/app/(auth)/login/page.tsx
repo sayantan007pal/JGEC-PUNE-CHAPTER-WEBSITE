@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Eye, EyeOff, LogIn, Loader2 } from "lucide-react";
 import heroBanner from "@/assets/hero-banner.jpg";
+import axios from "axios";
+import apiClient from "@/lib/axios";
 
 function LoginForm() {
   const router = useRouter();
@@ -26,27 +28,20 @@ function LoginForm() {
     setIsLoading(true);
 
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
+      await apiClient.post("/api/auth/login", formData);
+      router.push(redirectTo);
+      router.refresh();
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
+        const data = err.response.data;
         if (data.needsVerification) {
           router.push(`/verify-email?email=${encodeURIComponent(data.email)}`);
           return;
         }
         setError(data.error || "Login failed");
-        return;
+      } else {
+        setError("Something went wrong. Please try again.");
       }
-
-      router.push(redirectTo);
-      router.refresh();
-    } catch {
-      setError("Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);
     }

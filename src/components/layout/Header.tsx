@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, LogOut, User, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import apiClient from "@/lib/axios";
 
 const navItems = [
   { name: "Home", path: "/" },
@@ -34,14 +35,10 @@ const Header = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await fetch("/api/auth/me", { credentials: "include" });
-        if (res.ok) {
-          const data = await res.json();
-          setUser(data.user);
-        } else {
-          setUser(null);
-        }
+        const { data } = await apiClient.get<{ user: AuthUser }>("/api/auth/me");
+        setUser(data.user);
       } catch {
+        // axios throws on non-2xx — treat any error as unauthenticated
         setUser(null);
       } finally {
         setIsLoading(false);
@@ -53,10 +50,7 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      await fetch("/api/auth/logout", {
-        method: "POST",
-        credentials: "include",
-      });
+      await apiClient.post("/api/auth/logout");
       setUser(null);
       setIsOpen(false);
       router.push("/");

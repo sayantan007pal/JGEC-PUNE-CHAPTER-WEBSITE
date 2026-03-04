@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2, Mail, CheckCircle2 } from "lucide-react";
 import heroBanner from "@/assets/hero-banner.jpg";
+import axios from "axios";
+import apiClient from "@/lib/axios";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -24,22 +26,14 @@ export default function ForgotPasswordPage() {
     setIsLoading(true);
 
     try {
-      const res = await fetch("/api/auth/forgot-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error || "Something went wrong");
-        return;
-      }
-
+      await apiClient.post("/api/auth/forgot-password", { email });
       setSuccess(true);
-    } catch {
-      setError("Something went wrong. Please try again.");
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
+        setError(err.response.data?.error || "Something went wrong");
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
     } finally {
       setIsLoading(false);
     }

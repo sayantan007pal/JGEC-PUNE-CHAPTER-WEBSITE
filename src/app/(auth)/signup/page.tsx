@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Eye, EyeOff, UserPlus, Loader2, ChevronRight, ChevronLeft } from "lucide-react";
 import heroBanner from "@/assets/hero-banner.jpg";
+import axios from "axios";
+import apiClient from "@/lib/axios";
 
 const BLOOD_GROUPS = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
 
@@ -132,22 +134,14 @@ export default function SignupPage() {
         tenureEndDate: isCurrentlyWorking ? undefined : rest.tenureEndDate,
       };
 
-      const res = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(submitData),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error || "Registration failed");
-        return;
-      }
-
+      await apiClient.post("/api/auth/signup", submitData);
       router.push(`/verify-email?email=${encodeURIComponent(formData.email)}`);
-    } catch {
-      setError("Something went wrong. Please try again.");
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
+        setError(err.response.data?.error || "Registration failed");
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
     } finally {
       setIsLoading(false);
     }

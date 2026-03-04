@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Eye, EyeOff, Loader2, CheckCircle2, KeyRound } from "lucide-react";
 import heroBanner from "@/assets/hero-banner.jpg";
+import axios from "axios";
+import apiClient from "@/lib/axios";
 
 function ResetPasswordContent() {
   const router = useRouter();
@@ -40,27 +42,19 @@ function ResetPasswordContent() {
     setIsLoading(true);
 
     try {
-      const res = await fetch("/api/auth/reset-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-          token,
-          newPassword: formData.newPassword,
-        }),
+      await apiClient.post("/api/auth/reset-password", {
+        email,
+        token,
+        newPassword: formData.newPassword,
       });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error || "Failed to reset password");
-        return;
-      }
-
       setSuccess(true);
       setTimeout(() => router.push("/login"), 3000);
-    } catch {
-      setError("Something went wrong. Please try again.");
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
+        setError(err.response.data?.error || "Failed to reset password");
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
     } finally {
       setIsLoading(false);
     }
