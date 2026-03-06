@@ -167,7 +167,7 @@ export default function SignupPage() {
       });
       fd.append("isCurrentlyWorking", String(isCurrentlyWorking));
       if (!isCurrentlyWorking) {
-        fd.append("tenureEndDate", formData.tenureEndDate);
+        fd.set("tenureEndDate", formData.tenureEndDate);
       }
 
       // Append the photo file — Axios will set multipart/form-data boundary automatically
@@ -549,7 +549,6 @@ export default function SignupPage() {
                   {photoPreview ? (
                     /* Preview card */
                     <div className="relative w-32 h-32 rounded-lg overflow-hidden border border-border group">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={photoPreview}
                         alt="Profile photo preview"

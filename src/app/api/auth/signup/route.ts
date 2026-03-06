@@ -4,10 +4,11 @@ import bcrypt from "bcryptjs";
 import dbConnect from "@/lib/mongodb";
 import User from "@/models/User";
 import { sendVerificationEmail } from "@/lib/email";
-import { uploadToCloudinary } from "@/lib/cloudinary";
+import { deleteFromCloudinary, uploadToCloudinary } from "@/lib/cloudinary";
 import { MAX_PHOTO_SIZE } from "@/constants/user";
 
 export async function POST(request: NextRequest) {
+  let photoPublicId: string | undefined; // will be used to delete the photo if user creation fails
   try {
     // STEP 1: Connect to database
     console.log("[SIGNUP] Step 1: Connecting to database...");
@@ -123,7 +124,8 @@ export async function POST(request: NextRequest) {
 
     // STEP 5: Upload photo to Cloudinary
     console.log("[SIGNUP] Step 5: Uploading photo to Cloudinary...");
-    const { secure_url: photoUrl, public_id: photoPublicId } = await uploadToCloudinary(photoFile);
+    const { secure_url: photoUrl, public_id } = await uploadToCloudinary(photoFile, fullName);
+    photoPublicId = public_id;
     console.log("[SIGNUP] Step 5: Photo uploaded successfully:", photoUrl);
 
     // STEP 6: Generate OTP
@@ -187,6 +189,15 @@ export async function POST(request: NextRequest) {
       { status: 201 },
     );
   } catch (error: unknown) {
+    try{
+      if(photoPublicId){
+        console.log("[SIGNUP] Deleting photo from Cloudinary...");
+        await deleteFromCloudinary(photoPublicId);
+        console.log("[SIGNUP] Photo deleted successfully.");
+      }
+    }catch(error){
+      console.error("[SIGNUP] ERROR - Failed to delete photo:", error);
+    }
     console.error("[SIGNUP] ERROR - Full error:", error);
     console.error(
       "[SIGNUP] ERROR - Name:",
