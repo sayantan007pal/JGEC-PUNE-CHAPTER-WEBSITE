@@ -126,10 +126,18 @@ const Header = () => {
                   </Button>
                 </Link>
                 <div className="flex items-center gap-2">
-                  <div className="w-9 h-9 rounded-full bg-accent flex items-center justify-center">
-                    <span className="text-accent-foreground font-bold text-xs">
-                      {getInitials(user.fullName)}
-                    </span>
+                  <div className="w-9 h-9 rounded-full bg-accent flex items-center justify-center overflow-hidden">
+                    {user.photoLink ? (
+                      <img
+                        src={user.photoLink}
+                        alt={getInitials(user.fullName)}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-accent-foreground font-bold text-xs">
+                        {getInitials(user.fullName)}
+                      </span>
+                    )}
                   </div>
                   <button
                     onClick={handleLogout}
@@ -195,10 +203,18 @@ const Header = () => {
               <>
                 {/* Logged-in user info on mobile */}
                 <div className="flex items-center gap-3 px-4 py-3 bg-white/5 rounded-md">
-                  <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center">
-                    <span className="text-accent-foreground font-bold text-sm">
-                      {getInitials(user.fullName)}
-                    </span>
+                  <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center overflow-hidden">
+                    {user.photoLink ? (
+                      <img
+                        src={user.photoLink}
+                        alt={user.fullName}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-accent-foreground font-bold text-sm">
+                        {getInitials(user.fullName)}
+                      </span>
+                    )}
                   </div>
                   <div>
                     <p className="text-primary-foreground font-medium text-sm">{user.fullName}</p>

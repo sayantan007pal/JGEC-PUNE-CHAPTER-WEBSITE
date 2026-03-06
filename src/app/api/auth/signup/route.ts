@@ -154,6 +154,7 @@ export async function POST(request: NextRequest) {
       contributionInterest,
       bloodGroup,
       photoLink: photoUrl, // Cloudinary HTTPS URL
+      photoPublicId,
       isEmailVerified: false,
       emailVerificationOTP: hashedOTP,
       emailVerificationExpiry: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes

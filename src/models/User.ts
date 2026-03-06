@@ -19,6 +19,7 @@ export interface IUser extends Document {
   contributionInterest: string;
   bloodGroup: string;
   photoLink: string;
+  photoPublicId: string;
   isEmailVerified: boolean;
   emailVerificationOTP?: string;
   emailVerificationExpiry?: Date;
@@ -107,7 +108,11 @@ const userSchema = new Schema<IUser>(
     },
     photoLink: {
       type: String,
-      required: [true, "Photo link (Google Drive) is required"],
+      required: [true, "Photo link is required"],
+    },
+    photoPublicId: {
+      type: String,
+      required: [true, "Photo public ID is required"],
     },
     isEmailVerified: {
       type: Boolean,
@@ -132,7 +137,7 @@ const userSchema = new Schema<IUser>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 // Pre-save hook: hash password only when modified
@@ -150,7 +155,7 @@ userSchema.pre("save", async function (next) {
 
 // Instance method: compare password
 userSchema.methods.comparePassword = async function (
-  candidatePassword: string
+  candidatePassword: string,
 ): Promise<boolean> {
   return bcrypt.compare(candidatePassword, this.password);
 };
