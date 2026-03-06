@@ -1,14 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Eye, EyeOff, UserPlus, Loader2, ChevronRight, ChevronLeft } from "lucide-react";
+import { Eye, EyeOff, UserPlus, Loader2, ChevronRight, ChevronLeft, UploadCloud, X } from "lucide-react";
 import heroBanner from "@/assets/hero-banner.jpg";
 import axios from "axios";
 import apiClient from "@/lib/axios";
+import { MAX_PHOTO_SIZE } from "@/constants/user";
 
 const BLOOD_GROUPS = ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"];
 
@@ -40,7 +41,6 @@ interface FormData {
   addressInPune: string;
   contributionInterest: string;
   bloodGroup: string;
-  photoLink: string;
 }
 
 export default function SignupPage() {
@@ -49,6 +49,9 @@ export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState<FormData>({
     fullName: "",
     email: "",
@@ -67,7 +70,6 @@ export default function SignupPage() {
     addressInPune: "",
     contributionInterest: "",
     bloodGroup: "",
-    photoLink: "",
   });
 
   const updateField = (field: keyof FormData, value: string) => {
@@ -100,7 +102,9 @@ export default function SignupPage() {
       case 4:
         if (!formData.addressInPune.trim()) { setError("Address in Pune is required"); return false; }
         if (!formData.contributionInterest.trim()) { setError("Please specify how you want to contribute"); return false; }
-        if (!formData.photoLink.trim()) { setError("Google Drive photo link is required"); return false; }
+        if (!photoFile) { setError("Please upload a profile photo"); return false; }
+        if (!photoFile.type.startsWith("image/")) { setError("File must be an image (JPG, PNG, etc.)"); return false; }
+        if (photoFile.size > MAX_PHOTO_SIZE) { setError(`Photo must be ${MAX_PHOTO_SIZE / (1024 * 1024)} MB or smaller`); return false; }
         return true;
       default:
         return true;
@@ -118,6 +122,32 @@ export default function SignupPage() {
     setStep(step - 1);
   };
 
+  const clearPhoto = () => {
+    setPhotoFile(null);
+    setPhotoPreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] ?? null;
+    
+    if (file && file.size > MAX_PHOTO_SIZE) {
+      setError(`Photo must be ${MAX_PHOTO_SIZE / (1024 * 1024)} MB or smaller`);
+      clearPhoto();
+      return;
+    }
+
+    setPhotoFile(file);
+    setError("");
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => setPhotoPreview(reader.result as string);
+      reader.readAsDataURL(file);
+    } else {
+      setPhotoPreview(null);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateStep(step)) return;
@@ -126,15 +156,24 @@ export default function SignupPage() {
     setIsLoading(true);
 
     try {
+      // Build a native browser FormData (multipart/form-data)
+      const fd = new window.FormData();
       const { confirmPassword, isCurrentlyWorking, ...rest } = formData;
       void confirmPassword;
-      const submitData = {
-        ...rest,
-        isCurrentlyWorking,
-        tenureEndDate: isCurrentlyWorking ? undefined : rest.tenureEndDate,
-      };
 
-      await apiClient.post("/api/auth/signup", submitData);
+      // Append all text fields
+      (Object.keys(rest) as (keyof typeof rest)[]).forEach((key) => {
+        fd.append(key, rest[key] as string);
+      });
+      fd.append("isCurrentlyWorking", String(isCurrentlyWorking));
+      if (!isCurrentlyWorking) {
+        fd.set("tenureEndDate", formData.tenureEndDate);
+      }
+
+      // Append the photo file — Axios will set multipart/form-data boundary automatically
+      fd.append("photo", photoFile!);
+
+      await apiClient.post("/api/auth/signup", fd);
       router.push(`/verify-email?email=${encodeURIComponent(formData.email)}`);
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
@@ -494,16 +533,51 @@ export default function SignupPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-1.5">
-                    Photo (Google Drive Link) <span className="text-destructive">*</span>
+                    Profile Photo <span className="text-destructive">*</span>
                   </label>
-                  <Input
-                    value={formData.photoLink}
-                    onChange={(e) => updateField("photoLink", e.target.value)}
-                    placeholder="https://drive.google.com/file/d/..."
+
+                  {/* Hidden native file input */}
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    id="photo-upload"
+                    onChange={handlePhotoChange}
                   />
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Upload your photo to Google Drive, set sharing to &quot;Anyone with the link&quot;, and paste the link here.
-                  </p>
+
+                  {photoPreview ? (
+                    /* Preview card */
+                    <div className="relative w-32 h-32 rounded-lg overflow-hidden border border-border group">
+                      <img
+                        src={photoPreview}
+                        alt="Profile photo preview"
+                        className="w-full h-full object-cover"
+                      />
+                      <button
+                        type="button"
+                        onClick={clearPhoto}
+                        className="absolute top-1 right-1 bg-background/80 rounded-full p-0.5 text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
+                        aria-label="Remove photo"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ) : (
+                    /* Drop-zone / upload button */
+                    <label
+                      htmlFor="photo-upload"
+                      className="flex flex-col items-center justify-center gap-2 w-full h-32 border-2 border-dashed border-border rounded-lg cursor-pointer hover:border-accent hover:bg-accent/5 transition-colors"
+                    >
+                      <UploadCloud className="w-8 h-8 text-muted-foreground" />
+                      <span className="text-sm text-muted-foreground">
+                        Click to upload a photo
+                      </span>
+                      <span className="text-xs text-muted-foreground">
+                        JPG, PNG ... · max {MAX_PHOTO_SIZE / (1024 * 1024)} MB
+                      </span>
+                    </label>
+                  )}
                 </div>
 
                 <div>

@@ -89,10 +89,18 @@ export default async function DashboardPage() {
       <section className="bg-primary py-12">
         <div className="container-custom px-4">
           <div className="flex items-center gap-6">
-            <div className="w-20 h-20 rounded-full bg-accent flex items-center justify-center ring-4 ring-accent/30">
-              <span className="text-accent-foreground font-serif font-bold text-2xl">
-                {user?.fullName ? getInitials(user.fullName) : "?"}
-              </span>
+            <div className="w-20 h-20 rounded-full bg-accent flex items-center justify-center ring-4 ring-accent/30 overflow-hidden">
+              {user?.photoLink ? (
+                <img
+                  src={user.photoLink}
+                  alt={user?.fullName ? getInitials(user.fullName) : "?"}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <span className="text-accent-foreground font-serif font-bold text-2xl">
+                  {user?.fullName ? getInitials(user.fullName) : "?"}
+                </span>
+              )}
             </div>
             <div>
               <h1 className="text-3xl font-serif font-bold text-primary-foreground">
