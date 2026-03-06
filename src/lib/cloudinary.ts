@@ -22,7 +22,8 @@ export async function uploadToCloudinaryStream(file: File): Promise<string> {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
         folder: CLOUDINARY_FOLDER,
-        public_id: `${Date.now()}_${file.name.replace(/\.[^.]+$/, "")}`,
+        public_id: crypto.randomUUID(),
+        context: { original_filename: file.name },
         resource_type: "image",
         timeout: CLOUDINARY_TIMEOUT,
       },
@@ -48,11 +49,12 @@ export async function uploadToCloudinary(file: File): Promise<{ secure_url: stri
   const buffer = Buffer.from(await file.arrayBuffer());
   const base64 = buffer.toString("base64");
   const dataUri = `data:${file.type};base64,${base64}`;
-  const publicId = `${Date.now()}_${file.name.replace(/\.[^.]+$/, "")}`;
+  const publicId = crypto.randomUUID();
 
   const result = await cloudinary.uploader.upload(dataUri, {
     folder: CLOUDINARY_FOLDER,
     public_id: publicId,
+    context: { original_filename: file.name },
     resource_type: "image",
     timeout: Number(CLOUDINARY_TIMEOUT),
   });
