@@ -9,7 +9,7 @@ import axios from "axios";
 const apiClient = axios.create({
   withCredentials: true, // Send cookies on every request (equivalent to credentials: "include")
   headers: {
-    "Content-Type": "application/json",
+    // "Content-Type": "application/json", // axios automatically sets headers
   },
 });
 
