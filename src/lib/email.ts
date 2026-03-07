@@ -54,6 +54,15 @@ function emailWrapper(content: string): string {
   `;
 }
 
+function escapeHtml(value: string): string {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
 export async function sendVerificationEmail(
   email: string,
   otp: string
@@ -141,6 +150,74 @@ export async function sendWelcomeEmail(
     from: `"JGEC Alumni Pune" <${process.env.EMAIL_USER}>`,
     to: email,
     subject: "Welcome to JGEC Alumni Pune! 🎓",
+    html,
+  });
+}
+
+interface DonationNotificationPayload {
+  donorName: string;
+  donorEmail: string;
+  amount: number;
+  utr: string;
+  payeeUpi?: string;
+  upiId: string;
+  upiPayeeName: string;
+  paymentType: "upi";
+  validationType: "manual";
+  manualValidationRequired: boolean;
+  donationId: string;
+  paymentRequestRef: string;
+  proofImageUrl: string;
+  donorMessage?: string;
+}
+
+export async function sendDonationNotificationEmailToAdmins(
+  adminEmails: string[],
+  payload: DonationNotificationPayload,
+): Promise<void> {
+  if (adminEmails.length === 0) return;
+
+  const donorName = escapeHtml(payload.donorName);
+  const donorEmail = escapeHtml(payload.donorEmail);
+  const payeeUpi = escapeHtml(payload.payeeUpi || "Not provided");
+  const upiId = escapeHtml(payload.upiId);
+  const upiPayeeName = escapeHtml(payload.upiPayeeName);
+  const paymentType = escapeHtml(payload.paymentType);
+  const validationType = escapeHtml(payload.validationType);
+  const paymentRequestRef = escapeHtml(payload.paymentRequestRef);
+  const donationId = escapeHtml(payload.donationId);
+  const proofImageUrl = escapeHtml(payload.proofImageUrl);
+  const donorMessage = escapeHtml(payload.donorMessage || "No message provided.");
+
+  const html = emailWrapper(`
+    <div class="body">
+      <h2>New Donation Received</h2>
+      <p>A new donation has been submitted and requires verification.</p>
+      <table style="width:100%; border-collapse: collapse; margin: 16px 0;">
+        <tbody>
+          <tr><td style="padding:8px; border:1px solid #e9ecef;"><strong>Donor</strong></td><td style="padding:8px; border:1px solid #e9ecef;">${donorName}</td></tr>
+          <tr><td style="padding:8px; border:1px solid #e9ecef;"><strong>Email</strong></td><td style="padding:8px; border:1px solid #e9ecef;">${donorEmail}</td></tr>
+          <tr><td style="padding:8px; border:1px solid #e9ecef;"><strong>Amount</strong></td><td style="padding:8px; border:1px solid #e9ecef;">₹${payload.amount}</td></tr>
+          <tr><td style="padding:8px; border:1px solid #e9ecef;"><strong>UTR</strong></td><td style="padding:8px; border:1px solid #e9ecef;">${escapeHtml(payload.utr)}</td></tr>
+          <tr><td style="padding:8px; border:1px solid #e9ecef;"><strong>Donor-entered Payee UPI</strong></td><td style="padding:8px; border:1px solid #e9ecef;">${payeeUpi}</td></tr>
+          <tr><td style="padding:8px; border:1px solid #e9ecef;"><strong>Receiver UPI ID (env snapshot)</strong></td><td style="padding:8px; border:1px solid #e9ecef;">${upiId}</td></tr>
+          <tr><td style="padding:8px; border:1px solid #e9ecef;"><strong>Receiver Payee Name (env snapshot)</strong></td><td style="padding:8px; border:1px solid #e9ecef;">${upiPayeeName}</td></tr>
+          <tr><td style="padding:8px; border:1px solid #e9ecef;"><strong>Payment Type</strong></td><td style="padding:8px; border:1px solid #e9ecef;">${paymentType}</td></tr>
+          <tr><td style="padding:8px; border:1px solid #e9ecef;"><strong>Validation Type</strong></td><td style="padding:8px; border:1px solid #e9ecef;">${validationType}</td></tr>
+          <tr><td style="padding:8px; border:1px solid #e9ecef;"><strong>Manual Validation Required</strong></td><td style="padding:8px; border:1px solid #e9ecef;">${payload.manualValidationRequired ? "Yes" : "No"}</td></tr>
+          <tr><td style="padding:8px; border:1px solid #e9ecef;"><strong>Payment Request Ref (tr)</strong></td><td style="padding:8px; border:1px solid #e9ecef;">${paymentRequestRef}</td></tr>
+          <tr><td style="padding:8px; border:1px solid #e9ecef;"><strong>Donation ID</strong></td><td style="padding:8px; border:1px solid #e9ecef;">${donationId}</td></tr>
+          <tr><td style="padding:8px; border:1px solid #e9ecef;"><strong>Proof Image</strong></td><td style="padding:8px; border:1px solid #e9ecef;"><a href="${proofImageUrl}" style="color:#2d5a87;">Open Proof</a></td></tr>
+        </tbody>
+      </table>
+      <p><strong>Donor message:</strong> ${donorMessage}</p>
+    </div>
+  `);
+
+  await transporter.sendMail({
+    from: `"JGEC Alumni Pune" <${process.env.EMAIL_USER}>`,
+    to: adminEmails,
+    subject: `New Donation Submitted: ₹${payload.amount}`,
     html,
   });
 }

@@ -21,6 +21,7 @@ export interface IUser extends Document {
   photoLink: string;
   photoPublicId: string;
   isEmailVerified: boolean;
+  authRole?: "user" | "admin";
   emailVerificationOTP?: string;
   emailVerificationExpiry?: Date;
   passwordResetToken?: string;
@@ -117,6 +118,12 @@ const userSchema = new Schema<IUser>(
     isEmailVerified: {
       type: Boolean,
       default: false,
+    },
+    authRole: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+      index: true,
     },
     emailVerificationOTP: {
       type: String,
