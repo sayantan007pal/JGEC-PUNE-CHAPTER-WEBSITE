@@ -7,13 +7,17 @@ import axios from "axios";
 import {
   User,
   Calendar,
-  Settings,
   Bell,
   Award,
   Users,
   MapPin,
-  LogOut,
   ExternalLink,
+  Heart,
+  Clock,
+  CheckCircle2,
+  XCircle,
+  ShieldCheck,
+  TrendingUp,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -32,48 +36,134 @@ interface DashboardUser {
   department?: string;
   passingYear?: string | number;
   photoLink?: string;
+  authRole?: string;
 }
 
-async function getUser(): Promise<DashboardUser | null> {
+interface RecentDonation {
+  _id: string;
+  amount: number;
+  donationCategory: string;
+  status: string;
+  createdAt: string;
+  proofSubmittedAt?: string;
+}
+
+interface AdminOverview {
+  totalDonations: number;
+  totalVerifiedAmount: number;
+  pendingCount: number;
+  verifiedCount: number;
+}
+
+interface AdminRecentPending {
+  _id: string;
+  amount: number;
+  donationCategory: string;
+  proofSubmittedAt?: string;
+  donor?: { fullName?: string; email?: string };
+}
+
+interface DashboardData {
+  user: DashboardUser;
+  recentDonations: RecentDonation[];
+  adminOverview: AdminOverview | null;
+  adminRecentPending: AdminRecentPending[];
+}
+
+const CATEGORY_LABELS: Record<string, string> = {
+  scholarship: "Scholarships",
+  infrastructure: "Infrastructure",
+  innovation: "Innovation",
+  alumni_activities: "Alumni Activities",
+  general: "General",
+};
+
+async function getDashboardData(): Promise<DashboardData | null> {
   const cookieStore = await cookies();
   const token = cookieStore.get("jgec-auth-token")?.value;
-
   if (!token) return null;
 
   try {
     const secret = new TextEncoder().encode(
-      process.env.JWT_SECRET || "fallback-secret-change-me"
+      process.env.JWT_SECRET || "fallback-secret-change-me",
     );
     const { payload } = await jwtVerify(token, secret);
-
-    // Fetch user data from the API internally
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001";
-    try {
-      const { data } = await axios.get<{ user: DashboardUser }>(
-        `${baseUrl}/api/auth/me`,
-        {
-          headers: { Cookie: `jgec-auth-token=${token}` },
-        }
-      );
-      return data.user;
-    } catch {
-      // API error – fall back to JWT payload
-      return { email: payload.email as string | undefined };
+    const headers = { Cookie: `jgec-auth-token=${token}` };
+
+    const [userRes, donationsRes] = await Promise.allSettled([
+      axios.get<{ user: DashboardUser }>(`${baseUrl}/api/auth/me`, { headers }),
+      axios.get<{ donations: RecentDonation[] }>(
+        `${baseUrl}/api/donations/my-donations?limit=3`,
+        { headers },
+      ),
+    ]);
+
+    const user: DashboardUser =
+      userRes.status === "fulfilled"
+        ? userRes.value.data.user
+        : { email: payload.email as string | undefined };
+
+    const recentDonations: RecentDonation[] =
+      donationsRes.status === "fulfilled"
+        ? donationsRes.value.data.donations
+        : [];
+
+    let adminOverview: AdminOverview | null = null;
+    let adminRecentPending: AdminRecentPending[] = [];
+
+    if (user.authRole === "admin") {
+      try {
+        const analyticsRes = await axios.get<{
+          overview: AdminOverview;
+          recentPending: AdminRecentPending[];
+        }>(`${baseUrl}/api/admin/donations/analytics`, { headers });
+        adminOverview = analyticsRes.data.overview;
+        adminRecentPending = analyticsRes.data.recentPending;
+      } catch {
+        // admin analytics optional – not fatal
+      }
     }
+
+    return { user, recentDonations, adminOverview, adminRecentPending };
   } catch {
     return null;
   }
 }
 
 const quickLinks = [
-  { name: "Upcoming Events", href: "/events", icon: Calendar, color: "bg-blue-500/10 text-blue-600" },
-  { name: "Alumni Directory", href: "/about", icon: Users, color: "bg-green-500/10 text-green-600" },
-  { name: "Achievements", href: "/achievements", icon: Award, color: "bg-amber-500/10 text-amber-600" },
-  { name: "Gallery", href: "/gallery", icon: MapPin, color: "bg-purple-500/10 text-purple-600" },
+  {
+    name: "Upcoming Events",
+    href: "/events",
+    icon: Calendar,
+    color: "bg-blue-500/10 text-blue-600",
+  },
+  {
+    name: "Alumni Directory",
+    href: "/about",
+    icon: Users,
+    color: "bg-green-500/10 text-green-600",
+  },
+  {
+    name: "Achievements",
+    href: "/achievements",
+    icon: Award,
+    color: "bg-amber-500/10 text-amber-600",
+  },
+  {
+    name: "Gallery",
+    href: "/gallery",
+    icon: MapPin,
+    color: "bg-purple-500/10 text-purple-600",
+  },
 ];
 
 export default async function DashboardPage() {
-  const user = await getUser();
+  const data = await getDashboardData();
+  const user = data?.user ?? null;
+  const recentDonations = data?.recentDonations ?? [];
+  const adminOverview = data?.adminOverview ?? null;
+  const adminRecentPending = data?.adminRecentPending ?? [];
 
   const getInitials = (name: string) =>
     name
@@ -128,7 +218,9 @@ export default async function DashboardPage() {
           <div className="lg:col-span-2 space-y-8">
             {/* Quick Links */}
             <div>
-              <h2 className="text-xl font-serif font-bold text-foreground mb-4">Quick Links</h2>
+              <h2 className="text-xl font-serif font-bold text-foreground mb-4">
+                Quick Links
+              </h2>
               <div className="grid sm:grid-cols-2 gap-4">
                 {quickLinks.map((link) => (
                   <Link
@@ -136,7 +228,9 @@ export default async function DashboardPage() {
                     href={link.href}
                     className="flex items-center gap-4 p-4 bg-card rounded-xl card-shadow hover:elevated-shadow transition-all duration-200 group"
                   >
-                    <div className={`w-12 h-12 rounded-lg ${link.color} flex items-center justify-center`}>
+                    <div
+                      className={`w-12 h-12 rounded-lg ${link.color} flex items-center justify-center`}
+                    >
                       <link.icon className="w-6 h-6" />
                     </div>
                     <div className="flex-1">
@@ -156,19 +250,183 @@ export default async function DashboardPage() {
                 💬 Join Our WhatsApp Group
               </h3>
               <p className="text-muted-foreground text-sm mb-4">
-                Stay connected with fellow alumni. Get the latest updates on events, meetups, and opportunities.
+                Stay connected with fellow alumni. Get the latest updates on
+                events, meetups, and opportunities.
               </p>
               <a
                 href="https://chat.whatsapp.com/KTSiaiNkuEX9ytj1KLPLcY"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Button variant="default" size="sm" className="bg-green-600 hover:bg-green-700 gap-2">
+                <Button
+                  variant="default"
+                  size="sm"
+                  className="bg-green-600 hover:bg-green-700 gap-2"
+                >
                   Join WhatsApp Group
                   <ExternalLink className="w-4 h-4" />
                 </Button>
               </a>
             </div>
+
+            {/* ── My Recent Donations (all users) ── */}
+            <div className="bg-card rounded-xl p-6 card-shadow">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="font-serif font-bold text-lg text-card-foreground flex items-center gap-2">
+                  <Heart className="w-5 h-5 text-accent" />
+                  My Recent Donations
+                </h2>
+                <Link
+                  href="/dashboard/my-donations"
+                  className="text-sm text-accent hover:underline"
+                >
+                  View all
+                </Link>
+              </div>
+              {recentDonations.length === 0 ? (
+                <div className="text-center py-6">
+                  <Heart className="w-10 h-10 text-muted-foreground/30 mx-auto mb-2" />
+                  <p className="text-sm text-muted-foreground">
+                    No donations yet.
+                  </p>
+                  <Link href="/donate">
+                    <Button variant="outline" size="sm" className="mt-3">
+                      Make a Donation
+                    </Button>
+                  </Link>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {recentDonations.map((d) => (
+                    <div
+                      key={d._id}
+                      className="flex items-center justify-between py-2 border-b border-border last:border-0"
+                    >
+                      <div>
+                        <p className="text-sm font-medium text-card-foreground">
+                          ₹{d.amount.toLocaleString("en-IN")}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {CATEGORY_LABELS[d.donationCategory] ??
+                            d.donationCategory}
+                        </p>
+                      </div>
+                      <span
+                        className={`text-xs font-medium px-2 py-0.5 rounded-full ${
+                          d.status === "verified"
+                            ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
+                            : d.status === "pending"
+                              ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
+                              : d.status === "rejected"
+                                ? "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
+                                : "bg-secondary text-muted-foreground"
+                        }`}
+                      >
+                        {d.status}
+                      </span>
+                    </div>
+                  ))}
+                  <Link href="/dashboard/my-donations">
+                    <Button variant="outline" size="sm" className="w-full mt-2">
+                      View All Donations
+                    </Button>
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            {/* ── Admin Panel (admin only) ── */}
+            {user?.authRole === "admin" && (
+              <div className="bg-card rounded-xl p-6 card-shadow border-2 border-accent/20">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="font-serif font-bold text-lg text-card-foreground flex items-center gap-2">
+                    <ShieldCheck className="w-5 h-5 text-accent" />
+                    Admin Overview
+                  </h2>
+                  <Link
+                    href="/dashboard/admin"
+                    className="text-sm text-accent hover:underline"
+                  >
+                    Full dashboard
+                  </Link>
+                </div>
+
+                {adminOverview && (
+                  <div className="grid grid-cols-2 gap-3 mb-4">
+                    <div className="bg-amber-50 dark:bg-amber-950/20 rounded-lg p-3 text-center border border-amber-200 dark:border-amber-800">
+                      <p className="text-2xl font-bold text-amber-600">
+                        {adminOverview.pendingCount}
+                      </p>
+                      <p className="text-xs text-amber-700 dark:text-amber-400 mt-0.5">
+                        Pending
+                      </p>
+                    </div>
+                    <div className="bg-emerald-50 dark:bg-emerald-950/20 rounded-lg p-3 text-center border border-emerald-200 dark:border-emerald-800">
+                      <p className="text-2xl font-bold text-emerald-600">
+                        {adminOverview.verifiedCount}
+                      </p>
+                      <p className="text-xs text-emerald-700 dark:text-emerald-400 mt-0.5">
+                        Verified
+                      </p>
+                    </div>
+                    <div className="bg-secondary rounded-lg p-3 text-center col-span-2">
+                      <p className="text-sm font-semibold text-foreground flex items-center justify-center gap-1">
+                        <TrendingUp className="w-4 h-4 text-accent" />₹
+                        {adminOverview.totalVerifiedAmount.toLocaleString(
+                          "en-IN",
+                        )}{" "}
+                        raised
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        across {adminOverview.totalDonations} donations
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {adminRecentPending.length > 0 && (
+                  <div>
+                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">
+                      Awaiting verification
+                    </p>
+                    <div className="space-y-2">
+                      {adminRecentPending.slice(0, 3).map((d) => (
+                        <div
+                          key={d._id}
+                          className="flex items-center justify-between text-sm py-1.5 border-b border-border last:border-0"
+                        >
+                          <div>
+                            <p className="font-medium text-card-foreground">
+                              {d.donor?.fullName ?? "Unknown"}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              ₹{d.amount.toLocaleString("en-IN")} ·{" "}
+                              {CATEGORY_LABELS[d.donationCategory] ??
+                                d.donationCategory}
+                            </p>
+                          </div>
+                          <Clock className="w-4 h-4 text-amber-500 flex-shrink-0" />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {adminRecentPending.length === 0 && adminOverview && (
+                  <p className="text-sm text-muted-foreground text-center py-3">
+                    <CheckCircle2 className="w-5 h-5 text-emerald-500 mx-auto mb-1" />
+                    No pending donations. All clear!
+                  </p>
+                )}
+
+                <Link href="/dashboard/admin">
+                  <Button variant="default" size="sm" className="w-full mt-4">
+                    Open Admin Dashboard
+                    <ShieldCheck className="w-4 h-4" />
+                  </Button>
+                </Link>
+              </div>
+            )}
           </div>
 
           {/* Sidebar */}
@@ -183,25 +441,35 @@ export default async function DashboardPage() {
                 {user?.email && (
                   <div>
                     <span className="text-muted-foreground">Email</span>
-                    <p className="text-card-foreground font-medium">{user.email}</p>
+                    <p className="text-card-foreground font-medium">
+                      {user.email}
+                    </p>
                   </div>
                 )}
                 {user?.phoneNumber && (
                   <div>
                     <span className="text-muted-foreground">Phone</span>
-                    <p className="text-card-foreground font-medium">{user.phoneNumber}</p>
+                    <p className="text-card-foreground font-medium">
+                      {user.phoneNumber}
+                    </p>
                   </div>
                 )}
                 {user?.bloodGroup && (
                   <div>
                     <span className="text-muted-foreground">Blood Group</span>
-                    <p className="text-card-foreground font-medium">{user.bloodGroup}</p>
+                    <p className="text-card-foreground font-medium">
+                      {user.bloodGroup}
+                    </p>
                   </div>
                 )}
                 {user?.addressInPune && (
                   <div>
-                    <span className="text-muted-foreground">Address in Pune</span>
-                    <p className="text-card-foreground font-medium">{user.addressInPune}</p>
+                    <span className="text-muted-foreground">
+                      Address in Pune
+                    </span>
+                    <p className="text-card-foreground font-medium">
+                      {user.addressInPune}
+                    </p>
                   </div>
                 )}
               </div>

@@ -8,10 +8,7 @@ export async function GET() {
     const auth = await getAuthFromCookie();
 
     if (!auth) {
-      return NextResponse.json(
-        { error: "Not authenticated" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
     await dbConnect();
@@ -19,10 +16,7 @@ export async function GET() {
     const user = await User.findById(auth.userId);
 
     if (!user) {
-      return NextResponse.json(
-        { error: "User not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     return NextResponse.json(
@@ -46,16 +40,17 @@ export async function GET() {
           bloodGroup: user.bloodGroup,
           photoLink: user.photoLink,
           isEmailVerified: user.isEmailVerified,
+          authRole: user.authRole ?? "user",
           createdAt: user.createdAt,
         },
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Get user error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -1,6 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { getAuthFromCookie } from "@/lib/auth";
+import dbConnect from "@/lib/mongodb";
+import Donation, { type DonationCategory } from "@/models/Donation";
+
+const VALID_CATEGORIES: DonationCategory[] = [
+  "scholarship",
+  "infrastructure",
+  "innovation",
+  "alumni_activities",
+  "general",
+];
 
 function createPaymentRequestRef(): string {
   return `DON-${Date.now()}-${crypto.randomBytes(4).toString("hex").toUpperCase()}`;
@@ -13,8 +23,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    const { amount } = await request.json();
-    const parsedAmount = Number(amount);
+    const body = await request.json();
+    const parsedAmount = Number(body.amount);
 
     if (!Number.isFinite(parsedAmount) || parsedAmount <= 0) {
       return NextResponse.json(
@@ -23,11 +33,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const donationCategory: DonationCategory = VALID_CATEGORIES.includes(
+      body.donationCategory,
+    )
+      ? (body.donationCategory as DonationCategory)
+      : "general";
+
     const upiId = process.env.UPI_ID?.trim();
     const upiPayeeName = process.env.UPI_PAYEE_NAME?.trim();
     if (!upiId || !upiPayeeName) {
       return NextResponse.json(
-        { error: "Donation service is not configured. Missing UPI_ID or UPI_PAYEE_NAME." },
+        {
+          error:
+            "Donation service is not configured. Missing UPI_ID or UPI_PAYEE_NAME.",
+        },
         { status: 500 },
       );
     }
@@ -47,16 +66,33 @@ export async function POST(request: NextRequest) {
 
     const upiUrl = `upi://pay?${query.toString()}`;
 
+    // Persist the initiated record so proof can reference it later
+    await dbConnect();
+    const donation = await Donation.create({
+      userId: auth.userId,
+      amount: parsedAmount,
+      donationCategory,
+      paymentRequestRef,
+      payment_type: "upi",
+      validation_type: "manual",
+      upiId,
+      upiPayeeName,
+      status: "initiated",
+      isVerified: false,
+    });
+
     return NextResponse.json(
       {
+        donationId: donation._id.toString(),
         upiUrl,
         qrValue: upiUrl,
         paymentRequestRef,
         amount: parsedAmount,
+        donationCategory,
         payment_type: "upi",
         validation_type: "manual",
       },
-      { status: 200 },
+      { status: 201 },
     );
   } catch (error) {
     console.error("[DONATIONS_INITIATE] Error:", error);
