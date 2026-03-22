@@ -18,7 +18,7 @@ const navItems = [
   { name: "Contact", path: "/contact" },
 ];
 
-interface AuthUser {
+export interface AuthUser {
   fullName: string;
   email: string;
   photoLink?: string;
@@ -35,7 +35,9 @@ const Header = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const { data } = await apiClient.get<{ user: AuthUser }>("/api/auth/me");
+        const { data } = await apiClient.get<{ user: AuthUser }>(
+          "/api/auth/me",
+        );
         setUser(data.user);
       } catch {
         // axios throws on non-2xx — treat any error as unauthenticated
@@ -77,15 +79,15 @@ const Header = () => {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center">
-              <span className="text-accent-foreground font-serif font-bold text-xl">JG</span>
+              <span className="text-accent-foreground font-serif font-bold text-xl">
+                JG
+              </span>
             </div>
             <div className="hidden sm:block">
               <h1 className="text-primary-foreground font-serif font-bold text-lg leading-tight">
                 JGEC Alumni
               </h1>
-              <p className="text-primary-foreground/70 text-xs">
-                Pune Chapter
-              </p>
+              <p className="text-primary-foreground/70 text-xs">Pune Chapter</p>
             </div>
           </Link>
 
@@ -99,7 +101,7 @@ const Header = () => {
                   "px-4 py-2 text-sm font-medium rounded-md transition-colors",
                   pathname === item.path
                     ? "text-accent bg-white/10"
-                    : "text-primary-foreground/90 hover:text-accent hover:bg-white/5"
+                    : "text-primary-foreground/90 hover:text-accent hover:bg-white/5",
                 )}
               >
                 {item.name}
@@ -172,7 +174,7 @@ const Header = () => {
       <div
         className={cn(
           "lg:hidden overflow-hidden transition-all duration-300 bg-primary",
-          isOpen ? "max-h-[600px]" : "max-h-0"
+          isOpen ? "max-h-[600px]" : "max-h-0",
         )}
       >
         <nav className="container-custom px-4 py-4 space-y-2">
@@ -185,7 +187,7 @@ const Header = () => {
                 "block px-4 py-3 text-sm font-medium rounded-md transition-colors",
                 pathname === item.path
                   ? "text-accent bg-white/10"
-                  : "text-primary-foreground/90 hover:text-accent hover:bg-white/5"
+                  : "text-primary-foreground/90 hover:text-accent hover:bg-white/5",
               )}
             >
               {item.name}
@@ -217,12 +219,20 @@ const Header = () => {
                     )}
                   </div>
                   <div>
-                    <p className="text-primary-foreground font-medium text-sm">{user.fullName}</p>
-                    <p className="text-primary-foreground/60 text-xs">{user.email}</p>
+                    <p className="text-primary-foreground font-medium text-sm">
+                      {user.fullName}
+                    </p>
+                    <p className="text-primary-foreground/60 text-xs">
+                      {user.email}
+                    </p>
                   </div>
                 </div>
                 <Link href="/dashboard" onClick={() => setIsOpen(false)}>
-                  <Button variant="heroOutline" size="lg" className="w-full gap-2">
+                  <Button
+                    variant="heroOutline"
+                    size="lg"
+                    className="w-full gap-2"
+                  >
                     <LayoutDashboard className="w-4 h-4" />
                     Dashboard
                   </Button>

@@ -1,9 +1,7 @@
-import { Metadata } from "next";
+"use client";
+// import { Metadata } from "next";
 import Link from "next/link";
-import { cookies } from "next/headers";
-import { jwtVerify } from "jose";
 import { Button } from "@/components/ui/button";
-import axios from "axios";
 import {
   User,
   Calendar,
@@ -19,11 +17,14 @@ import {
   ShieldCheck,
   TrendingUp,
 } from "lucide-react";
+import { useEffect, useState } from "react";
+// import { AuthUser } from "@/components/layout/Header";
+import apiClient from "@/lib/axios";
 
-export const metadata: Metadata = {
-  title: "Dashboard",
-  description: "Your JGEC Alumni Pune member dashboard",
-};
+// export const metadata: Metadata = {
+//   title: "Dashboard",
+//   description: "Your JGEC Alumni Pune member dashboard",
+// };
 
 interface DashboardUser {
   fullName?: string;
@@ -79,30 +80,17 @@ const CATEGORY_LABELS: Record<string, string> = {
 };
 
 async function getDashboardData(): Promise<DashboardData | null> {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("jgec-auth-token")?.value;
-  if (!token) return null;
-
   try {
-    const secret = new TextEncoder().encode(
-      process.env.JWT_SECRET || "fallback-secret-change-me",
-    );
-    const { payload } = await jwtVerify(token, secret);
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001";
-    const headers = { Cookie: `jgec-auth-token=${token}` };
-
     const [userRes, donationsRes] = await Promise.allSettled([
-      axios.get<{ user: DashboardUser }>(`${baseUrl}/api/auth/me`, { headers }),
-      axios.get<{ donations: RecentDonation[] }>(
-        `${baseUrl}/api/donations/my-donations?limit=3`,
-        { headers },
+      apiClient.get<{ user: DashboardUser }>("/api/auth/me"),
+      apiClient.get<{ donations: RecentDonation[] }>(
+        "/api/donations/my-donations?limit=3",
       ),
     ]);
 
-    const user: DashboardUser =
-      userRes.status === "fulfilled"
-        ? userRes.value.data.user
-        : { email: payload.email as string | undefined };
+    if (userRes.status !== "fulfilled") return null;
+
+    const user: DashboardUser = userRes.value.data.user;
 
     const recentDonations: RecentDonation[] =
       donationsRes.status === "fulfilled"
@@ -114,10 +102,10 @@ async function getDashboardData(): Promise<DashboardData | null> {
 
     if (user.authRole === "admin") {
       try {
-        const analyticsRes = await axios.get<{
+        const analyticsRes = await apiClient.get<{
           overview: AdminOverview;
           recentPending: AdminRecentPending[];
-        }>(`${baseUrl}/api/admin/donations/analytics`, { headers });
+        }>("/api/admin/donations/analytics");
         adminOverview = analyticsRes.data.overview;
         adminRecentPending = analyticsRes.data.recentPending;
       } catch {
@@ -158,12 +146,35 @@ const quickLinks = [
   },
 ];
 
-export default async function DashboardPage() {
-  const data = await getDashboardData();
-  const user = data?.user ?? null;
-  const recentDonations = data?.recentDonations ?? [];
-  const adminOverview = data?.adminOverview ?? null;
-  const adminRecentPending = data?.adminRecentPending ?? [];
+export default function DashboardPage() {
+  const [user, setUser] = useState<DashboardUser | null>(null);
+  const [recentDonations, setRecentDonations] = useState<RecentDonation[]>([]);
+  const [adminOverview, setAdminOverview] = useState<AdminOverview | null>(
+    null,
+  );
+  const [adminRecentPending, setAdminRecentPending] = useState<
+    AdminRecentPending[]
+  >([]);
+
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        const data = await getDashboardData();
+        setUser(data?.user ?? null);
+        setRecentDonations(data?.recentDonations ?? []);
+        setAdminOverview(data?.adminOverview ?? null);
+        setAdminRecentPending(data?.adminRecentPending ?? []);
+      } catch {
+        // Treat any fetch error as unauthenticated for dashboard rendering.
+        setUser(null);
+        setRecentDonations([]);
+        setAdminOverview(null);
+        setAdminRecentPending([]);
+      }
+    };
+
+    fetchDashboardData();
+  }, []);
 
   const getInitials = (name: string) =>
     name
