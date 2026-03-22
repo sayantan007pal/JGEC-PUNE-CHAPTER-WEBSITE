@@ -8,7 +8,7 @@ const JWT_SECRET = new TextEncoder().encode(
 const COOKIE_NAME = "jgec-auth-token";
 
 // Routes that require authentication (redirect to /login if NOT logged in)
-const protectedPaths = ["/dashboard", "/profile"];
+const protectedPaths = ["/dashboard", "/profile", "/donate"];
 
 // Routes only for guests (redirect to /dashboard if already logged in)
 const guestOnlyPaths = ["/login", "/signup", "/verify-email", "/forgot-password", "/reset-password"];
@@ -65,5 +65,6 @@ export const config = {
     "/verify-email",
     "/forgot-password",
     "/reset-password",
+    "/donate",
   ],
 };
