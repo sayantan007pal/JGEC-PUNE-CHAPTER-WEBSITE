@@ -2,11 +2,13 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, LogOut, User, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import apiClient from "@/lib/axios";
+import logo from "@/assets/Jalpaiguri-engineers-association.jpg";
 
 const navItems = [
   { name: "Home", path: "/" },
@@ -78,10 +80,14 @@ const Header = () => {
         <div className="flex items-center justify-between h-20 px-4">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center">
-              <span className="text-accent-foreground font-serif font-bold text-xl">
-                JG
-              </span>
+            <div className="w-12 h-12 rounded-full overflow-hidden">
+              <Image
+                src={logo}
+                alt="Jalpaiguri Engineers Association"
+                width={48}
+                height={48}
+                className="w-full h-full object-cover"
+              />
             </div>
             <div className="hidden sm:block">
               <h1 className="text-primary-foreground font-serif font-bold text-lg leading-tight">

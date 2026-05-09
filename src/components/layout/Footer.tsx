@@ -1,5 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin } from "lucide-react";
+import logo from "@/assets/Jalpaiguri-engineers-association.jpg";
 
 const Footer = () => {
   return (
@@ -9,8 +11,8 @@ const Footer = () => {
           {/* About Section */}
           <div>
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center">
-                <span className="text-accent-foreground font-serif font-bold text-xl">JG</span>
+              <div className="w-12 h-12 rounded-full overflow-hidden">
+                <Image src={logo} alt="Jalpaiguri Engineers Association" width={48} height={48} className="w-full h-full object-cover" />
               </div>
               <div>
                 <h3 className="font-serif font-bold text-lg">JALPAIGURI ENGINEERS ASSOCIATION</h3>
