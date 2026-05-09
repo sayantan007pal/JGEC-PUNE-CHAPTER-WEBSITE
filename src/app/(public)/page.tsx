@@ -302,14 +302,6 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div className="text-center mt-10">
-            <Link href="/achievements">
-              <Button variant="default" size="lg">
-                View All Achievements
-                <ArrowRight className="w-4 h-4" />
-              </Button>
-            </Link>
-          </div>
         </div>
       </section>
 
