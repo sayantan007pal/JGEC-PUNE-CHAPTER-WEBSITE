@@ -100,8 +100,8 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-foreground">Email</h3>
-                    <a href="mailto:contact@jgecalumnipune.org" className="text-muted-foreground text-sm hover:text-accent">
-                      contact@jgecalumnipune.org
+                    <a href="mailto:jgecpunechapter@gmail.com" className="text-muted-foreground text-sm hover:text-accent">
+                      jgecpunechapter@gmail.com
                     </a>
                   </div>
                 </div>
