@@ -113,7 +113,7 @@ export default function AboutPage() {
                 across industries worldwide.
               </p>
               <p>
-                The JGEC Alumni Association Pune Chapter was founded in 2005 by a group of 
+                The JALPAIGURI ENGINEERS ASSOCIATION Pune Chapter was founded in 2005 by a group of 
                 passionate alumni who wanted to maintain their connection to their alma mater 
                 while building a supportive community in Pune. What started as informal 
                 gatherings has grown into a well-organized association with over 500 active members.
@@ -171,7 +171,7 @@ export default function AboutPage() {
                 Benefits of Joining
               </h2>
               <p className="text-primary-foreground/80 leading-relaxed mb-8">
-                As a member of the JGEC Alumni Association Pune Chapter, you gain access to 
+                As a member of the JALPAIGURI ENGINEERS ASSOCIATION Pune Chapter, you gain access to 
                 a wealth of resources, connections, and opportunities designed to support 
                 your professional and personal growth.
               </p>

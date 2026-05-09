@@ -1,6 +1,6 @@
 # JGEC Pune Chapter Website
 
-A dedicated platform for the JGEC Alumni Association Pune Chapter to connect alumni, share achievements, organize events, and foster a strong community.
+A dedicated platform for the JALPAIGURI ENGINEERS ASSOCIATION Pune Chapter to connect alumni, share achievements, organize events, and foster a strong community.
 
 **Live Demo:** [https://jgec-pune-chapter-website.vercel.app/](https://jgec-pune-chapter-website.vercel.app/)
 
@@ -169,4 +169,4 @@ Contributions are welcome! Please fork the repository and submit a Pull Request.
 
 ## 📄 License
 
-This project is maintained by the JGEC Alumni Association Pune Chapter.
+This project is maintained by the JALPAIGURI ENGINEERS ASSOCIATION Pune Chapter.

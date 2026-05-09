@@ -39,12 +39,12 @@ function emailWrapper(content: string): string {
     <body>
       <div class="container">
         <div class="header">
-          <h1>JGEC Alumni Association</h1>
+          <h1>JALPAIGURI ENGINEERS ASSOCIATION</h1>
           <p>Pune Chapter</p>
         </div>
         ${content}
         <div class="footer">
-          <p>JGEC Alumni Association, Pune Chapter</p>
+          <p>JALPAIGURI ENGINEERS ASSOCIATION, Pune Chapter</p>
           <p>Jalpaiguri Government Engineering College</p>
           <p>&copy; ${new Date().getFullYear()} All rights reserved.</p>
         </div>
@@ -70,7 +70,7 @@ export async function sendVerificationEmail(
   const html = emailWrapper(`
     <div class="body">
       <h2>Verify Your Email Address</h2>
-      <p>Welcome to the JGEC Alumni Association, Pune Chapter! Please use the verification code below to complete your registration:</p>
+      <p>Welcome to the JALPAIGURI ENGINEERS ASSOCIATION, Pune Chapter! Please use the verification code below to complete your registration:</p>
       <div class="otp-box">
         <div class="otp-code">${otp}</div>
       </div>
@@ -82,9 +82,9 @@ export async function sendVerificationEmail(
   `);
 
   await transporter.sendMail({
-    from: `"JGEC Alumni Pune" <${process.env.EMAIL_USER}>`,
+    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: "Verify Your Email - JGEC Alumni Pune",
+    subject: "Verify Your Email - JALPAIGURI ENGINEERS ASSOCIATION",
     html,
   });
 }

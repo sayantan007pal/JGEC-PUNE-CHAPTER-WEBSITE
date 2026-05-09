@@ -75,7 +75,7 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-semibold text-foreground">Address</h3>
                     <p className="text-muted-foreground text-sm">
-                      JGEC Alumni Association<br />
+                      JALPAIGURI ENGINEERS ASSOCIATION<br />
                       Pune Chapter Office<br />
                       Pune, Maharashtra, India
                     </p>

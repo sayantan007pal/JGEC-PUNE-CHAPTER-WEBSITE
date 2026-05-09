@@ -65,7 +65,7 @@ function LoginForm() {
           </h1>
           <p className="text-primary-foreground/80 text-lg max-w-md">
             Connect with your fellow alumni, access exclusive resources, and stay
-            updated with the latest from JGEC Alumni Association.
+            updated with the latest from JALPAIGURI ENGINEERS ASSOCIATION.
           </p>
         </div>
       </div>

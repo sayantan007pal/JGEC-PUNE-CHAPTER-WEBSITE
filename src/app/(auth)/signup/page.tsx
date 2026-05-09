@@ -210,7 +210,7 @@ export default function SignupPage() {
             Join Our Community
           </h1>
           <p className="text-primary-foreground/80 text-lg max-w-md">
-            Become a part of the JGEC Alumni Association, Pune Chapter. Connect,
+            Become a part of the JALPAIGURI ENGINEERS ASSOCIATION, Pune Chapter. Connect,
             collaborate, and contribute to our growing network.
           </p>
 

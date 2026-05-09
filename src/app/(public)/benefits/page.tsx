@@ -69,7 +69,7 @@ export default function BenefitsPage() {
             Unlock Exclusive Advantages
           </h2>
           <p className="text-muted-foreground max-w-3xl mx-auto text-lg">
-            Joining the JGEC Alumni Association Pune Chapter opens doors to a world of opportunities, 
+            Joining the JALPAIGURI ENGINEERS ASSOCIATION Pune Chapter opens doors to a world of opportunities, 
             friendships, and professional growth. We are committed to supporting our members 
             in every stage of their personal and professional journey.
           </p>

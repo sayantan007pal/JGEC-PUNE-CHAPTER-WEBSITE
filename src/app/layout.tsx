@@ -17,25 +17,25 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://jgec-pune-chapter.v
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "JGEC Alumni Association Pune | Jalpaiguri Government Engineering College",
+    default: "JALPAIGURI ENGINEERS ASSOCIATION | Jalpaiguri Government Engineering College",
     template: "%s | JGEC Alumni Pune",
   },
-  description: "Official website of JGEC Alumni Association Pune Chapter. Connect with fellow graduates, attend events, and grow your professional network.",
+  description: "Official website of JALPAIGURI ENGINEERS ASSOCIATION Pune Chapter. Connect with fellow graduates, attend events, and grow your professional network.",
   keywords: ["JGEC", "Alumni", "Pune", "Jalpaiguri Government Engineering College", "Engineering", "Community", "Networking"],
-  authors: [{ name: "JGEC Alumni Association Pune" }],
-  creator: "JGEC Alumni Association Pune",
+  authors: [{ name: "JALPAIGURI ENGINEERS ASSOCIATION" }],
+  creator: "JALPAIGURI ENGINEERS ASSOCIATION",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: baseUrl,
-    title: "JGEC Alumni Association Pune Chapter",
-    description: "Official community for JGEC alumni in Pune. Join us to network, mentor, and give back.",
-    siteName: "JGEC Alumni Pune",
+    title: "JALPAIGURI ENGINEERS ASSOCIATION Pune Chapter",
+    description: "Official community for JALPAIGURI ENGINEERS ASSOCIATION alumni in Pune. Join us to network, mentor, and give back.",
+    siteName: "JALPAIGURI ENGINEERS ASSOCIATION",
   },
   twitter: {
     card: "summary_large_image",
-    title: "JGEC Alumni Association Pune",
-    description: "Official community for JGEC alumni in Pune.",
+    title: "JALPAIGURI ENGINEERS ASSOCIATION",
+    description: "Official community for JALPAIGURI ENGINEERS ASSOCIATION alumni in Pune.",
   },
 };
 
