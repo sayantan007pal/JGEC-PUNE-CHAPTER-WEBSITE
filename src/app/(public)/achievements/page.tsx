@@ -3,9 +3,9 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Award, Briefcase, GraduationCap, ArrowRight, Quote } from "lucide-react";
 import heroBanner from "@/assets/hero-banner.jpg";
-import alumni1 from "@/assets/alumni-1.jpg";
-import alumni2 from "@/assets/alumni-2.jpg";
-import alumni3 from "@/assets/alumni-3.jpg";
+import alumni1 from "@/assets/Adip-da.jpg";
+import alumni2 from "@/assets/Pradeep-da.jpg";
+import alumni3 from "@/assets/Pushpal-da.jpg";
 
 const alumniProfiles = [
   {
