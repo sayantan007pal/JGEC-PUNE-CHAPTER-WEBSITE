@@ -14,7 +14,13 @@ import {
   ShieldCheck,
   TrendingUp,
   AlertCircle,
+  FileText,
+  Trophy,
+  Eye,
+  PenLine,
 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { formatDistanceToNow } from "date-fns";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -680,7 +686,517 @@ function DonationsTab() {
 
 // ─── Page ───────────────────────────────────────────────────────────────────
 
-type Tab = "donations" | "analytics";
+// ─── Blogs Tab ────────────────────────────────────────────────────────────────
+
+interface BlogAuthor {
+  _id: string;
+  name: string;
+  email: string;
+}
+
+interface AdminBlog {
+  _id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  featuredImageUrl?: string;
+  tags: string[];
+  status: string;
+  isBestOfMonth: boolean;
+  monthYear?: string;
+  submittedAt?: string;
+  publishedAt?: string;
+  createdAt: string;
+  author?: BlogAuthor;
+}
+
+const BLOG_STATUS_FILTERS = [
+  "all",
+  "pending_review",
+  "published",
+  "rejected",
+] as const;
+type BlogStatusFilter = (typeof BLOG_STATUS_FILTERS)[number];
+
+interface BlogActionModalProps {
+  blog: AdminBlog;
+  action: "publish" | "reject" | "mark_best";
+  onClose: () => void;
+  onSuccess: () => void;
+}
+
+function BlogActionModal({
+  blog,
+  action,
+  onClose,
+  onSuccess,
+}: BlogActionModalProps) {
+  const [notes, setNotes] = useState("");
+  const [monthYear, setMonthYear] = useState(() => {
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const submit = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      await apiClient.post(`/api/admin/blogs/${blog._id}/action`, {
+        action,
+        notes: action === "reject" ? notes : undefined,
+        monthYear: action === "mark_best" ? monthYear : undefined,
+      });
+      onSuccess();
+      onClose();
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
+        setError(err.response.data?.error || "Action failed.");
+      } else {
+        setError("Action failed.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getTitle = () => {
+    switch (action) {
+      case "publish":
+        return "Publish Blog";
+      case "reject":
+        return "Reject Blog";
+      case "mark_best":
+        return "Mark as Best of Month";
+    }
+  };
+
+  const getButtonText = () => {
+    switch (action) {
+      case "publish":
+        return "Confirm Publish";
+      case "reject":
+        return "Confirm Reject";
+      case "mark_best":
+        return "Confirm Best";
+    }
+  };
+
+  const getButtonClass = () => {
+    switch (action) {
+      case "publish":
+        return "bg-emerald-600 hover:bg-emerald-700 text-white";
+      case "reject":
+        return "bg-red-600 hover:bg-red-700 text-white";
+      case "mark_best":
+        return "bg-yellow-500 hover:bg-yellow-600 text-yellow-950";
+    }
+  };
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div className="bg-card rounded-2xl shadow-2xl w-full max-w-md p-6 space-y-4">
+        <h2 className="text-lg font-serif font-bold text-card-foreground">
+          {getTitle()}
+        </h2>
+
+        <div className="bg-secondary/50 rounded-lg p-3 text-sm space-y-1">
+          <p>
+            <span className="font-medium">Title:</span> {blog.title}
+          </p>
+          <p>
+            <span className="font-medium">Author:</span>{" "}
+            {blog.author?.name || "Unknown"} ({blog.author?.email || "N/A"})
+          </p>
+          <p className="text-muted-foreground line-clamp-2">{blog.excerpt}</p>
+        </div>
+
+        {action === "reject" && (
+          <div>
+            <label className="block text-sm font-medium text-card-foreground mb-1">
+              Rejection Notes (required)
+            </label>
+            <textarea
+              className="w-full border border-input rounded-lg px-3 py-2 text-sm bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent resize-none"
+              rows={3}
+              placeholder="Reason for rejection..."
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+            />
+          </div>
+        )}
+
+        {action === "mark_best" && (
+          <div>
+            <label className="block text-sm font-medium text-card-foreground mb-1">
+              Month/Year
+            </label>
+            <input
+              type="month"
+              className="w-full border border-input rounded-lg px-3 py-2 text-sm bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
+              value={monthYear}
+              onChange={(e) => setMonthYear(e.target.value)}
+            />
+            <p className="text-xs text-muted-foreground mt-1">
+              If another blog is already best for this month, it will be
+              replaced.
+            </p>
+          </div>
+        )}
+
+        {error && (
+          <p className="text-destructive text-sm flex items-center gap-1">
+            <AlertCircle className="w-4 h-4 flex-shrink-0" />
+            {error}
+          </p>
+        )}
+
+        <div className="flex gap-3 justify-end">
+          <Button variant="outline" onClick={onClose} disabled={loading}>
+            Cancel
+          </Button>
+          <Button
+            onClick={submit}
+            disabled={loading || (action === "reject" && !notes.trim())}
+            className={getButtonClass()}
+          >
+            {loading && <Loader2 className="w-4 h-4 animate-spin mr-1" />}
+            {getButtonText()}
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function BlogsTab() {
+  const [statusFilter, setStatusFilter] =
+    useState<BlogStatusFilter>("pending_review");
+  const [page, setPage] = useState(1);
+  const [blogs, setBlogs] = useState<AdminBlog[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [modal, setModal] = useState<{
+    blog: AdminBlog;
+    action: "publish" | "reject" | "mark_best";
+  } | null>(null);
+  const refreshRef = useRef(0);
+
+  const fetchBlogs = useCallback(async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const { data } = await apiClient.get<{
+        blogs: AdminBlog[];
+        pagination: {
+          page: number;
+          limit: number;
+          total: number;
+          totalPages: number;
+        };
+      }>(`/api/admin/blogs?status=${statusFilter}&page=${page}&limit=15`);
+      setBlogs(data.blogs);
+      setTotalPages(data.pagination.totalPages);
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
+        setError(err.response.data?.error || "Failed to load blogs.");
+      } else {
+        setError("Failed to load blogs.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, [statusFilter, page, refreshRef.current]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    void fetchBlogs();
+  }, [fetchBlogs]);
+
+  const handleFilterChange = (f: BlogStatusFilter) => {
+    setStatusFilter(f);
+    setPage(1);
+  };
+
+  const handleActionSuccess = () => {
+    refreshRef.current += 1;
+  };
+
+  const BlogStatusBadge = ({ status }: { status: string }) => {
+    const map: Record<string, { label: string; className: string }> = {
+      draft: {
+        label: "Draft",
+        className: "bg-secondary text-muted-foreground",
+      },
+      pending_review: {
+        label: "Pending",
+        className:
+          "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
+      },
+      published: {
+        label: "Published",
+        className:
+          "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400",
+      },
+      rejected: {
+        label: "Rejected",
+        className:
+          "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
+      },
+    };
+    const cfg = map[status] ?? {
+      label: status,
+      className: "bg-secondary text-muted-foreground",
+    };
+    return (
+      <span
+        className={`inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-full ${cfg.className}`}
+      >
+        {cfg.label}
+      </span>
+    );
+  };
+
+  return (
+    <>
+      {/* Status filter */}
+      <div className="flex gap-2 flex-wrap mb-6">
+        {BLOG_STATUS_FILTERS.map((s) => (
+          <button
+            key={s}
+            type="button"
+            onClick={() => handleFilterChange(s)}
+            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
+              statusFilter === s
+                ? "bg-accent text-accent-foreground"
+                : "bg-secondary text-muted-foreground hover:bg-accent/10"
+            }`}
+          >
+            {s === "all"
+              ? "All"
+              : s === "pending_review"
+                ? "Pending"
+                : s.charAt(0).toUpperCase() + s.slice(1)}
+          </button>
+        ))}
+      </div>
+
+      {loading ? (
+        <div className="flex justify-center py-20">
+          <Loader2 className="w-8 h-8 animate-spin text-accent" />
+        </div>
+      ) : error ? (
+        <div className="bg-destructive/10 border border-destructive/20 text-destructive p-4 rounded-xl text-sm">
+          {error}
+        </div>
+      ) : blogs.length === 0 ? (
+        <div className="text-center py-20 text-muted-foreground">
+          <FileText className="w-12 h-12 mx-auto mb-4 opacity-50" />
+          No{" "}
+          {statusFilter !== "all"
+            ? statusFilter === "pending_review"
+              ? "pending"
+              : statusFilter
+            : ""}{" "}
+          blogs found.
+        </div>
+      ) : (
+        <>
+          <div className="space-y-3">
+            {blogs.map((blog) => (
+              <div
+                key={blog._id}
+                className="bg-card rounded-xl p-4 card-shadow flex flex-col lg:flex-row lg:items-center gap-4"
+              >
+                {/* Blog info */}
+                <div className="flex-1 min-w-0 space-y-1">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="font-semibold text-card-foreground line-clamp-1">
+                      {blog.title}
+                    </span>
+                    <BlogStatusBadge status={blog.status} />
+                    {blog.isBestOfMonth && (
+                      <Badge className="bg-yellow-500 text-yellow-950 gap-1">
+                        <Trophy className="w-3 h-3" />
+                        Best
+                      </Badge>
+                    )}
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    By {blog.author?.name || "Unknown"} ({blog.author?.email || "N/A"})
+                  </p>
+                  <p className="text-sm text-muted-foreground line-clamp-1">
+                    {blog.excerpt}
+                  </p>
+                  {blog.tags.length > 0 && (
+                    <div className="flex gap-1 flex-wrap">
+                      {blog.tags.slice(0, 3).map((tag) => (
+                        <Badge key={tag} variant="secondary" className="text-xs">
+                          {tag}
+                        </Badge>
+                      ))}
+                      {blog.tags.length > 3 && (
+                        <Badge variant="outline" className="text-xs">
+                          +{blog.tags.length - 3}
+                        </Badge>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* Dates */}
+                <div className="flex-shrink-0 text-right space-y-0.5 text-xs text-muted-foreground">
+                  {blog.submittedAt && (
+                    <p>
+                      Submitted{" "}
+                      {formatDistanceToNow(new Date(blog.submittedAt), {
+                        addSuffix: true,
+                      })}
+                    </p>
+                  )}
+                  {blog.publishedAt && (
+                    <p>
+                      Published{" "}
+                      {formatDistanceToNow(new Date(blog.publishedAt), {
+                        addSuffix: true,
+                      })}
+                    </p>
+                  )}
+                </div>
+
+                {/* Actions */}
+                <div className="flex gap-2 flex-shrink-0 flex-wrap">
+                  {/* Preview link */}
+                  {blog.status === "published" ? (
+                    <a
+                      href={`/blogs/${blog.slug}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Button size="sm" variant="outline">
+                        <Eye className="w-3.5 h-3.5 mr-1" />
+                        View
+                      </Button>
+                    </a>
+                  ) : (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={async () => {
+                        const { data } = await apiClient.get(
+                          `/api/admin/blogs/${blog._id}/action`
+                        );
+                        // Open preview in new tab with blog data
+                        const w = window.open("", "_blank");
+                        if (w) {
+                          w.document.write(`
+                            <html>
+                              <head><title>Preview: ${blog.title}</title>
+                              <style>body{font-family:system-ui;max-width:800px;margin:40px auto;padding:0 20px;}</style>
+                              </head>
+                              <body>
+                                <h1>${blog.title}</h1>
+                                <p><em>${blog.excerpt}</em></p>
+                                <hr/>
+                                <div>${JSON.stringify(data.blog.content, null, 2)}</div>
+                              </body>
+                            </html>
+                          `);
+                        }
+                      }}
+                    >
+                      <Eye className="w-3.5 h-3.5 mr-1" />
+                      Preview
+                    </Button>
+                  )}
+
+                  {blog.status === "pending_review" && (
+                    <>
+                      <Button
+                        size="sm"
+                        className="bg-emerald-600 hover:bg-emerald-700 text-white"
+                        onClick={() =>
+                          setModal({ blog, action: "publish" })
+                        }
+                      >
+                        <CheckCircle2 className="w-3.5 h-3.5 mr-1" />
+                        Publish
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={() =>
+                          setModal({ blog, action: "reject" })
+                        }
+                      >
+                        <XCircle className="w-3.5 h-3.5 mr-1" />
+                        Reject
+                      </Button>
+                    </>
+                  )}
+
+                  {blog.status === "published" && !blog.isBestOfMonth && (
+                    <Button
+                      size="sm"
+                      className="bg-yellow-500 hover:bg-yellow-600 text-yellow-950"
+                      onClick={() => setModal({ blog, action: "mark_best" })}
+                    >
+                      <Trophy className="w-3.5 h-3.5 mr-1" />
+                      Best of Month
+                    </Button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center gap-4 mt-8">
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={page === 1}
+                onClick={() => setPage((p) => p - 1)}
+              >
+                <ChevronLeft className="w-4 h-4" />
+                Prev
+              </Button>
+              <span className="text-sm text-muted-foreground">
+                {page} / {totalPages}
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={page === totalPages}
+                onClick={() => setPage((p) => p + 1)}
+              >
+                Next
+                <ChevronRight className="w-4 h-4" />
+              </Button>
+            </div>
+          )}
+        </>
+      )}
+
+      {modal && (
+        <BlogActionModal
+          blog={modal.blog}
+          action={modal.action}
+          onClose={() => setModal(null)}
+          onSuccess={handleActionSuccess}
+        />
+      )}
+    </>
+  );
+}
+
+type Tab = "donations" | "blogs" | "analytics";
 
 export default function AdminDonationsPage() {
   const [tab, setTab] = useState<Tab>("donations");
@@ -730,7 +1246,7 @@ export default function AdminDonationsPage() {
       {/* Tabs */}
       <section className="container-custom px-4 py-8">
         <div className="flex gap-1 mb-8 bg-secondary/50 rounded-xl p-1 w-fit">
-          {(["donations", "analytics"] as Tab[]).map((t) => (
+          {(["donations", "blogs", "analytics"] as Tab[]).map((t) => (
             <button
               key={t}
               type="button"
@@ -746,7 +1262,9 @@ export default function AdminDonationsPage() {
           ))}
         </div>
 
-        {tab === "donations" ? <DonationsTab /> : <AnalyticsTab />}
+        {tab === "donations" && <DonationsTab />}
+        {tab === "blogs" && <BlogsTab />}
+        {tab === "analytics" && <AnalyticsTab />}
       </section>
     </div>
   );

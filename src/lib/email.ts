@@ -438,3 +438,200 @@ export async function sendDonationRejectedEmail(
     html,
   });
 }
+
+// ─── Blog Email Functions ──────────────────────────────────────────────────────
+
+interface BlogSubmittedAuthorPayload {
+  authorName: string;
+  blogTitle: string;
+  blogExcerpt: string;
+}
+
+export async function sendBlogSubmittedToAuthor(
+  email: string,
+  payload: BlogSubmittedAuthorPayload
+): Promise<void> {
+  const authorName = escapeHtml(payload.authorName);
+  const blogTitle = escapeHtml(payload.blogTitle);
+  const blogExcerpt = escapeHtml(payload.blogExcerpt);
+  const dashboardUrl = `${process.env.NEXT_PUBLIC_BASE_URL || ""}/dashboard/my-blogs`;
+
+  const html = emailWrapper(`
+    <div class="body">
+      <h2>Blog Submitted for Review 📝</h2>
+      <p>Dear ${authorName},</p>
+      <p>Thank you for submitting your blog! Our team will review it shortly and you'll be notified once a decision is made.</p>
+      <div class="highlight">
+        <p style="margin:0 0 8px;"><strong>Title:</strong> ${blogTitle}</p>
+        <p style="margin:0;"><strong>Preview:</strong> ${blogExcerpt}...</p>
+      </div>
+      <p>You can track the status of your blog anytime from your dashboard.</p>
+      <div style="text-align:center;">
+        <a href="${dashboardUrl}" class="btn">View My Blogs</a>
+      </div>
+    </div>
+  `);
+
+  await transporter.sendMail({
+    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
+    to: email,
+    subject: "Your blog has been submitted for review — JALPAIGURI ENGINEERS ASSOCIATION",
+    html,
+  });
+}
+
+interface BlogSubmittedAdminPayload {
+  authorName: string;
+  authorEmail: string;
+  blogTitle: string;
+  blogId: string;
+}
+
+export async function sendBlogSubmittedToAdmins(
+  adminEmails: string[],
+  payload: BlogSubmittedAdminPayload
+): Promise<void> {
+  if (adminEmails.length === 0) return;
+
+  const authorName = escapeHtml(payload.authorName);
+  const authorEmail = escapeHtml(payload.authorEmail);
+  const blogTitle = escapeHtml(payload.blogTitle);
+  const dashboardUrl = `${process.env.NEXT_PUBLIC_BASE_URL || ""}/dashboard/admin`;
+
+  const html = emailWrapper(`
+    <div class="body">
+      <h2>⚠️ Action Required: New Blog Submission</h2>
+      <p>A member has submitted a blog for review. Please review and publish or reject it from the admin dashboard.</p>
+      <table style="width:100%; border-collapse:collapse; margin:16px 0;">
+        <tbody>
+          <tr><td style="padding:8px;border:1px solid #e9ecef;"><strong>Author</strong></td><td style="padding:8px;border:1px solid #e9ecef;">${authorName} (${authorEmail})</td></tr>
+          <tr><td style="padding:8px;border:1px solid #e9ecef;"><strong>Title</strong></td><td style="padding:8px;border:1px solid #e9ecef;">${blogTitle}</td></tr>
+          <tr><td style="padding:8px;border:1px solid #e9ecef;"><strong>Blog ID</strong></td><td style="padding:8px;border:1px solid #e9ecef;">${escapeHtml(payload.blogId)}</td></tr>
+        </tbody>
+      </table>
+      <div style="text-align:center;">
+        <a href="${dashboardUrl}" class="btn">Go to Admin Dashboard</a>
+      </div>
+    </div>
+  `);
+
+  await transporter.sendMail({
+    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
+    to: adminEmails,
+    subject: `[Action Required] New Blog Submission — ${blogTitle}`,
+    html,
+  });
+}
+
+interface BlogPublishedPayload {
+  authorName: string;
+  blogTitle: string;
+  blogUrl: string;
+}
+
+export async function sendBlogPublishedToAuthor(
+  email: string,
+  payload: BlogPublishedPayload
+): Promise<void> {
+  const authorName = escapeHtml(payload.authorName);
+  const blogTitle = escapeHtml(payload.blogTitle);
+  const blogUrl = escapeHtml(payload.blogUrl);
+
+  const html = emailWrapper(`
+    <div class="body">
+      <h2>Your Blog is Published! 🎉</h2>
+      <p>Dear ${authorName},</p>
+      <p>Great news! Your blog has been reviewed and published on our website. Thank you for sharing your story with the JGEC alumni community!</p>
+      <div class="highlight">
+        <p style="margin:0;"><strong>Title:</strong> ${blogTitle}</p>
+      </div>
+      <p>Your blog is now live and visible to all visitors. Share it with your network!</p>
+      <div style="text-align:center;">
+        <a href="${blogUrl}" class="btn">View Your Blog</a>
+      </div>
+    </div>
+  `);
+
+  await transporter.sendMail({
+    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
+    to: email,
+    subject: `Your blog "${blogTitle}" is now live! 🎉`,
+    html,
+  });
+}
+
+interface BlogRejectedPayload {
+  authorName: string;
+  blogTitle: string;
+  rejectionNotes: string;
+}
+
+export async function sendBlogRejectedToAuthor(
+  email: string,
+  payload: BlogRejectedPayload
+): Promise<void> {
+  const authorName = escapeHtml(payload.authorName);
+  const blogTitle = escapeHtml(payload.blogTitle);
+  const rejectionNotes = escapeHtml(payload.rejectionNotes);
+  const dashboardUrl = `${process.env.NEXT_PUBLIC_BASE_URL || ""}/dashboard/my-blogs`;
+
+  const html = emailWrapper(`
+    <div class="body">
+      <h2>Blog Needs Revision</h2>
+      <p>Dear ${authorName},</p>
+      <p>Thank you for submitting your blog. After review, we've determined that some revisions are needed before it can be published.</p>
+      <div class="highlight">
+        <p style="margin:0 0 8px;"><strong>Title:</strong> ${blogTitle}</p>
+        <p style="margin:0;"><strong>Feedback:</strong> ${rejectionNotes}</p>
+      </div>
+      <p>Please edit your blog based on the feedback and resubmit it for review. We appreciate your contribution to the community!</p>
+      <div style="text-align:center;">
+        <a href="${dashboardUrl}" class="btn">Edit Your Blog</a>
+      </div>
+    </div>
+  `);
+
+  await transporter.sendMail({
+    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
+    to: email,
+    subject: "Your blog needs revision — JALPAIGURI ENGINEERS ASSOCIATION",
+    html,
+  });
+}
+
+interface BlogBestOfMonthPayload {
+  authorName: string;
+  blogTitle: string;
+  monthYear: string;
+}
+
+export async function sendBlogBestOfMonthToAuthor(
+  email: string,
+  payload: BlogBestOfMonthPayload
+): Promise<void> {
+  const authorName = escapeHtml(payload.authorName);
+  const blogTitle = escapeHtml(payload.blogTitle);
+  const [year, month] = payload.monthYear.split("-");
+  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const monthName = monthNames[parseInt(month, 10) - 1] || month;
+
+  const html = emailWrapper(`
+    <div class="body">
+      <h2>🏆 Congratulations! Best Blog of ${monthName} ${year}!</h2>
+      <p>Dear ${authorName},</p>
+      <p>We are thrilled to announce that your blog has been selected as the <strong>Best Blog of ${monthName} ${year}</strong>!</p>
+      <div class="highlight">
+        <p style="margin:0;"><strong>Your Winning Blog:</strong> ${blogTitle}</p>
+      </div>
+      <p>Your blog will be featured prominently on our website. Thank you for your outstanding contribution to the JGEC alumni community!</p>
+      <p>Keep writing and inspiring others! 🌟</p>
+    </div>
+  `);
+
+  await transporter.sendMail({
+    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
+    to: email,
+    subject: `🏆 Congratulations! Your blog is Best of ${monthName} ${year}!`,
+    html,
+  });
+}
