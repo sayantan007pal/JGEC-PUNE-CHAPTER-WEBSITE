@@ -29,12 +29,10 @@ interface Blog {
 
 interface BlogsResponse {
   blogs: Blog[];
-  pagination: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-  };
+  bestOfMonth?: Blog | null;
+  total: number;
+  page: number;
+  totalPages: number;
 }
 
 function BlogsContent() {
@@ -68,7 +66,7 @@ function BlogsContent() {
 
       const { data } = await apiClient.get<BlogsResponse>(`/api/blogs?${params.toString()}`);
       setBlogs(data.blogs);
-      setPagination(data.pagination);
+      setPagination({ page: data.page, limit: 9, total: data.total, totalPages: data.totalPages });
     } catch (error) {
       console.error("Failed to fetch blogs:", error);
     } finally {

@@ -73,16 +73,28 @@ export async function GET(request: NextRequest) {
         .lean(),
     ]);
 
-    // Rename authorId → author
+    // Rename authorId → author, normalize field names for client
     const formattedBlogs = blogs.map((b) => {
       const { authorId, ...rest } = b as Record<string, unknown>;
-      return { ...rest, author: authorId || { fullName: "Former Member" } };
+      const a = authorId as Record<string, unknown> | null;
+      return {
+        ...rest,
+        author: a
+          ? { name: a.fullName, imageUrl: a.photoLink, department: a.department, passingYear: a.passingYear }
+          : { name: "Former Member" },
+      };
     });
 
     const formattedBest = bestOfMonth
       ? (() => {
           const { authorId, ...rest } = bestOfMonth as Record<string, unknown>;
-          return { ...rest, author: authorId || { fullName: "Former Member" } };
+          const a = authorId as Record<string, unknown> | null;
+          return {
+            ...rest,
+            author: a
+              ? { name: a.fullName, imageUrl: a.photoLink, department: a.department, passingYear: a.passingYear }
+              : { name: "Former Member" },
+          };
         })()
       : null;
 
