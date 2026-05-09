@@ -159,7 +159,7 @@ export async function POST(request: NextRequest) {
 
     const cleanTags = Array.isArray(tags)
       ? tags
-          .map((t: string) => t.trim().toLowerCase().slice(0, 30))
+          .map((t: string) => t.trim().slice(0, 50))
           .filter((t: string) => t.length > 0)
           .slice(0, 5)
       : [];

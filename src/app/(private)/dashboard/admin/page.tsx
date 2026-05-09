@@ -1,9 +1,25 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import axios from "axios";
 import apiClient from "@/lib/axios";
+
+const BlogRendererClient = dynamic(
+  () => import("@/components/blog/BlogRenderer"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex justify-center py-10">
+        <span className="animate-pulse text-muted-foreground text-sm">Loading preview…</span>
+      </div>
+    ),
+  }
+);
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
+import NextImage from "next/image";
 import {
   Clock,
   CheckCircle2,
@@ -18,9 +34,11 @@ import {
   Trophy,
   Eye,
   PenLine,
+  User,
+  Calendar,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { formatDistanceToNow } from "date-fns";
+import { formatDistanceToNow, format } from "date-fns";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -690,8 +708,9 @@ function DonationsTab() {
 
 interface BlogAuthor {
   _id: string;
-  name: string;
+  fullName: string;
   email: string;
+  photoLink?: string;
 }
 
 interface AdminBlog {
@@ -811,7 +830,7 @@ function BlogActionModal({
           </p>
           <p>
             <span className="font-medium">Author:</span>{" "}
-            {blog.author?.name || "Unknown"} ({blog.author?.email || "N/A"})
+            {blog.author?.fullName || "Unknown"} ({blog.author?.email || "N/A"})
           </p>
           <p className="text-muted-foreground line-clamp-2">{blog.excerpt}</p>
         </div>
@@ -874,6 +893,180 @@ function BlogActionModal({
   );
 }
 
+function BlogPreviewModal({
+  blog,
+  onClose,
+}: {
+  blog: AdminBlog;
+  onClose: () => void;
+}) {
+  const [fullBlog, setFullBlog] = useState<{
+    content: object;
+    featuredImageUrl?: string;
+    author?: { fullName: string; photoLink?: string };
+  } | null>(null);
+  const [loadingContent, setLoadingContent] = useState(true);
+  const [fetchError, setFetchError] = useState("");
+
+  useEffect(() => {
+    apiClient
+      .get(`/api/admin/blogs/${blog._id}/action`)
+      .then(({ data }) => {
+        const b = data.blog;
+        setFullBlog({
+          content: b.content as object,
+          featuredImageUrl: b.featuredImageUrl,
+          author: b.author,
+        });
+      })
+      .catch(() => setFetchError("Failed to load blog content."))
+      .finally(() => setLoadingContent(false));
+  }, [blog._id]);
+
+  const wordCount = fullBlog
+    ? JSON.stringify(fullBlog.content).split(/\s+/).length
+    : 0;
+  const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+
+  const authorName =
+    fullBlog?.author?.fullName || blog.author?.fullName || "JGEC Alumnus";
+  const authorPhoto = fullBlog?.author?.photoLink;
+  const featuredImage =
+    fullBlog?.featuredImageUrl || blog.featuredImageUrl;
+  const submittedDate = blog.submittedAt
+    ? new Date(blog.submittedAt)
+    : new Date();
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-start justify-center bg-black/70 backdrop-blur-sm p-4 overflow-y-auto"
+      role="dialog"
+      aria-modal="true"
+      onClick={(e) => e.target === e.currentTarget && onClose()}
+    >
+      <div className="bg-background rounded-2xl shadow-2xl w-full max-w-4xl my-8 overflow-hidden">
+        {/* Top admin bar */}
+        <div className="flex items-center justify-between px-6 py-3 bg-amber-50 dark:bg-amber-950/30 border-b border-amber-200 dark:border-amber-800">
+          <p className="text-xs font-medium text-amber-700 dark:text-amber-400">
+            Admin Preview · Not yet published
+          </p>
+          <Button variant="ghost" size="sm" onClick={onClose} className="text-amber-700 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-900/30">
+            <XCircle className="w-4 h-4 mr-1" />
+            Close
+          </Button>
+        </div>
+
+        {loadingContent ? (
+          <div className="flex justify-center items-center py-24">
+            <Loader2 className="w-8 h-8 animate-spin text-accent" />
+          </div>
+        ) : fetchError ? (
+          <div className="p-8 text-destructive text-sm flex items-center gap-2">
+            <AlertCircle className="w-4 h-4" /> {fetchError}
+          </div>
+        ) : (
+          <article className="px-6 py-8 max-w-3xl mx-auto">
+            {/* Best of Month badge */}
+            {blog.isBestOfMonth && (
+              <div className="mb-4">
+                <Badge className="bg-yellow-500/90 text-yellow-950 gap-1 text-sm px-3 py-1">
+                  <Trophy className="w-4 h-4" />
+                  Best Blog
+                </Badge>
+              </div>
+            )}
+
+            {/* Title */}
+            <h1 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">
+              {blog.title}
+            </h1>
+
+            {/* Author & Meta */}
+            <div className="flex flex-wrap items-center gap-4 mb-8 text-muted-foreground">
+              <div className="flex items-center gap-3">
+                <Avatar className="w-10 h-10">
+                  {authorPhoto ? (
+                    <AvatarImage src={authorPhoto} alt={authorName} />
+                  ) : null}
+                  <AvatarFallback>
+                    <User className="w-5 h-5" />
+                  </AvatarFallback>
+                </Avatar>
+                <div>
+                  <p className="font-medium text-foreground">{authorName}</p>
+                  <p className="text-sm">JGEC Alumni</p>
+                </div>
+              </div>
+
+              <Separator orientation="vertical" className="h-8 hidden sm:block" />
+
+              <div className="flex items-center gap-1">
+                <Calendar className="w-4 h-4" />
+                <span className="text-sm">{format(submittedDate, "MMMM d, yyyy")}</span>
+              </div>
+
+              <div className="flex items-center gap-1">
+                <Clock className="w-4 h-4" />
+                <span className="text-sm">{readingTime} min read</span>
+              </div>
+            </div>
+
+            {/* Featured Image */}
+            {featuredImage && (
+              <div className="relative aspect-video rounded-xl overflow-hidden mb-8 bg-secondary">
+                <NextImage
+                  src={featuredImage}
+                  alt={blog.title}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            )}
+
+            {/* Tags */}
+            {blog.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-8">
+                {blog.tags.map((tag) => (
+                  <Badge key={tag} variant="secondary">
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            )}
+
+            {/* Content */}
+            <div className="mb-12">
+              {fullBlog?.content ? (
+                <BlogRendererClient content={fullBlog.content} />
+              ) : null}
+            </div>
+
+            <Separator className="my-8" />
+
+            {/* Author bio card */}
+            <div className="bg-secondary/30 rounded-xl p-6">
+              <div className="flex items-start gap-4">
+                <Avatar className="w-14 h-14">
+                  {authorPhoto ? (
+                    <AvatarImage src={authorPhoto} alt={authorName} />
+                  ) : null}
+                  <AvatarFallback className="text-xl">
+                    <User className="w-7 h-7" />
+                  </AvatarFallback>
+                </Avatar>
+                <div>
+                  <h3 className="font-semibold text-lg mb-1">Written by {authorName}</h3>
+                  <p className="text-muted-foreground text-sm">JGEC Alumni Member</p>
+                </div>
+              </div>
+            </div>
+          </article>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function BlogsTab() {
   const [statusFilter, setStatusFilter] =
     useState<BlogStatusFilter>("pending_review");
@@ -886,6 +1079,7 @@ function BlogsTab() {
     blog: AdminBlog;
     action: "publish" | "reject" | "mark_best";
   } | null>(null);
+  const [previewBlog, setPreviewBlog] = useState<AdminBlog | null>(null);
   const refreshRef = useRef(0);
 
   const fetchBlogs = useCallback(async () => {
@@ -894,15 +1088,12 @@ function BlogsTab() {
     try {
       const { data } = await apiClient.get<{
         blogs: AdminBlog[];
-        pagination: {
-          page: number;
-          limit: number;
-          total: number;
-          totalPages: number;
-        };
+        total: number;
+        page: number;
+        totalPages: number;
       }>(`/api/admin/blogs?status=${statusFilter}&page=${page}&limit=15`);
       setBlogs(data.blogs);
-      setTotalPages(data.pagination.totalPages);
+      setTotalPages(data.totalPages);
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
         setError(err.response.data?.error || "Failed to load blogs.");
@@ -1028,7 +1219,7 @@ function BlogsTab() {
                     )}
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    By {blog.author?.name || "Unknown"} ({blog.author?.email || "N/A"})
+                    By {blog.author?.fullName || "Unknown"} ({blog.author?.email || "N/A"})
                   </p>
                   <p className="text-sm text-muted-foreground line-clamp-1">
                     {blog.excerpt}
@@ -1071,7 +1262,7 @@ function BlogsTab() {
 
                 {/* Actions */}
                 <div className="flex gap-2 flex-shrink-0 flex-wrap">
-                  {/* Preview link */}
+                  {/* Preview / View */}
                   {blog.status === "published" ? (
                     <a
                       href={`/blogs/${blog.slug}`}
@@ -1087,28 +1278,7 @@ function BlogsTab() {
                     <Button
                       size="sm"
                       variant="outline"
-                      onClick={async () => {
-                        const { data } = await apiClient.get(
-                          `/api/admin/blogs/${blog._id}/action`
-                        );
-                        // Open preview in new tab with blog data
-                        const w = window.open("", "_blank");
-                        if (w) {
-                          w.document.write(`
-                            <html>
-                              <head><title>Preview: ${blog.title}</title>
-                              <style>body{font-family:system-ui;max-width:800px;margin:40px auto;padding:0 20px;}</style>
-                              </head>
-                              <body>
-                                <h1>${blog.title}</h1>
-                                <p><em>${blog.excerpt}</em></p>
-                                <hr/>
-                                <div>${JSON.stringify(data.blog.content, null, 2)}</div>
-                              </body>
-                            </html>
-                          `);
-                        }
-                      }}
+                      onClick={() => setPreviewBlog(blog)}
                     >
                       <Eye className="w-3.5 h-3.5 mr-1" />
                       Preview
@@ -1190,6 +1360,13 @@ function BlogsTab() {
           action={modal.action}
           onClose={() => setModal(null)}
           onSuccess={handleActionSuccess}
+        />
+      )}
+
+      {previewBlog && (
+        <BlogPreviewModal
+          blog={previewBlog}
+          onClose={() => setPreviewBlog(null)}
         />
       )}
     </>

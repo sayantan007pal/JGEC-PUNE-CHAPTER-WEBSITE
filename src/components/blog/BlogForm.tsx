@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -19,6 +18,29 @@ import { toast } from "sonner";
 import { Loader2, X, Upload, Image as ImageIcon, Send, Save } from "lucide-react";
 import apiClient from "@/lib/axios";
 import Image from "next/image";
+
+const PRESET_TAGS = [
+  "Alumni Story",
+  "Career",
+  "Technology",
+  "Education",
+  "Research",
+  "Entrepreneurship",
+  "Travel",
+  "Culture",
+  "Sports",
+  "Volunteering",
+  "Leadership",
+  "Health & Wellness",
+  "Finance",
+  "Arts",
+  "Personal Growth",
+];
+
+// Normalize a saved tag back to its preset casing
+function normalizeTag(tag: string): string {
+  return PRESET_TAGS.find((p) => p.toLowerCase() === tag.toLowerCase()) ?? tag;
+}
 
 // Dynamic import to avoid SSR issues with Tiptap
 const TiptapEditor = dynamic(() => import("./TiptapEditor"), {
@@ -54,8 +76,7 @@ export default function BlogForm({ initialData, mode }: BlogFormProps) {
   const [title, setTitle] = useState(initialData?.title || "");
   const [content, setContent] = useState<object | null>(initialData?.content || null);
   const [excerpt, setExcerpt] = useState(initialData?.excerpt || "");
-  const [tags, setTags] = useState<string[]>(initialData?.tags || []);
-  const [tagInput, setTagInput] = useState("");
+  const [tags, setTags] = useState<string[]>((initialData?.tags || []).map(normalizeTag));
   const [featuredImageUrl, setFeaturedImageUrl] = useState(initialData?.featuredImageUrl || "");
   const [featuredImagePublicId, setFeaturedImagePublicId] = useState(
     initialData?.featuredImagePublicId || ""
@@ -68,27 +89,15 @@ export default function BlogForm({ initialData, mode }: BlogFormProps) {
     setContentImagePublicIds((prev) => [...prev, publicId]);
   }, []);
 
-  const handleAddTag = useCallback(() => {
-    const newTag = tagInput.trim().toLowerCase();
-    if (newTag && tags.length < 5 && !tags.includes(newTag)) {
-      setTags((prev) => [...prev, newTag]);
-      setTagInput("");
-    }
-  }, [tagInput, tags]);
-
-  const handleRemoveTag = useCallback((tagToRemove: string) => {
-    setTags((prev) => prev.filter((t) => t !== tagToRemove));
+  const handleToggleTag = useCallback((tag: string) => {
+    setTags((prev) =>
+      prev.includes(tag)
+        ? prev.filter((t) => t !== tag)
+        : prev.length < 5
+        ? [...prev, tag]
+        : prev
+    );
   }, []);
-
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        handleAddTag();
-      }
-    },
-    [handleAddTag]
-  );
 
   const handleFeaturedImageUpload = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -183,8 +192,8 @@ export default function BlogForm({ initialData, mode }: BlogFormProps) {
       router.refresh();
     } catch (error: unknown) {
       console.error("Save failed:", error);
-      const message =
-        error instanceof Error ? error.message : "Failed to save blog";
+      const axiosError = error as { response?: { data?: { error?: string } } };
+      const message = axiosError.response?.data?.error || "Failed to save blog";
       toast.error(message);
     } finally {
       setLoading(false);
@@ -224,7 +233,7 @@ export default function BlogForm({ initialData, mode }: BlogFormProps) {
       const { data: savedBlog } = await apiClient.post("/api/blogs", payload);
 
       // Then submit
-      await apiClient.post(`/api/blogs/submit/${savedBlog.blog._id}`);
+      await apiClient.post(`/api/blogs/submit/${savedBlog.blogId}`);
 
       toast.success("Blog submitted for review!");
       router.push("/dashboard/my-blogs");
@@ -379,42 +388,35 @@ export default function BlogForm({ initialData, mode }: BlogFormProps) {
         <CardHeader>
           <CardTitle>Tags</CardTitle>
           <CardDescription>
-            Add up to 5 tags to help readers find your blog
+            Select up to 5 tags to help readers find your blog
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-wrap gap-2 mb-3">
-            {tags.map((tag) => (
-              <Badge key={tag} variant="secondary" className="gap-1">
-                {tag}
-                {canEdit && (
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveTag(tag)}
-                    className="hover:text-destructive"
-                  >
-                    <X className="w-3 h-3" />
-                  </button>
-                )}
-              </Badge>
-            ))}
+          <div className="flex flex-wrap gap-2">
+            {PRESET_TAGS.map((tag) => {
+              const selected = tags.includes(tag);
+              const disabled = canEdit && !selected && tags.length >= 5;
+              return (
+                <button
+                  key={tag}
+                  type="button"
+                  disabled={!canEdit || disabled}
+                  onClick={() => canEdit && handleToggleTag(tag)}
+                  className={[
+                    "px-3 py-1 rounded-full text-sm border transition-colors",
+                    selected
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : "bg-background text-muted-foreground border-border hover:border-primary hover:text-primary",
+                    disabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer",
+                  ].join(" ")}
+                >
+                  {tag}
+                </button>
+              );
+            })}
           </div>
-          {canEdit && tags.length < 5 && (
-            <div className="flex gap-2">
-              <Input
-                value={tagInput}
-                onChange={(e) => setTagInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Type a tag and press Enter"
-                maxLength={30}
-              />
-              <Button type="button" variant="outline" onClick={handleAddTag}>
-                Add
-              </Button>
-            </div>
-          )}
-          <p className="text-xs text-muted-foreground mt-2">
-            {tags.length}/5 tags
+          <p className="text-xs text-muted-foreground mt-3">
+            {tags.length}/5 tags selected
           </p>
         </CardContent>
       </Card>
