@@ -15,7 +15,7 @@ const Footer = () => {
                 <Image src={logo} alt="Jalpaiguri Engineers Association" width={48} height={48} className="w-full h-full object-cover" />
               </div>
               <div>
-                <h3 className="font-serif font-bold text-lg">JALPAIGURI ENGINEERS ASSOCIATION</h3>
+                <h3 className="font-serif font-bold text-base leading-tight">Jalpaiguri Engineers<br />Association</h3>
                 <p className="text-primary-foreground/70 text-sm">Pune Chapter</p>
               </div>
             </div>

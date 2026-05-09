@@ -82,8 +82,8 @@ function LoginForm() {
                 <Image src={logo} alt="Jalpaiguri Engineers Association" width={56} height={56} className="w-full h-full object-cover" />
               </div>
               <div className="text-left">
-                <h1 className="font-serif font-bold text-xl text-foreground">JALPAIGURI ENGINEERS ASSOCIATION</h1>
-                <p className="text-muted-foreground text-sm">Pune Chapter</p>
+                <h1 className="font-serif font-bold text-sm text-foreground leading-tight">Jalpaiguri Engineers<br />Association</h1>
+                <p className="text-muted-foreground text-xs">Pune Chapter</p>
               </div>
             </Link>
           </div>

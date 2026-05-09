@@ -204,7 +204,7 @@ export default function AboutPage() {
             Ready to Reconnect?
           </h2>
           <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
-            Join hundreds of fellow alumni who have already made the JALPAIGURI ENGINEERS ASSOCIATION
+            Join hundreds of fellow alumni who have already made the Jalpaiguri Engineers 
             Association Pune Chapter their home away from home.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
