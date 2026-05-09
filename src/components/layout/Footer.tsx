@@ -1,5 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin } from "lucide-react";
+import logo from "@/assets/Jalpaiguri-engineers-association.jpg";
 
 const Footer = () => {
   return (
@@ -9,11 +11,11 @@ const Footer = () => {
           {/* About Section */}
           <div>
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center">
-                <span className="text-accent-foreground font-serif font-bold text-xl">JG</span>
+              <div className="w-12 h-12 rounded-full overflow-hidden">
+                <Image src={logo} alt="Jalpaiguri Engineers Association" width={48} height={48} className="w-full h-full object-cover" />
               </div>
               <div>
-                <h3 className="font-serif font-bold text-lg">JGEC Alumni</h3>
+                <h3 className="font-serif font-bold text-base leading-tight">Jalpaiguri Engineers<br />Association</h3>
                 <p className="text-primary-foreground/70 text-sm">Pune Chapter</p>
               </div>
             </div>
@@ -121,7 +123,7 @@ const Footer = () => {
       <div className="border-t border-white/10">
         <div className="container-custom px-4 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-primary-foreground/70">
-            <p>© 2026 JGEC Alumni Association Pune. All rights reserved.</p>
+            <p>© 2026 JALPAIGURI ENGINEERS ASSOCIATION. All rights reserved.</p>
             <div className="flex gap-6">
               <Link href="/privacy" className="hover:text-accent transition-colors">
                 Privacy Policy

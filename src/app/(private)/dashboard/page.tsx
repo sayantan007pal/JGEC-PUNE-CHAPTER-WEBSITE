@@ -23,7 +23,7 @@ import apiClient from "@/lib/axios";
 
 // export const metadata: Metadata = {
 //   title: "Dashboard",
-//   description: "Your JGEC Alumni Pune member dashboard",
+//   description: "Your JALPAIGURI ENGINEERS ASSOCIATION Pune member dashboard",
 // };
 
 interface DashboardUser {
@@ -210,7 +210,7 @@ export default function DashboardPage() {
               <p className="text-primary-foreground/70 mt-1">
                 {user?.designation && user?.currentOrLastOrganization
                   ? `${user.designation} at ${user.currentOrLastOrganization}`
-                  : "JGEC Alumni, Pune Chapter"}
+                  : "JALPAIGURI ENGINEERS ASSOCIATION, Pune Chapter"}
               </p>
               {user?.department && user?.passingYear && (
                 <p className="text-primary-foreground/50 text-sm mt-1">

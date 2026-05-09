@@ -6,7 +6,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Eye, EyeOff, LogIn, Loader2 } from "lucide-react";
+import Image from "next/image";
 import heroBanner from "@/assets/hero-banner.jpg";
+import logo from "@/assets/Jalpaiguri-engineers-association.jpg";
 import axios from "axios";
 import apiClient from "@/lib/axios";
 
@@ -57,15 +59,15 @@ function LoginForm() {
         />
         <div className="absolute inset-0 overlay-gradient" />
         <div className="relative z-10 flex flex-col justify-center items-center p-12 text-center">
-          <div className="w-20 h-20 rounded-full bg-accent flex items-center justify-center mb-6">
-            <span className="text-accent-foreground font-serif font-bold text-3xl">JG</span>
+          <div className="w-20 h-20 rounded-full overflow-hidden mb-6">
+            <Image src={logo} alt="Jalpaiguri Engineers Association" width={80} height={80} className="w-full h-full object-cover" />
           </div>
           <h1 className="text-4xl font-serif font-bold text-primary-foreground mb-4">
             Welcome Back!
           </h1>
           <p className="text-primary-foreground/80 text-lg max-w-md">
             Connect with your fellow alumni, access exclusive resources, and stay
-            updated with the latest from JGEC Alumni Association.
+            updated with the latest from JALPAIGURI ENGINEERS ASSOCIATION.
           </p>
         </div>
       </div>
@@ -76,12 +78,12 @@ function LoginForm() {
           {/* Mobile Logo */}
           <div className="lg:hidden text-center mb-8">
             <Link href="/" className="inline-flex items-center gap-3">
-              <div className="w-14 h-14 rounded-full bg-accent flex items-center justify-center">
-                <span className="text-accent-foreground font-serif font-bold text-2xl">JG</span>
+              <div className="w-14 h-14 rounded-full overflow-hidden">
+                <Image src={logo} alt="Jalpaiguri Engineers Association" width={56} height={56} className="w-full h-full object-cover" />
               </div>
               <div className="text-left">
-                <h1 className="font-serif font-bold text-xl text-foreground">JGEC Alumni</h1>
-                <p className="text-muted-foreground text-sm">Pune Chapter</p>
+                <h1 className="font-serif font-bold text-sm text-foreground leading-tight">Jalpaiguri Engineers<br />Association</h1>
+                <p className="text-muted-foreground text-xs">Pune Chapter</p>
               </div>
             </Link>
           </div>

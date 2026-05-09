@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
     await sendWelcomeEmail(user.email, user.fullName);
 
     return NextResponse.json(
-      { message: "Email verified successfully! Welcome to JGEC Alumni Pune." },
+      { message: "Email verified successfully! Welcome to JALPAIGURI ENGINEERS ASSOCIATION Pune." },
       { status: 200 }
     );
   } catch (error) {

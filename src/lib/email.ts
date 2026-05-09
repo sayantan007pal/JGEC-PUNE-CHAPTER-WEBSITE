@@ -39,12 +39,12 @@ function emailWrapper(content: string): string {
     <body>
       <div class="container">
         <div class="header">
-          <h1>JGEC Alumni Association</h1>
+          <h1>JALPAIGURI ENGINEERS ASSOCIATION</h1>
           <p>Pune Chapter</p>
         </div>
         ${content}
         <div class="footer">
-          <p>JGEC Alumni Association, Pune Chapter</p>
+          <p>JALPAIGURI ENGINEERS ASSOCIATION, Pune Chapter</p>
           <p>Jalpaiguri Government Engineering College</p>
           <p>&copy; ${new Date().getFullYear()} All rights reserved.</p>
         </div>
@@ -70,7 +70,7 @@ export async function sendVerificationEmail(
   const html = emailWrapper(`
     <div class="body">
       <h2>Verify Your Email Address</h2>
-      <p>Welcome to the JGEC Alumni Association, Pune Chapter! Please use the verification code below to complete your registration:</p>
+      <p>Welcome to the JALPAIGURI ENGINEERS ASSOCIATION, Pune Chapter! Please use the verification code below to complete your registration:</p>
       <div class="otp-box">
         <div class="otp-code">${otp}</div>
       </div>
@@ -82,9 +82,9 @@ export async function sendVerificationEmail(
   `);
 
   await transporter.sendMail({
-    from: `"JGEC Alumni Pune" <${process.env.EMAIL_USER}>`,
+    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: "Verify Your Email - JGEC Alumni Pune",
+    subject: "Verify Your Email - JALPAIGURI ENGINEERS ASSOCIATION",
     html,
   });
 }
@@ -96,7 +96,7 @@ export async function sendPasswordResetEmail(
   const html = emailWrapper(`
     <div class="body">
       <h2>Reset Your Password</h2>
-      <p>We received a request to reset the password for your JGEC Alumni Pune account. Click the button below to set a new password:</p>
+      <p>We received a request to reset the password for your JALPAIGURI ENGINEERS ASSOCIATION Pune account. Click the button below to set a new password:</p>
       <div style="text-align: center;">
         <a href="${resetUrl}" class="btn">Reset Password</a>
       </div>
@@ -110,9 +110,9 @@ export async function sendPasswordResetEmail(
   `);
 
   await transporter.sendMail({
-    from: `"JGEC Alumni Pune" <${process.env.EMAIL_USER}>`,
+    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: "Reset Your Password - JGEC Alumni Pune",
+    subject: "Reset Your Password - JALPAIGURI ENGINEERS ASSOCIATION",
     html,
   });
 }
@@ -124,8 +124,8 @@ export async function sendWelcomeEmail(
   const html = emailWrapper(`
     <div class="body">
       <h2>Welcome to the Family, ${fullName}! 🎉</h2>
-      <p>Congratulations! Your email has been verified and your JGEC Alumni Pune account is now active.</p>
-      <p>We're thrilled to have you as part of our growing community of JGEC alumni in Pune. Together, we're building bridges, creating opportunities, and celebrating our shared legacy.</p>
+      <p>Congratulations! Your email has been verified and your JALPAIGURI ENGINEERS ASSOCIATION account is now active.</p>
+      <p>We're thrilled to have you as part of our growing community of JALPAIGURI ENGINEERS ASSOCIATION alumni in Pune. Together, we're building bridges, creating opportunities, and celebrating our shared legacy.</p>
       <hr class="divider">
       <h2>Join Our WhatsApp Group 💬</h2>
       <p>Stay connected with fellow alumni! Join our official WhatsApp group to get the latest updates on events, meetups, and opportunities:</p>
@@ -147,9 +147,9 @@ export async function sendWelcomeEmail(
   `);
 
   await transporter.sendMail({
-    from: `"JGEC Alumni Pune" <${process.env.EMAIL_USER}>`,
+    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: "Welcome to JGEC Alumni Pune! 🎓",
+    subject: "Welcome to JALPAIGURI ENGINEERS ASSOCIATION! 🎓",
     html,
   });
 }
@@ -217,7 +217,7 @@ export async function sendDonationNotificationEmailToAdmins(
   `);
 
   await transporter.sendMail({
-    from: `"JGEC Alumni Pune" <${process.env.EMAIL_USER}>`,
+    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
     to: adminEmails,
     subject: `New Donation Submitted: ₹${payload.amount}`,
     html,
@@ -287,7 +287,7 @@ export async function sendDonationProofReceivedEmailToAdmins(
   `);
 
   await transporter.sendMail({
-    from: `"JGEC Alumni Pune" <${process.env.EMAIL_USER}>`,
+    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
     to: adminEmails,
     subject: `[Action Required] New Donation Proof — ₹${payload.amount.toLocaleString("en-IN")}`,
     html,
@@ -335,9 +335,9 @@ export async function sendDonationProofReceivedEmailToDonor(
   `);
 
   await transporter.sendMail({
-    from: `"JGEC Alumni Pune" <${process.env.EMAIL_USER}>`,
+    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: "We received your donation proof — JGEC Alumni Pune",
+    subject: "We received your donation proof — JALPAIGURI ENGINEERS ASSOCIATION",
     html,
   });
 }
@@ -379,7 +379,7 @@ export async function sendDonationVerifiedEmail(
   `);
 
   await transporter.sendMail({
-    from: `"JGEC Alumni Pune" <${process.env.EMAIL_USER}>`,
+    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
     to: email,
     subject: `Your donation of ₹${payload.amount.toLocaleString("en-IN")} is verified! 🎉`,
     html,
@@ -432,9 +432,9 @@ export async function sendDonationRejectedEmail(
   `);
 
   await transporter.sendMail({
-    from: `"JGEC Alumni Pune" <${process.env.EMAIL_USER}>`,
+    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: "Your donation proof needs resubmission — JGEC Alumni Pune",
+    subject: "Your donation proof needs resubmission — JALPAIGURI ENGINEERS ASSOCIATION",
     html,
   });
 }

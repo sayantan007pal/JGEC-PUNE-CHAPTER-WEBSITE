@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "JGEC Alumni Association Pune | Official Website",
+  title: "JALPAIGURI ENGINEERS ASSOCIATION | Official Website",
   description: "Join the network of Jalpaiguri Government Engineering College alumni in Pune. Stay updated with events, mentorship programs, and success stories.",
 };
 
@@ -63,7 +63,7 @@ const upcomingEvents = [
     date: "March 15, 2026",
     location: "Pune Convention Center",
     image: event1,
-    description: "Join us for the biggest gathering of JGEC alumni this year.",
+    description: "Join us for the biggest gathering of JALPAIGURI ENGINEERS ASSOCIATION this year.",
   },
   {
     title: "Career Mentorship Program",
@@ -100,7 +100,7 @@ export default function HomePage() {
             </div>
             
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold text-primary-foreground mb-6 leading-tight">
-              JGEC Alumni Association
+              Jalpaiguri Engineers Association
               <span className="block text-accent">Pune Chapter</span>
             </h1>
             
@@ -166,7 +166,7 @@ export default function HomePage() {
                 A Legacy of Excellence and Brotherhood
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                The JGEC Alumni Association Pune Chapter brings together graduates from 
+                The JALPAIGURI ENGINEERS ASSOCIATION Pune Chapter brings together graduates from 
                 Jalpaiguri Government Engineering College who have made Pune their home. 
                 We are dedicated to fostering connections, supporting current students, 
                 and celebrating the achievements of our members.
@@ -330,7 +330,7 @@ export default function HomePage() {
             Join Our Growing Community
           </h2>
           <p className="text-primary-foreground/80 text-lg mb-8 max-w-2xl mx-auto">
-            Become a part of the JGEC Alumni Association and stay connected with 
+            Become a part of the JALPAIGURI ENGINEERS ASSOCIATION and stay connected with 
             your batchmates, access exclusive events, and contribute to our alma mater.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

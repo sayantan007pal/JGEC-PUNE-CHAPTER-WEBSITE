@@ -17,7 +17,7 @@ const events = [
     time: "6:00 PM onwards",
     location: "Pune Convention Center",
     image: event1,
-    description: "Join us for the biggest gathering of JGEC alumni this year. Network with fellow alumni, enjoy cultural programs, and relive your college memories.",
+    description: "Join us for the biggest gathering of JALPAIGURI ENGINEERS ASSOCIATION this year. Network with fellow alumni, enjoy cultural programs, and relive your college memories.",
     category: "Reunion",
     attendees: 250,
     featured: true,

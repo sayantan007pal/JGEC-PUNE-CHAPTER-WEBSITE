@@ -6,7 +6,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Mail, Loader2, CheckCircle2, RefreshCw } from "lucide-react";
+import Image from "next/image";
 import heroBanner from "@/assets/hero-banner.jpg";
+import logo from "@/assets/Jalpaiguri-engineers-association.jpg";
 import axios from "axios";
 import apiClient from "@/lib/axios";
 
@@ -83,7 +85,7 @@ function VerifyEmailContent() {
           Email Verified! 🎉
         </h2>
         <p className="text-muted-foreground mb-2">
-          Welcome to JGEC Alumni Pune! A welcome email with the WhatsApp group link has been
+          Welcome to JALPAIGURI ENGINEERS ASSOCIATION Pune! A welcome email with the WhatsApp group link has been
           sent to your inbox.
         </p>
         <p className="text-sm text-muted-foreground">
@@ -176,14 +178,14 @@ export default function VerifyEmailPage() {
         />
         <div className="absolute inset-0 overlay-gradient" />
         <div className="relative z-10 flex flex-col justify-center items-center p-12 text-center">
-          <div className="w-20 h-20 rounded-full bg-accent flex items-center justify-center mb-6">
-            <span className="text-accent-foreground font-serif font-bold text-3xl">JG</span>
+          <div className="w-20 h-20 rounded-full overflow-hidden mb-6">
+            <Image src={logo} alt="Jalpaiguri Engineers Association" width={80} height={80} className="w-full h-full object-cover" />
           </div>
           <h1 className="text-4xl font-serif font-bold text-primary-foreground mb-4">
             Almost There!
           </h1>
           <p className="text-primary-foreground/80 text-lg max-w-md">
-            Just one more step to join the JGEC Alumni community in Pune.
+            Just one more step to join the JALPAIGURI ENGINEERS ASSOCIATION community in Pune.
           </p>
         </div>
       </div>
