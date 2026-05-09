@@ -25,37 +25,29 @@ const stats = [
 
 const achievements = [
   {
-    name: "Rajesh Kumar",
-    role: "CEO, Tech Innovations Pvt Ltd",
-    batch: "1995",
+    name: "Shri Adip Roy",
+    role: "Faculty & Executive Coach | Former IBM Leader",
+    batch: "1980",
     image: alumni1,
-    quote: "JGEC gave me the foundation to build my dreams. The alumni network has been invaluable.",
+    quote: "Over 35 years at IBM, Fujitsu ICIM, and beyond — building teams, scaling businesses, and earning IBM's Person of the Year. Today, mentoring the next generation of leaders from Pune's top management institutes.",
   },
   {
-    name: "Dr. Priya Sharma",
-    role: "Director, Engineering Research Institute",
-    batch: "2002",
+    name: "Cdr. Pradeep Bandyopadhyay",
+    role: "Director of Capital Projects | Naval Veteran",
+    batch: "1978",
     image: alumni2,
-    quote: "The values instilled at JGEC continue to guide my professional journey.",
+    quote: "From warship operations in the Indian Navy to leading capital projects in Canada's energy sector — a journey across continents, industries, and decades, grounded in JGEC's engineering values.",
   },
   {
-    name: "Amit Patel",
-    role: "Founder, StartupHub",
-    batch: "2010",
+    name: "Brig. Pushpal De, Retd.",
+    role: "Brigadier (Retd.), Indian Army | Chief Engineer",
+    batch: "1965",
     image: alumni3,
-    quote: "The entrepreneurial spirit I developed at JGEC helped me take the leap of faith.",
-  },
-  {
-    name: "Amit Patel", // Duplicate key in original, keeping as is but React key might complain
-    role: "Founder, StartupHub",
-    batch: "2010",
-    image: alumni3,
-    quote: "The entrepreneurial spirit I developed at JGEC helped me take the leap of faith.",
+    quote: "Commissioned in 1969, served across Army, Navy, and Air Force for 36+ years. Led iconic national projects including the Naval Academy at Ezhimala. His career is a living example of engineering in service of the nation.",
   },
 ];
 
-// Deduplicate achievements based on unique content for map key
-const uniqueAchievements = achievements.slice(0, 3); // Based on original file content, standard 3 items. Wait, original file had 3 items. My verify showed 3.
+const uniqueAchievements = achievements;
 
 const upcomingEvents = [
   {

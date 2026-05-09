@@ -10,51 +10,56 @@ import alumni3 from "@/assets/Pushpal-da.jpg";
 const alumniProfiles = [
   {
     id: 1,
-    name: "Rajesh Kumar",
-    designation: "CEO & Founder",
-    company: "Tech Innovations Pvt Ltd",
-    batch: "1995",
-    branch: "Computer Science",
+    name: "Shri Adip Roy",
+    designation: "Faculty & Executive Coach",
+    company: "Management Institutes, Pune",
+    batch: "1980",
+    branch: "Electrical Engineering",
     image: alumni1,
-    bio: "Rajesh founded Tech Innovations in 2005 and has grown it into a multinational company with over 5000 employees. His journey from a small-town boy to a tech mogul is an inspiration to many.",
+    bio: "Shri Adip Nath Roy is a seasoned leader whose career spans over 35 years at the intersection of technology, business, and people development. He has held senior leadership roles at some of the most respected names in India's IT services industry — IBM, Fujitsu ICIM, PCS Technology, and PCL — building and scaling large, complex service organizations from the ground up. At IBM, he led an 800-member service division with revenues of $25 million, earning the prestigious IBM \"Person of the Year\" award in recognition of his extraordinary impact. His ability to inspire teams, navigate organizational complexity, and deliver results made him one of the most sought-after leaders in the industry. After three decades in the corporate world, Shri Roy chose a path of giving back. Transitioning into academia and executive coaching, he joined the faculty of leading management institutes in Pune, where he has since mentored over 150 senior executives from across India. His sessions are known for their rare combination of real-world insight and structured thinking. A graduate in Electrical Engineering with an MBA, his journey from JGEC to the boardroom — and ultimately to the classroom — is a testament to the enduring value of a strong technical foundation paired with lifelong curiosity.",
     achievements: [
-      "Forbes 40 Under 40 (2015)",
-      "Entrepreneur of the Year - CII (2018)",
-      "Patent holder - 15+ technology patents"
+      "IBM \"Person of the Year\" Award",
+      "Built and led an 800-member, $25 million service division at IBM",
+      "35+ year career across IBM, Fujitsu ICIM, PCS Technology, and PCL",
+      "Mentored 150+ senior executives across India as a faculty member in Pune"
     ],
-    quote: "JGEC taught me that with determination and hard work, any dream is achievable. The foundation laid here has been instrumental in my success."
+    quote: "Leadership is not about titles. It's about impact — and every experience, from the IBM boardroom to the classroom, has only deepened that conviction."
   },
   {
     id: 2,
-    name: "Dr. Priya Sharma",
-    designation: "Director",
-    company: "Engineering Research Institute",
-    batch: "2002",
-    branch: "Electrical Engineering",
+    name: "Cdr. Pradeep Bandyopadhyay",
+    designation: "Director of Capital Projects",
+    company: "American Energy Company (Retd.)",
+    batch: "1978",
+    branch: "Mechanical Engineering",
     image: alumni2,
-    bio: "Dr. Priya is a renowned researcher in renewable energy systems. She has published over 50 research papers and holds 8 patents in solar energy technology.",
+    bio: "Commander Pradeep Bandyopadhyay's career is a remarkable story of reinvention across continents, industries, and disciplines. A Mechanical Engineer by training and an officer of the Indian Navy, he served from 1980 to 2002 in a wide range of demanding roles — from warship operations and maintenance to engineering training and the oversight of naval construction projects. He also represented India as part of the diplomatic mission at the Indian Embassy in Moscow, bringing an international dimension to an already diverse career. His naval service was distinguished by technical rigor, adaptability, and an unwavering commitment to operational excellence. Following his retirement from the Navy in 2002, Commander Bandyopadhyay made a bold transition to Canada, where he entered the natural gas processing industry. He quickly rose through the ranks, first serving as Principal Mechanical Engineer and later as Director of Capital Projects at a leading American energy company — a role that placed him at the helm of major infrastructure investments. He retired from this position in 2023 after more than two decades of service. Holding advanced qualifications in Defence & Strategic Studies and Marine Engineering, his life is a compelling example of how technical mastery, discipline, and intellectual curiosity can chart a course that transcends borders.",
     achievements: [
-      "National Science Award (2020)",
-      "Women in STEM Leadership Award (2019)",
-      "UNESCO Recognition for Clean Energy Research"
+      "Served in the Indian Navy from 1980 to 2002 across operations, maintenance, and training",
+      "Diplomatic service at the Indian Embassy, Moscow",
+      "Principal Mechanical Engineer in Canada's natural gas processing industry",
+      "Director of Capital Projects at a leading American energy company (Retd. 2023)"
     ],
-    quote: "The rigorous academic environment at JGEC prepared me for the challenges of research. I'm proud to be an alumna."
+    quote: "A career that crossed oceans and industries was made possible by one thing: the engineering discipline and rigour that began at JGEC."
   },
   {
     id: 3,
-    name: "Amit Patel",
-    designation: "Founder & CTO",
-    company: "StartupHub Ventures",
-    batch: "2010",
-    branch: "Information Technology",
+    name: "Brig. Pushpal De, Retd.",
+    designation: "Chief Engineer | Brigadier (Retd.)",
+    company: "Indian Army",
+    batch: "1965",
+    branch: "Civil Engineering",
     image: alumni3,
-    bio: "Amit is a serial entrepreneur who has founded three successful startups. His current venture, StartupHub, has helped launch over 200 startups across India.",
+    bio: "Brigadier Pushpal De's life is one of extraordinary service — to the nation, to the profession of engineering, and to the community. A distinguished alumnus of JGEC, he was commissioned into the Indian Army's Corps of Engineers in 1969 and went on to serve the nation for over 36 years, not just in the Army but also in the Indian Navy and Air Force, making him one of the rare officers to have served across all three defence services. His operational record is equally impressive. He played active roles in the 1971 Liberation War and the Kargil Operation of 1999 — two of India's most defining military chapters — demonstrating both courage in the field and engineering acumen under pressure. In the latter stages of his career, he served as Chief Engineer of the Southern Naval Command and the Southern Army Command, overseeing large-scale infrastructure projects of national strategic importance. Among the most notable of these were the Naval Academy at Ezhimala — a landmark institution — and the Command Hospital Complex in Pune. His academic credentials are equally formidable: an M.Tech from IIT Delhi and an MBA from PUMBA, Pune. After retiring from active military service, Brigadier De channelled his expertise into Pune's real estate sector, successfully completing around 40 projects, and also served as Dean of VKIT, shaping the next generation of engineers. His journey reflects a rare synthesis of military honour, engineering excellence, and civic contribution.",
     achievements: [
-      "Top 30 Under 30 - Business Today (2018)",
-      "Best Startup Mentor Award (2021)",
-      "Raised $50M in venture funding"
+      "Commissioned into the Corps of Engineers, Indian Army, in 1969; served 36+ years across Army, Navy, and Air Force",
+      "Active participant in the 1971 Liberation War and the Kargil Operation (1999)",
+      "Chief Engineer, Southern Naval Command and Southern Army Command",
+      "Led construction of the Naval Academy, Ezhimala and Command Hospital Complex, Pune",
+      "M.Tech — IIT Delhi | MBA — PUMBA | Dean, VKIT",
+      "Completed ~40 real estate projects in Pune post-retirement"
     ],
-    quote: "The entrepreneurial spirit I developed during my time at JGEC gave me the courage to take risks and innovate."
+    quote: "The nation asked, and I served. JGEC gave me the foundation to answer that call with engineering excellence and unflinching dedication."
   },
   {
     id: 4,
