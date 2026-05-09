@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
     default: "JALPAIGURI ENGINEERS ASSOCIATION | Jalpaiguri Government Engineering College",
-    template: "%s | JGEC Alumni Pune",
+    template: "%s | JALPAIGURI ENGINEERS ASSOCIATION",
   },
   description: "Official website of JALPAIGURI ENGINEERS ASSOCIATION Pune Chapter. Connect with fellow graduates, attend events, and grow your professional network.",
   keywords: ["JGEC", "Alumni", "Pune", "Jalpaiguri Government Engineering College", "Engineering", "Community", "Networking"],

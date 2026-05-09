@@ -13,7 +13,7 @@ const Footer = () => {
                 <span className="text-accent-foreground font-serif font-bold text-xl">JG</span>
               </div>
               <div>
-                <h3 className="font-serif font-bold text-lg">JGEC Alumni</h3>
+                <h3 className="font-serif font-bold text-lg">JALPAIGURI ENGINEERS ASSOCIATION</h3>
                 <p className="text-primary-foreground/70 text-sm">Pune Chapter</p>
               </div>
             </div>

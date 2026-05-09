@@ -63,7 +63,7 @@ const upcomingEvents = [
     date: "March 15, 2026",
     location: "Pune Convention Center",
     image: event1,
-    description: "Join us for the biggest gathering of JGEC alumni this year.",
+    description: "Join us for the biggest gathering of JALPAIGURI ENGINEERS ASSOCIATION this year.",
   },
   {
     title: "Career Mentorship Program",
@@ -100,7 +100,7 @@ export default function HomePage() {
             </div>
             
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold text-primary-foreground mb-6 leading-tight">
-              JALPAIGURI ENGINEERS ASSOCIATION
+              Jalpaiguri Engineers Association
               <span className="block text-accent">Pune Chapter</span>
             </h1>
             

@@ -245,7 +245,7 @@ export default function SignupPage() {
                 <span className="text-accent-foreground font-serif font-bold text-xl">JG</span>
               </div>
               <div className="text-left">
-                <h1 className="font-serif font-bold text-lg text-foreground">JGEC Alumni</h1>
+                <h1 className="font-serif font-bold text-lg text-foreground">JALPAIGURI ENGINEERS ASSOCIATION</h1>
                 <p className="text-muted-foreground text-xs">Pune Chapter</p>
               </div>
             </Link>

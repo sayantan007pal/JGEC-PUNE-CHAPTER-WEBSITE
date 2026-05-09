@@ -85,7 +85,7 @@ const Header = () => {
             </div>
             <div className="hidden sm:block">
               <h1 className="text-primary-foreground font-serif font-bold text-lg leading-tight">
-                JGEC Alumni
+                Jalpaiguri Engineers Association
               </h1>
               <p className="text-primary-foreground/70 text-xs">Pune Chapter</p>
             </div>

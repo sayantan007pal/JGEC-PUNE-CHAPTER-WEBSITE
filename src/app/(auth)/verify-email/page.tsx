@@ -83,7 +83,7 @@ function VerifyEmailContent() {
           Email Verified! 🎉
         </h2>
         <p className="text-muted-foreground mb-2">
-          Welcome to JGEC Alumni Pune! A welcome email with the WhatsApp group link has been
+          Welcome to JALPAIGURI ENGINEERS ASSOCIATION Pune! A welcome email with the WhatsApp group link has been
           sent to your inbox.
         </p>
         <p className="text-sm text-muted-foreground">
@@ -183,7 +183,7 @@ export default function VerifyEmailPage() {
             Almost There!
           </h1>
           <p className="text-primary-foreground/80 text-lg max-w-md">
-            Just one more step to join the JGEC Alumni community in Pune.
+            Just one more step to join the JALPAIGURI ENGINEERS ASSOCIATION community in Pune.
           </p>
         </div>
       </div>
