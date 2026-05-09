@@ -12,6 +12,7 @@ interface BlogRendererProps {
 
 export default function BlogRenderer({ content }: BlogRendererProps) {
   const editor = useEditor({
+    immediatelyRender: false,
     extensions: [
       StarterKit.configure({
         heading: {
