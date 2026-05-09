@@ -5,11 +5,14 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { MapPin, Phone, Mail, Clock, Send, CheckCircle2 } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Send, CheckCircle2, Loader2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import heroBanner from "@/assets/hero-banner.jpg";
 
 export default function ContactPage() {
+  const { toast } = useToast();
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -17,20 +20,60 @@ export default function ContactPage() {
     batch: "",
     subject: "",
     message: "",
+    website: "", // Honeypot field - should remain empty
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate form submission
-    setFormSubmitted(true);
-    setTimeout(() => {
-      setFormSubmitted(false);
-      setFormData({ name: "", email: "", phone: "", batch: "", subject: "", message: "" });
-    }, 3000);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to send message");
+      }
+
+      setFormSubmitted(true);
+      toast({
+        title: "Message sent!",
+        description: "Thank you for contacting us. We'll get back to you soon.",
+      });
+      
+      // Reset form after a delay
+      setTimeout(() => {
+        setFormSubmitted(false);
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          batch: "",
+          subject: "",
+          message: "",
+          website: "",
+        });
+      }, 3000);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -154,6 +197,7 @@ export default function ContactPage() {
                           onChange={handleChange}
                           placeholder="Your full name"
                           required
+                          disabled={isLoading}
                         />
                       </div>
                       <div>
@@ -167,6 +211,7 @@ export default function ContactPage() {
                           onChange={handleChange}
                           placeholder="your.email@example.com"
                           required
+                          disabled={isLoading}
                         />
                       </div>
                     </div>
@@ -182,6 +227,7 @@ export default function ContactPage() {
                           value={formData.phone}
                           onChange={handleChange}
                           placeholder="+91 98765 43210"
+                          disabled={isLoading}
                         />
                       </div>
                       <div>
@@ -194,6 +240,7 @@ export default function ContactPage() {
                           value={formData.batch}
                           onChange={handleChange}
                           placeholder="e.g., 2005"
+                          disabled={isLoading}
                         />
                       </div>
                     </div>
@@ -209,6 +256,7 @@ export default function ContactPage() {
                         onChange={handleChange}
                         placeholder="What is this regarding?"
                         required
+                        disabled={isLoading}
                       />
                     </div>
 
@@ -223,12 +271,46 @@ export default function ContactPage() {
                         placeholder="Your message..."
                         rows={5}
                         required
+                        maxLength={5000}
+                        disabled={isLoading}
+                      />
+                      <p className="text-xs text-muted-foreground mt-1 text-right">
+                        {formData.message.length}/5000
+                      </p>
+                    </div>
+
+                    {/* Honeypot field - hidden from users, visible to bots */}
+                    <div className="hidden" aria-hidden="true">
+                      <label htmlFor="website">Website</label>
+                      <Input
+                        type="text"
+                        id="website"
+                        name="website"
+                        value={formData.website}
+                        onChange={handleChange}
+                        tabIndex={-1}
+                        autoComplete="off"
                       />
                     </div>
 
-                    <Button type="submit" variant="default" size="lg" className="w-full md:w-auto">
-                      Send Message
-                      <Send className="w-4 h-4" />
+                    <Button 
+                      type="submit" 
+                      variant="default" 
+                      size="lg" 
+                      className="w-full md:w-auto"
+                      disabled={isLoading}
+                    >
+                      {isLoading ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          Send Message
+                          <Send className="w-4 h-4" />
+                        </>
+                      )}
                     </Button>
                   </form>
                 )}

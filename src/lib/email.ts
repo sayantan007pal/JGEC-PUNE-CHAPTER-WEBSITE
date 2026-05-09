@@ -599,6 +599,103 @@ export async function sendBlogRejectedToAuthor(
   });
 }
 
+// ─── Contact Form Email Functions ──────────────────────────────────────────────
+
+interface ContactNotificationPayload {
+  senderName: string;
+  senderEmail: string;
+  senderPhone?: string;
+  senderBatch?: string;
+  subject: string;
+  message: string;
+  messageId: string;
+}
+
+export async function sendContactNotificationToAdmins(
+  adminEmails: string[],
+  payload: ContactNotificationPayload
+): Promise<void> {
+  if (adminEmails.length === 0) return;
+
+  const senderName = escapeHtml(payload.senderName);
+  const senderEmail = escapeHtml(payload.senderEmail);
+  const senderPhone = escapeHtml(payload.senderPhone || "Not provided");
+  const senderBatch = escapeHtml(payload.senderBatch || "Not provided");
+  const subject = escapeHtml(payload.subject);
+  const message = escapeHtml(payload.message);
+  const dashboardUrl = `${process.env.NEXT_PUBLIC_BASE_URL || ""}/dashboard/admin`;
+
+  const html = emailWrapper(`
+    <div class="body">
+      <h2>📬 New Contact Message</h2>
+      <p>Someone has reached out through the contact form on the website.</p>
+      <table style="width:100%; border-collapse:collapse; margin:16px 0;">
+        <tbody>
+          <tr><td style="padding:8px;border:1px solid #e9ecef;"><strong>Name</strong></td><td style="padding:8px;border:1px solid #e9ecef;">${senderName}</td></tr>
+          <tr><td style="padding:8px;border:1px solid #e9ecef;"><strong>Email</strong></td><td style="padding:8px;border:1px solid #e9ecef;">${senderEmail}</td></tr>
+          <tr><td style="padding:8px;border:1px solid #e9ecef;"><strong>Phone</strong></td><td style="padding:8px;border:1px solid #e9ecef;">${senderPhone}</td></tr>
+          <tr><td style="padding:8px;border:1px solid #e9ecef;"><strong>Batch</strong></td><td style="padding:8px;border:1px solid #e9ecef;">${senderBatch}</td></tr>
+          <tr><td style="padding:8px;border:1px solid #e9ecef;"><strong>Subject</strong></td><td style="padding:8px;border:1px solid #e9ecef;">${subject}</td></tr>
+        </tbody>
+      </table>
+      <div class="highlight">
+        <p style="margin:0 0 8px;"><strong>Message:</strong></p>
+        <p style="margin:0; white-space: pre-wrap;">${message}</p>
+      </div>
+      <div style="text-align:center;">
+        <a href="${dashboardUrl}" class="btn">View in Admin Dashboard</a>
+      </div>
+    </div>
+  `);
+
+  await transporter.sendMail({
+    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
+    to: adminEmails,
+    subject: `[Contact Form] ${subject}`,
+    html,
+  });
+}
+
+interface ContactReplyPayload {
+  senderName: string;
+  originalSubject: string;
+  originalMessage: string;
+  replyMessage: string;
+}
+
+export async function sendContactReplyToUser(
+  email: string,
+  payload: ContactReplyPayload
+): Promise<void> {
+  const senderName = escapeHtml(payload.senderName);
+  const originalSubject = escapeHtml(payload.originalSubject);
+  const originalMessage = escapeHtml(payload.originalMessage);
+  const replyMessage = escapeHtml(payload.replyMessage);
+
+  const html = emailWrapper(`
+    <div class="body">
+      <h2>Re: ${originalSubject}</h2>
+      <p>Dear ${senderName},</p>
+      <p>Thank you for reaching out to us. Here is our response to your inquiry:</p>
+      <div class="highlight">
+        <p style="margin:0; white-space: pre-wrap;">${replyMessage}</p>
+      </div>
+      <hr class="divider">
+      <p style="font-size:13px; color:#6c757d;"><strong>Your original message:</strong></p>
+      <p style="font-size:13px; color:#6c757d; white-space: pre-wrap;">${originalMessage}</p>
+      <hr class="divider">
+      <p>If you have any further questions, feel free to reply to this email or contact us through our website.</p>
+    </div>
+  `);
+
+  await transporter.sendMail({
+    from: `"Jalpaiguri Engineers Association" <${process.env.EMAIL_USER}>`,
+    to: email,
+    subject: `Re: ${payload.originalSubject}`,
+    html,
+  });
+}
+
 interface BlogBestOfMonthPayload {
   authorName: string;
   blogTitle: string;

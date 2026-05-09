@@ -36,6 +36,11 @@ import {
   PenLine,
   User,
   Calendar,
+  MessageSquare,
+  Mail,
+  Send,
+  Phone,
+  GraduationCap,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { formatDistanceToNow, format } from "date-fns";
@@ -1373,11 +1378,477 @@ function BlogsTab() {
   );
 }
 
-type Tab = "donations" | "blogs" | "analytics";
+// ─── Messages Tab ─────────────────────────────────────────────────────────────
+
+interface AdminContactMessage {
+  _id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  batch?: string;
+  subject: string;
+  message: string;
+  status: string;
+  replyMessage?: string;
+  repliedBy?: { _id: string; fullName: string; email: string };
+  repliedAt?: string;
+  createdAt: string;
+}
+
+const MESSAGE_STATUS_FILTERS = ["all", "unread", "read", "resolved"] as const;
+type MessageStatusFilter = (typeof MESSAGE_STATUS_FILTERS)[number];
+
+function MessageStatusBadge({ status }: { status: string }) {
+  const map: Record<string, { label: string; className: string }> = {
+    unread: {
+      label: "Unread",
+      className: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
+    },
+    read: {
+      label: "Read",
+      className:
+        "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
+    },
+    resolved: {
+      label: "Resolved",
+      className:
+        "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400",
+    },
+  };
+  const cfg = map[status] ?? {
+    label: status,
+    className: "bg-secondary text-muted-foreground",
+  };
+  return (
+    <span
+      className={`inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-full ${cfg.className}`}
+    >
+      {cfg.label}
+    </span>
+  );
+}
+
+interface MessageModalProps {
+  message: AdminContactMessage;
+  onClose: () => void;
+  onSuccess: () => void;
+}
+
+function MessageModal({ message, onClose, onSuccess }: MessageModalProps) {
+  const [replyText, setReplyText] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const sendReply = async () => {
+    if (!replyText.trim()) return;
+    setLoading(true);
+    setError("");
+    try {
+      await apiClient.post(`/api/admin/contact/${message._id}/reply`, {
+        replyMessage: replyText.trim(),
+      });
+      onSuccess();
+      onClose();
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
+        setError(err.response.data?.error || "Failed to send reply.");
+      } else {
+        setError("Failed to send reply.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const markResolved = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      await apiClient.patch(`/api/admin/contact/${message._id}`, {
+        status: "resolved",
+      });
+      onSuccess();
+      onClose();
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
+        setError(err.response.data?.error || "Failed to update status.");
+      } else {
+        setError("Failed to update status.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const hasReply = !!message.replyMessage;
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+      role="dialog"
+      aria-modal="true"
+      onClick={(e) => e.target === e.currentTarget && onClose()}
+    >
+      <div className="bg-card rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        {/* Header */}
+        <div className="sticky top-0 bg-card border-b border-border px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <MessageSquare className="w-5 h-5 text-accent" />
+            <h2 className="text-lg font-serif font-bold text-card-foreground">
+              Contact Message
+            </h2>
+            <MessageStatusBadge status={message.status} />
+          </div>
+          <Button variant="ghost" size="sm" onClick={onClose}>
+            <XCircle className="w-4 h-4" />
+          </Button>
+        </div>
+
+        <div className="p-6 space-y-6">
+          {/* Sender Info */}
+          <div className="bg-secondary/50 rounded-lg p-4 space-y-2">
+            <div className="flex items-center gap-2">
+              <User className="w-4 h-4 text-muted-foreground" />
+              <span className="font-semibold text-card-foreground">
+                {message.name}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Mail className="w-4 h-4 text-muted-foreground" />
+              <a
+                href={`mailto:${message.email}`}
+                className="text-accent hover:underline text-sm"
+              >
+                {message.email}
+              </a>
+            </div>
+            {message.phone && (
+              <div className="flex items-center gap-2">
+                <Phone className="w-4 h-4 text-muted-foreground" />
+                <span className="text-sm text-muted-foreground">
+                  {message.phone}
+                </span>
+              </div>
+            )}
+            {message.batch && (
+              <div className="flex items-center gap-2">
+                <GraduationCap className="w-4 h-4 text-muted-foreground" />
+                <span className="text-sm text-muted-foreground">
+                  Batch: {message.batch}
+                </span>
+              </div>
+            )}
+            <div className="flex items-center gap-2">
+              <Clock className="w-4 h-4 text-muted-foreground" />
+              <span className="text-sm text-muted-foreground">
+                {formatDistanceToNow(new Date(message.createdAt), {
+                  addSuffix: true,
+                })}
+              </span>
+            </div>
+          </div>
+
+          {/* Subject */}
+          <div>
+            <h3 className="font-semibold text-card-foreground mb-1">Subject</h3>
+            <p className="text-foreground">{message.subject}</p>
+          </div>
+
+          {/* Message */}
+          <div>
+            <h3 className="font-semibold text-card-foreground mb-1">Message</h3>
+            <div className="bg-background rounded-lg p-4 border border-border">
+              <p className="text-foreground whitespace-pre-wrap">
+                {message.message}
+              </p>
+            </div>
+          </div>
+
+          {/* Previous Reply */}
+          {hasReply && (
+            <div className="border-t border-border pt-4">
+              <h3 className="font-semibold text-emerald-600 dark:text-emerald-400 mb-2 flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4" />
+                Reply Sent
+              </h3>
+              <div className="bg-emerald-50 dark:bg-emerald-950/30 rounded-lg p-4 border border-emerald-200 dark:border-emerald-800">
+                <p className="text-foreground whitespace-pre-wrap">
+                  {message.replyMessage}
+                </p>
+                <p className="text-xs text-muted-foreground mt-3">
+                  Replied by {message.repliedBy?.fullName || "Admin"}{" "}
+                  {message.repliedAt &&
+                    formatDistanceToNow(new Date(message.repliedAt), {
+                      addSuffix: true,
+                    })}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Reply Form */}
+          {!hasReply && (
+            <div className="border-t border-border pt-4">
+              <h3 className="font-semibold text-card-foreground mb-2">
+                Send Reply
+              </h3>
+              <textarea
+                className="w-full border border-input rounded-lg px-3 py-2 text-sm bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent resize-none"
+                rows={5}
+                placeholder="Type your reply here..."
+                value={replyText}
+                onChange={(e) => setReplyText(e.target.value)}
+                maxLength={5000}
+              />
+              <p className="text-xs text-muted-foreground mt-1 text-right">
+                {replyText.length}/5000
+              </p>
+            </div>
+          )}
+
+          {error && (
+            <p className="text-destructive text-sm flex items-center gap-1">
+              <AlertCircle className="w-4 h-4 flex-shrink-0" />
+              {error}
+            </p>
+          )}
+
+          {/* Actions */}
+          <div className="flex gap-3 justify-end pt-2">
+            <Button variant="outline" onClick={onClose} disabled={loading}>
+              Close
+            </Button>
+            {!hasReply && message.status !== "resolved" && (
+              <Button
+                variant="outline"
+                onClick={markResolved}
+                disabled={loading}
+              >
+                Mark Resolved
+              </Button>
+            )}
+            {!hasReply && (
+              <Button
+                onClick={sendReply}
+                disabled={loading || !replyText.trim()}
+                className="bg-accent hover:bg-accent/90 text-accent-foreground"
+              >
+                {loading && <Loader2 className="w-4 h-4 animate-spin mr-1" />}
+                <Send className="w-4 h-4 mr-1" />
+                Send Reply
+              </Button>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MessagesTab({
+  onUnreadCountChange,
+}: {
+  onUnreadCountChange: (count: number) => void;
+}) {
+  const [statusFilter, setStatusFilter] =
+    useState<MessageStatusFilter>("unread");
+  const [page, setPage] = useState(1);
+  const [messages, setMessages] = useState<AdminContactMessage[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [selectedMessage, setSelectedMessage] =
+    useState<AdminContactMessage | null>(null);
+  const refreshRef = useRef(0);
+
+  const fetchMessages = useCallback(async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const { data } = await apiClient.get<{
+        messages: AdminContactMessage[];
+        total: number;
+        totalPages: number;
+        unreadCount: number;
+      }>(`/api/admin/contact?status=${statusFilter}&page=${page}&limit=15`);
+      setMessages(data.messages);
+      setTotalPages(data.totalPages);
+      onUnreadCountChange(data.unreadCount);
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
+        setError(err.response.data?.error || "Failed to load messages.");
+      } else {
+        setError("Failed to load messages.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, [statusFilter, page, refreshRef.current, onUnreadCountChange]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    void fetchMessages();
+  }, [fetchMessages]);
+
+  const handleFilterChange = (f: MessageStatusFilter) => {
+    setStatusFilter(f);
+    setPage(1);
+  };
+
+  const handleActionSuccess = () => {
+    refreshRef.current += 1;
+  };
+
+  const handleMessageClick = async (msg: AdminContactMessage) => {
+    // Fetch full message details and mark as read
+    try {
+      const { data } = await apiClient.get<{ message: AdminContactMessage }>(
+        `/api/admin/contact/${msg._id}`
+      );
+      setSelectedMessage(data.message);
+      // Refresh list to update status
+      refreshRef.current += 1;
+    } catch {
+      setSelectedMessage(msg);
+    }
+  };
+
+  return (
+    <>
+      {/* Status filter */}
+      <div className="flex gap-2 flex-wrap mb-6">
+        {MESSAGE_STATUS_FILTERS.map((s) => (
+          <button
+            key={s}
+            type="button"
+            onClick={() => handleFilterChange(s)}
+            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors capitalize ${
+              statusFilter === s
+                ? "bg-accent text-accent-foreground"
+                : "bg-secondary text-muted-foreground hover:bg-accent/10"
+            }`}
+          >
+            {s === "all" ? "All" : s}
+          </button>
+        ))}
+      </div>
+
+      {loading ? (
+        <div className="flex justify-center py-20">
+          <Loader2 className="w-8 h-8 animate-spin text-accent" />
+        </div>
+      ) : error ? (
+        <div className="bg-destructive/10 border border-destructive/20 text-destructive p-4 rounded-xl text-sm">
+          {error}
+        </div>
+      ) : messages.length === 0 ? (
+        <div className="text-center py-20 text-muted-foreground">
+          <MessageSquare className="w-12 h-12 mx-auto mb-4 opacity-50" />
+          No {statusFilter !== "all" ? statusFilter : ""} messages found.
+        </div>
+      ) : (
+        <>
+          <div className="space-y-3">
+            {messages.map((msg) => (
+              <button
+                key={msg._id}
+                type="button"
+                onClick={() => handleMessageClick(msg)}
+                className="w-full text-left bg-card rounded-xl p-4 card-shadow flex flex-col lg:flex-row lg:items-center gap-4 hover:ring-2 hover:ring-accent/50 transition-all"
+              >
+                {/* Sender info */}
+                <div className="flex-1 min-w-0 space-y-1">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="font-semibold text-card-foreground">
+                      {msg.name}
+                    </span>
+                    <MessageStatusBadge status={msg.status} />
+                    {msg.replyMessage && (
+                      <Badge
+                        variant="outline"
+                        className="text-xs text-emerald-600 border-emerald-300"
+                      >
+                        <CheckCircle2 className="w-3 h-3 mr-1" />
+                        Replied
+                      </Badge>
+                    )}
+                  </div>
+                  <p className="text-xs text-muted-foreground">{msg.email}</p>
+                  <p className="text-sm font-medium text-card-foreground line-clamp-1">
+                    {msg.subject}
+                  </p>
+                  <p className="text-sm text-muted-foreground line-clamp-1">
+                    {msg.message}
+                  </p>
+                </div>
+
+                {/* Meta info */}
+                <div className="flex-shrink-0 text-right space-y-1">
+                  {msg.batch && (
+                    <p className="text-xs text-muted-foreground">
+                      Batch: {msg.batch}
+                    </p>
+                  )}
+                  <p className="text-xs text-muted-foreground">
+                    {formatDistanceToNow(new Date(msg.createdAt), {
+                      addSuffix: true,
+                    })}
+                  </p>
+                </div>
+
+                {/* View indicator */}
+                <div className="flex-shrink-0">
+                  <Eye className="w-5 h-5 text-muted-foreground" />
+                </div>
+              </button>
+            ))}
+          </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center gap-4 mt-8">
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={page === 1}
+                onClick={() => setPage((p) => p - 1)}
+              >
+                <ChevronLeft className="w-4 h-4" />
+                Prev
+              </Button>
+              <span className="text-sm text-muted-foreground">
+                {page} / {totalPages}
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={page === totalPages}
+                onClick={() => setPage((p) => p + 1)}
+              >
+                Next
+                <ChevronRight className="w-4 h-4" />
+              </Button>
+            </div>
+          )}
+        </>
+      )}
+
+      {selectedMessage && (
+        <MessageModal
+          message={selectedMessage}
+          onClose={() => setSelectedMessage(null)}
+          onSuccess={handleActionSuccess}
+        />
+      )}
+    </>
+  );
+}
+
+type Tab = "donations" | "blogs" | "messages" | "analytics";
 
 export default function AdminDonationsPage() {
   const [tab, setTab] = useState<Tab>("donations");
   const [accessDenied, setAccessDenied] = useState(false);
+  const [unreadMessageCount, setUnreadMessageCount] = useState(0);
 
   // Quick access check — hitting the admin API will return 403 if not admin;
   // but we also rely on the server rendering in dashboard to guard the link.
@@ -1389,6 +1860,14 @@ export default function AdminDonationsPage() {
           setAccessDenied(true);
         }
       });
+  }, []);
+
+  // Fetch initial unread message count
+  useEffect(() => {
+    apiClient
+      .get<{ unreadCount: number }>("/api/admin/contact?status=all&page=1&limit=1")
+      .then(({ data }) => setUnreadMessageCount(data.unreadCount))
+      .catch(() => {});
   }, []);
 
   if (accessDenied) {
@@ -1405,6 +1884,13 @@ export default function AdminDonationsPage() {
     );
   }
 
+  const tabLabels: Record<Tab, string> = {
+    donations: "Donations",
+    blogs: "Blogs",
+    messages: unreadMessageCount > 0 ? `Messages (${unreadMessageCount})` : "Messages",
+    analytics: "Analytics",
+  };
+
   return (
     <div className="min-h-[80vh] bg-background">
       {/* Header */}
@@ -1412,10 +1898,10 @@ export default function AdminDonationsPage() {
         <div className="container-custom px-4">
           <h1 className="text-3xl font-serif font-bold text-primary-foreground flex items-center gap-3">
             <ShieldCheck className="w-8 h-8 text-accent" />
-            Admin — Donations
+            Admin Dashboard
           </h1>
           <p className="text-primary-foreground/70 mt-1 text-sm">
-            Review, verify, or reject donation submissions
+            Manage donations, blogs, and contact messages
           </p>
         </div>
       </section>
@@ -1423,24 +1909,27 @@ export default function AdminDonationsPage() {
       {/* Tabs */}
       <section className="container-custom px-4 py-8">
         <div className="flex gap-1 mb-8 bg-secondary/50 rounded-xl p-1 w-fit">
-          {(["donations", "blogs", "analytics"] as Tab[]).map((t) => (
+          {(["donations", "blogs", "messages", "analytics"] as Tab[]).map((t) => (
             <button
               key={t}
               type="button"
               onClick={() => setTab(t)}
-              className={`px-5 py-2 rounded-lg text-sm font-medium capitalize transition-colors ${
+              className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${
                 tab === t
                   ? "bg-card shadow text-card-foreground"
                   : "text-muted-foreground hover:text-foreground"
-              }`}
+              } ${t === "messages" && unreadMessageCount > 0 && tab !== t ? "text-red-500" : ""}`}
             >
-              {t}
+              {tabLabels[t]}
             </button>
           ))}
         </div>
 
         {tab === "donations" && <DonationsTab />}
         {tab === "blogs" && <BlogsTab />}
+        {tab === "messages" && (
+          <MessagesTab onUnreadCountChange={setUnreadMessageCount} />
+        )}
         {tab === "analytics" && <AnalyticsTab />}
       </section>
     </div>
