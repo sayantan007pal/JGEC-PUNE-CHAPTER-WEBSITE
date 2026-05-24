@@ -9,22 +9,26 @@ import event2 from "@/assets/event-2.jpg";
 import alumni1 from "@/assets/Adip-da.jpg";
 import alumni2 from "@/assets/Pradeep-da.jpg";
 import alumni3 from "@/assets/Pushpal-da.jpg";
+import meet2024 from "@/assets/2024_meet.jpg";
+import meet2025 from "@/assets/2025_meet.jpg";
+import meet2026_2 from "@/assets/2026-meet-2.jpg";
+import meet2026_3 from "@/assets/2026-meet-3.jpg";
+import associationLogo from "@/assets/Jalpaiguri-engineers-association.jpg";
 
-const categories = ["All", "Reunions", "Events", "Workshops", "Sports", "Cultural"];
+const categories = ["All", "Reunions", "Alumni", "Events"];
 
 const galleryItems = [
-  { id: 1, src: heroBanner, alt: "Annual Reunion 2025", category: "Reunions" },
-  { id: 2, src: event1, alt: "Networking Event", category: "Events" },
-  { id: 3, src: event2, alt: "Graduation Ceremony", category: "Events" },
-  { id: 4, src: alumni1, alt: "Shri Adip Roy", category: "Workshops" },
-  { id: 5, src: alumni2, alt: "Cdr. Pradeep Bandyopadhyay", category: "Workshops" },
-  { id: 6, src: alumni3, alt: "Brig. Pushpal De, Retd.", category: "Workshops" },
-  { id: 7, src: event1, alt: "Cricket Tournament", category: "Sports" },
-  { id: 8, src: event2, alt: "Family Day Picnic", category: "Reunions" },
-  { id: 9, src: heroBanner, alt: "Silver Jubilee Batch", category: "Reunions" },
-  { id: 10, src: alumni1, alt: "Shri Adip Roy", category: "Cultural" },
-  { id: 11, src: alumni2, alt: "Cdr. Pradeep Bandyopadhyay", category: "Cultural" },
-  { id: 12, src: event1, alt: "Mentorship Session", category: "Workshops" },
+  { id: 1, src: meet2024, alt: "Annual Alumni Reunion 2024", category: "Reunions" },
+  { id: 2, src: meet2025, alt: "Annual Alumni Reunion 2025", category: "Reunions" },
+  { id: 3, src: meet2026_2, alt: "Alumni Meet 2026", category: "Reunions" },
+  { id: 4, src: meet2026_3, alt: "Alumni Gathering 2026", category: "Reunions" },
+  { id: 5, src: alumni1, alt: "Shri Adip Roy", category: "Alumni" },
+  { id: 6, src: alumni2, alt: "Cdr. Pradeep Bandyopadhyay", category: "Alumni" },
+  { id: 7, src: alumni3, alt: "Brig. Pushpal De, Retd.", category: "Alumni" },
+  { id: 8, src: event1, alt: "Community Event", category: "Events" },
+  { id: 9, src: event2, alt: "Alumni Celebration", category: "Events" },
+  { id: 10, src: heroBanner, alt: "JGEC Campus", category: "Events" },
+  { id: 11, src: associationLogo, alt: "Jalpaiguri Engineers Association", category: "Events" },
 ];
 
 export default function GalleryPage() {
