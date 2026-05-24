@@ -8,6 +8,7 @@ export const metadata: Metadata = {
 
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import AdsBlock from "@/components/home/AdsBlock";
 import { Calendar, Users, Award, MapPin, ArrowRight, Star } from "lucide-react";
 import heroBanner from "@/assets/hero-banner.jpg";
 import alumni1 from "@/assets/Adip-da.jpg";
@@ -296,7 +297,9 @@ export default function HomePage() {
 
         </div>
       </section>
-
+      
+      <AdsBlock />
+      
       {/* CTA Section */}
       <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0">
