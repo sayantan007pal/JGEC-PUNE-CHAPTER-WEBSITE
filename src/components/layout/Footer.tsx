@@ -84,10 +84,7 @@ const Footer = () => {
             <h4 className="font-serif font-semibold text-lg mb-6">Follow Us</h4>
             <div className="flex gap-3">
               {[
-                { icon: Facebook, href: "#", label: "Facebook" },
-                { icon: Twitter, href: "#", label: "Twitter" },
-                { icon: Linkedin, href: "#", label: "LinkedIn" },
-                { icon: Instagram, href: "#", label: "Instagram" },
+                { icon: Instagram, href: "https://www.instagram.com/jgec_pune?igsh=ZDY5Yjk0dG40aDlv", label: "Instagram" },
               ].map(({ icon: Icon, href, label }) => (
                 <a
                   key={label}
