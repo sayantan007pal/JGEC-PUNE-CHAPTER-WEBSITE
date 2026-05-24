@@ -179,11 +179,13 @@ const Header = () => {
       {/* Mobile Navigation */}
       <div
         className={cn(
-          "lg:hidden overflow-hidden transition-all duration-300 bg-primary",
-          isOpen ? "max-h-[600px]" : "max-h-0",
+          "lg:hidden bg-primary transition-[max-height] duration-300",
+          isOpen
+            ? "max-h-[calc(100dvh-5rem)] overflow-y-auto"
+            : "max-h-0 overflow-hidden",
         )}
       >
-        <nav className="container-custom px-4 py-4 space-y-2">
+        <nav className="container-custom px-4 py-4 space-y-2 overflow-x-hidden">
           {navItems.map((item) => (
             <Link
               key={item.path}
@@ -201,7 +203,11 @@ const Header = () => {
           ))}
 
           <div className="pt-4 flex flex-col gap-3">
-            <Link href="/donate" onClick={() => setIsOpen(false)}>
+            <Link
+              href="/donate"
+              onClick={() => setIsOpen(false)}
+              className="block w-full"
+            >
               <Button variant="gold" size="lg" className="w-full">
                 Donate
               </Button>
@@ -210,7 +216,7 @@ const Header = () => {
             {!isLoading && user ? (
               <>
                 {/* Logged-in user info on mobile */}
-                <div className="flex items-center gap-3 px-4 py-3 bg-white/5 rounded-md">
+                <div className="flex items-center gap-3 px-4 py-3 bg-white/5 rounded-md min-w-0">
                   <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center overflow-hidden">
                     {user.photoLink ? (
                       <img
@@ -224,16 +230,20 @@ const Header = () => {
                       </span>
                     )}
                   </div>
-                  <div>
-                    <p className="text-primary-foreground font-medium text-sm">
+                  <div className="min-w-0">
+                    <p className="text-primary-foreground font-medium text-sm truncate">
                       {user.fullName}
                     </p>
-                    <p className="text-primary-foreground/60 text-xs">
+                    <p className="text-primary-foreground/60 text-xs break-all">
                       {user.email}
                     </p>
                   </div>
                 </div>
-                <Link href="/dashboard" onClick={() => setIsOpen(false)}>
+                <Link
+                  href="/dashboard"
+                  onClick={() => setIsOpen(false)}
+                  className="block w-full"
+                >
                   <Button
                     variant="heroOutline"
                     size="lg"
@@ -254,7 +264,11 @@ const Header = () => {
                 </Button>
               </>
             ) : (
-              <Link href="/login" onClick={() => setIsOpen(false)}>
+              <Link
+                href="/login"
+                onClick={() => setIsOpen(false)}
+                className="block w-full"
+              >
                 <Button variant="heroOutline" size="lg" className="w-full">
                   Alumni Login
                 </Button>
