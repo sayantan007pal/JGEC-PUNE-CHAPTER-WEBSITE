@@ -37,9 +37,6 @@ interface FormData {
   currentOrLastOrganization: string;
   designation: string;
   rolesAndResponsibility: string;
-  tenureStartDate: string;
-  tenureEndDate: string;
-  isCurrentlyWorking: boolean;
   addressInPune: string;
   contributionInterest: string;
   bloodGroup: string;
@@ -66,9 +63,6 @@ export default function SignupPage() {
     currentOrLastOrganization: "",
     designation: "",
     rolesAndResponsibility: "",
-    tenureStartDate: "",
-    tenureEndDate: "",
-    isCurrentlyWorking: false,
     addressInPune: "",
     contributionInterest: "",
     bloodGroup: "",
@@ -98,8 +92,6 @@ export default function SignupPage() {
         if (!formData.currentOrLastOrganization.trim()) { setError("Organization is required"); return false; }
         if (!formData.designation.trim()) { setError("Designation is required"); return false; }
         if (!formData.rolesAndResponsibility.trim()) { setError("Roles & responsibilities are required"); return false; }
-        if (!formData.tenureStartDate.trim()) { setError("Start date is required"); return false; }
-        if (!formData.isCurrentlyWorking && !formData.tenureEndDate.trim()) { setError("End date is required if not currently working"); return false; }
         return true;
       case 4:
         if (!formData.addressInPune.trim()) { setError("Address in Pune is required"); return false; }
@@ -160,17 +152,13 @@ export default function SignupPage() {
     try {
       // Build a native browser FormData (multipart/form-data)
       const fd = new window.FormData();
-      const { confirmPassword, isCurrentlyWorking, ...rest } = formData;
+      const { confirmPassword, ...rest } = formData;
       void confirmPassword;
 
       // Append all text fields
       (Object.keys(rest) as (keyof typeof rest)[]).forEach((key) => {
         fd.append(key, rest[key] as string);
       });
-      fd.append("isCurrentlyWorking", String(isCurrentlyWorking));
-      if (!isCurrentlyWorking) {
-        fd.set("tenureEndDate", formData.tenureEndDate);
-      }
 
       // Append the photo file — Axios will set multipart/form-data boundary automatically
       fd.append("photo", photoFile!);
@@ -457,50 +445,6 @@ export default function SignupPage() {
                     className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring resize-none"
                   />
                 </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-1.5">
-                    Tenure Start Date <span className="text-destructive">*</span>
-                  </label>
-                  <Input
-                    type="date"
-                    value={formData.tenureStartDate}
-                    onChange={(e) => updateField("tenureStartDate", e.target.value)}
-                  />
-                </div>
-
-                <div>
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={formData.isCurrentlyWorking}
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          isCurrentlyWorking: e.target.checked,
-                          tenureEndDate: e.target.checked ? "" : prev.tenureEndDate,
-                        }))
-                      }
-                      className="rounded border-border"
-                    />
-                    <span className="text-sm font-medium text-foreground">
-                      I am currently working here
-                    </span>
-                  </label>
-                </div>
-
-                {!formData.isCurrentlyWorking && (
-                  <div>
-                    <label className="block text-sm font-medium text-foreground mb-1.5">
-                      Tenure End Date <span className="text-destructive">*</span>
-                    </label>
-                    <Input
-                      type="date"
-                      value={formData.tenureEndDate}
-                      onChange={(e) => updateField("tenureEndDate", e.target.value)}
-                    />
-                  </div>
-                )}
               </>
             )}
 
