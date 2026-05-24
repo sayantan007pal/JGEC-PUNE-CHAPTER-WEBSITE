@@ -16,12 +16,12 @@ import alumni3 from "@/assets/Pushpal-da.jpg";
 import event1 from "@/assets/event-1.jpg";
 import event2 from "@/assets/event-2.jpg";
 
-const stats = [
-  { number: "5000+", label: "Alumni Members", icon: Users },
-  { number: "25+", label: "Member Benefits", icon: MapPin },
-  { number: "100+", label: "Annual Events", icon: Calendar },
-  { number: "50+", label: "Years of Legacy", icon: Award },
-];
+// const stats = [
+//   { number: "5000+", label: "Alumni Members", icon: Users },
+//   { number: "25+", label: "Member Benefits", icon: MapPin },
+//   { number: "100+", label: "Annual Events", icon: Calendar },
+//   { number: "50+", label: "Years of Legacy", icon: Award },
+// ];
 
 const achievements = [
   {
@@ -126,7 +126,7 @@ export default function HomePage() {
       </section>
 
       {/* Stats Section */}
-      <section className="bg-primary py-16">
+      {/* <section className="bg-primary py-16">
         <div className="container-custom px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
@@ -144,7 +144,7 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* About Preview */}
       <section className="section-padding bg-background">
