@@ -5,7 +5,7 @@ import heroBanner from "@/assets/hero-banner.jpg";
 
 const roadmap = [
   {
-    year: "1st Year",
+    year: "2024",
     title: "Foundation & Setup",
     icon: Building2,
     color: "bg-[#1a365d]",
@@ -20,7 +20,7 @@ const roadmap = [
     ],
   },
   {
-    year: "2nd Year",
+    year: "2025",
     title: "Program Activation",
     icon: Handshake,
     color: "bg-[#6b7c3f]",
@@ -33,7 +33,7 @@ const roadmap = [
     ],
   },
   {
-    year: "3rd Year",
+    year: "2026",
     title: "Legacy Transformation",
     icon: Rocket,
     color: "bg-[#2d5016]",
