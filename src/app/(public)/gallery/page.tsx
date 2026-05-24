@@ -182,40 +182,6 @@ export default function GalleryPage() {
         </div>
       )}
 
-      {/* Video Section */}
-      <section className="section-padding bg-secondary">
-        <div className="container-custom">
-          <div className="text-center mb-12">
-            <span className="text-accent font-medium text-sm uppercase tracking-wider">
-              Videos
-            </span>
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mt-3">
-              Event Highlights
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-card rounded-xl overflow-hidden card-shadow">
-                <div className="relative aspect-video bg-muted flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-16 h-16 rounded-full bg-accent/20 flex items-center justify-center mx-auto mb-2">
-                      <div className="w-0 h-0 border-t-8 border-t-transparent border-l-12 border-l-accent border-b-8 border-b-transparent ml-1" />
-                    </div>
-                    <p className="text-muted-foreground text-sm">Video coming soon</p>
-                  </div>
-                </div>
-                <div className="p-4">
-                  <h3 className="font-serif font-bold text-card-foreground">
-                    Annual Reunion 202{4 + i}
-                  </h3>
-                  <p className="text-muted-foreground text-sm">Event highlights video</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* CTA */}
       <section className="section-padding bg-primary">
