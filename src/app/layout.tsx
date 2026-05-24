@@ -24,6 +24,11 @@ export const metadata: Metadata = {
   keywords: ["JGEC", "Alumni", "Pune", "Jalpaiguri Government Engineering College", "Engineering", "Community", "Networking"],
   authors: [{ name: "JALPAIGURI ENGINEERS ASSOCIATION" }],
   creator: "JALPAIGURI ENGINEERS ASSOCIATION",
+  manifest: "/manifest.webmanifest",
+  icons: {
+    icon: "/icon.jpg",
+    apple: "/apple-icon.jpg",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -31,11 +36,13 @@ export const metadata: Metadata = {
     title: "JALPAIGURI ENGINEERS ASSOCIATION Pune Chapter",
     description: "Official community for JALPAIGURI ENGINEERS ASSOCIATION alumni in Pune. Join us to network, mentor, and give back.",
     siteName: "JALPAIGURI ENGINEERS ASSOCIATION",
+    images: ["/icon.jpg"],
   },
   twitter: {
     card: "summary_large_image",
     title: "JALPAIGURI ENGINEERS ASSOCIATION",
     description: "Official community for JALPAIGURI ENGINEERS ASSOCIATION alumni in Pune.",
+    images: ["/icon.jpg"],
   },
 };
 
