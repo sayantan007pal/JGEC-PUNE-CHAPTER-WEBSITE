@@ -13,8 +13,8 @@ import heroBanner from "@/assets/hero-banner.jpg";
 import alumni1 from "@/assets/Adip-da.jpg";
 import alumni2 from "@/assets/Pradeep-da.jpg";
 import alumni3 from "@/assets/Pushpal-da.jpg";
-import event1 from "@/assets/event-1.jpg";
-import event2 from "@/assets/event-2.jpg";
+import event1 from "@/assets/2026-meet-2.jpg";
+import event2 from "@/assets/2026-meet-3.jpg";
 import meet2024 from "@/assets/2024_meet.jpg";
 import meet2025 from "@/assets/2025_meet.jpg";
 
@@ -173,14 +173,14 @@ export default function HomePage() {
                   <Image src={event1} alt="Alumni event" fill className="object-cover" />
                 </div>
                 <div className="bg-accent rounded-2xl p-6 text-center">
-                  <div className="text-3xl font-serif font-bold text-accent-foreground">50+</div>
-                  <div className="text-accent-foreground/80 text-sm">Years of Legacy</div>
+                  <div className="text-2xl font-serif font-bold text-accent-foreground">Brotherhood</div>
+                  <div className="text-accent-foreground/80 text-sm">& Lifelong Bonds</div>
                 </div>
               </div>
               <div className="space-y-4 pt-8">
                 <div className="bg-primary rounded-2xl p-6 text-center">
-                  <div className="text-3xl font-serif font-bold text-primary-foreground">5000+</div>
-                  <div className="text-primary-foreground/80 text-sm">Active Members</div>
+                  <div className="text-2xl font-serif font-bold text-primary-foreground">Excellence</div>
+                  <div className="text-primary-foreground/80 text-sm">& Collaboration</div>
                 </div>
                 <div className="rounded-2xl overflow-hidden card-shadow relative h-48">
                   <Image src={event2} alt="Graduation ceremony" fill className="object-cover" />
