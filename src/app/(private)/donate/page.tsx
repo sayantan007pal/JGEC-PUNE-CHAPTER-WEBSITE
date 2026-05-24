@@ -484,7 +484,8 @@ export default function DonatePage() {
                     </div>
                   )}
 
-                  <Button
+                  {/* PROCEED TO PAY BUTTON DISABLED - Uncomment below to re-enable */}
+                  {/* <Button
                     variant="default"
                     size="lg"
                     className="w-full"
@@ -502,7 +503,7 @@ export default function DonatePage() {
                         <ArrowRight className="w-4 h-4" />
                       </>
                     )}
-                  </Button>
+                  </Button> */}
                 </>
               )}
 
@@ -551,7 +552,8 @@ export default function DonatePage() {
                       Scan with any UPI app
                     </p>
                     <div className="max-w-[220px] mx-auto overflow-hidden rounded-lg border border-border bg-white p-2">
-                      <QRCodeSVG
+                      {/* QR CODE DISABLED - Uncomment below to re-enable */}
+                      {/* <QRCodeSVG
                         value={qrValue}
                         size={200}
                         bgColor="#FFFFFF"
@@ -559,7 +561,7 @@ export default function DonatePage() {
                         marginSize={2}
                         title="UPI payment QR code"
                         className="w-full h-auto"
-                      />
+                      /> */}
                     </div>
                   </div>
 
