@@ -79,7 +79,7 @@ export default function ContactPage() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative py-32 overflow-hidden">
+      <section className="relative py-20 overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${heroBanner.src})` }}
@@ -132,7 +132,7 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-semibold text-foreground">Phone</h3>
                     <a href="tel:+919876543210" className="text-muted-foreground text-sm hover:text-accent">
-                      +91 98765 43210
+                      +91 98500 58907
                     </a>
                   </div>
                 </div>
@@ -143,8 +143,8 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-foreground">Email</h3>
-                    <a href="mailto:jgecpunechapter@gmail.com" className="text-muted-foreground text-sm hover:text-accent">
-                      jgecpunechapter@gmail.com
+                    <a href="mailto:jgec.alumni.pune@gmail.com" className="text-muted-foreground text-sm hover:text-accent">
+                      jgec.alumni.pune@gmail.com
                     </a>
                   </div>
                 </div>
@@ -226,7 +226,7 @@ export default function ContactPage() {
                           name="phone"
                           value={formData.phone}
                           onChange={handleChange}
-                          placeholder="+91 98765 43210"
+                          placeholder="+91 98500 58907"
                           disabled={isLoading}
                         />
                       </div>

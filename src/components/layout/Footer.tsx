@@ -64,16 +64,16 @@ const Footer = () => {
                   href="tel:+919876543210"
                   className="text-primary-foreground/80 hover:text-accent transition-colors text-sm"
                 >
-                  +91 98765 43210
+                  +91 98500 58907
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-accent shrink-0" />
                 <a
-                  href="mailto:jgecpunechapter@gmail.com"
+                  href="mailto:jgec.alumni.pune@gmail.com"
                   className="text-primary-foreground/80 hover:text-accent transition-colors text-sm"
                 >
-                  jgecpunechapter@gmail.com
+                  jgec.alumni.pune@gmail.com
                 </a>
               </li>
             </ul>
@@ -84,10 +84,7 @@ const Footer = () => {
             <h4 className="font-serif font-semibold text-lg mb-6">Follow Us</h4>
             <div className="flex gap-3">
               {[
-                { icon: Facebook, href: "#", label: "Facebook" },
-                { icon: Twitter, href: "#", label: "Twitter" },
-                { icon: Linkedin, href: "#", label: "LinkedIn" },
-                { icon: Instagram, href: "#", label: "Instagram" },
+                { icon: Instagram, href: "https://www.instagram.com/jgec_pune?igsh=ZDY5Yjk0dG40aDlv", label: "Instagram" },
               ].map(({ icon: Icon, href, label }) => (
                 <a
                   key={label}

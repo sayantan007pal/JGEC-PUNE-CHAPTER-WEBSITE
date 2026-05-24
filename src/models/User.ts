@@ -12,9 +12,6 @@ export interface IUser extends Document {
   currentOrLastOrganization: string;
   designation: string;
   rolesAndResponsibility: string;
-  tenureStartDate: string;
-  tenureEndDate?: string;
-  isCurrentlyWorking: boolean;
   addressInPune: string;
   contributionInterest: string;
   bloodGroup: string;
@@ -79,17 +76,6 @@ const userSchema = new Schema<IUser>(
     rolesAndResponsibility: {
       type: String,
       required: [true, "Roles and responsibility is required"],
-    },
-    tenureStartDate: {
-      type: String,
-      required: [true, "Tenure start date is required"],
-    },
-    tenureEndDate: {
-      type: String,
-    },
-    isCurrentlyWorking: {
-      type: Boolean,
-      default: false,
     },
     addressInPune: {
       type: String,

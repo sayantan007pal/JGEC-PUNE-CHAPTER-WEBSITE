@@ -33,9 +33,6 @@ export async function POST(request: NextRequest) {
     const currentOrLastOrganization = getString("currentOrLastOrganization");
     const designation = getString("designation");
     const rolesAndResponsibility = getString("rolesAndResponsibility");
-    const tenureStartDate = getString("tenureStartDate");
-    const tenureEndDate = getString("tenureEndDate");
-    const isCurrentlyWorking = formData.get("isCurrentlyWorking") === "true";
     const addressInPune = getString("addressInPune");
     const contributionInterest = getString("contributionInterest");
     const bloodGroup = getString("bloodGroup");
@@ -53,7 +50,6 @@ export async function POST(request: NextRequest) {
       currentOrLastOrganization,
       designation,
       rolesAndResponsibility,
-      tenureStartDate,
       addressInPune,
       contributionInterest,
       bloodGroup,
@@ -147,9 +143,6 @@ export async function POST(request: NextRequest) {
       currentOrLastOrganization,
       designation,
       rolesAndResponsibility,
-      tenureStartDate,
-      tenureEndDate: tenureEndDate || undefined,
-      isCurrentlyWorking,
       addressInPune,
       contributionInterest,
       bloodGroup,

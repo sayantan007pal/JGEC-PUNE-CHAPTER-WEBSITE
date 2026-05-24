@@ -9,22 +9,26 @@ import event2 from "@/assets/event-2.jpg";
 import alumni1 from "@/assets/Adip-da.jpg";
 import alumni2 from "@/assets/Pradeep-da.jpg";
 import alumni3 from "@/assets/Pushpal-da.jpg";
+import meet2024 from "@/assets/meet-2024.jpg";
+import meet2025 from "@/assets/meet-2025.jpg";
+import meet2026_2 from "@/assets/2026-meet-2.jpg";
+import meet2026_3 from "@/assets/2026-meet-3.jpg";
+import associationLogo from "@/assets/Jalpaiguri-engineers-association.jpg";
 
-const categories = ["All", "Reunions", "Events", "Workshops", "Sports", "Cultural"];
+const categories = ["All", "Reunions", "Alumni", "Events"];
 
 const galleryItems = [
-  { id: 1, src: heroBanner, alt: "Annual Reunion 2025", category: "Reunions" },
-  { id: 2, src: event1, alt: "Networking Event", category: "Events" },
-  { id: 3, src: event2, alt: "Graduation Ceremony", category: "Events" },
-  { id: 4, src: alumni1, alt: "Shri Adip Roy", category: "Workshops" },
-  { id: 5, src: alumni2, alt: "Cdr. Pradeep Bandyopadhyay", category: "Workshops" },
-  { id: 6, src: alumni3, alt: "Brig. Pushpal De, Retd.", category: "Workshops" },
-  { id: 7, src: event1, alt: "Cricket Tournament", category: "Sports" },
-  { id: 8, src: event2, alt: "Family Day Picnic", category: "Reunions" },
-  { id: 9, src: heroBanner, alt: "Silver Jubilee Batch", category: "Reunions" },
-  { id: 10, src: alumni1, alt: "Shri Adip Roy", category: "Cultural" },
-  { id: 11, src: alumni2, alt: "Cdr. Pradeep Bandyopadhyay", category: "Cultural" },
-  { id: 12, src: event1, alt: "Mentorship Session", category: "Workshops" },
+  { id: 1, src: meet2024, alt: "Annual Alumni Reunion 2024", category: "Reunions" },
+  { id: 2, src: meet2025, alt: "Annual Alumni Reunion 2025", category: "Reunions" },
+  { id: 3, src: meet2026_2, alt: "Alumni Meet 2026", category: "Reunions" },
+  { id: 4, src: meet2026_3, alt: "Alumni Gathering 2026", category: "Reunions" },
+  { id: 5, src: alumni1, alt: "Shri Adip Roy", category: "Alumni" },
+  { id: 6, src: alumni2, alt: "Cdr. Pradeep Bandyopadhyay", category: "Alumni" },
+  { id: 7, src: alumni3, alt: "Brig. Pushpal De, Retd.", category: "Alumni" },
+  { id: 8, src: event1, alt: "Community Event", category: "Events" },
+  { id: 9, src: event2, alt: "Alumni Celebration", category: "Events" },
+  { id: 10, src: heroBanner, alt: "JGEC Campus", category: "Events" },
+  { id: 11, src: associationLogo, alt: "Jalpaiguri Engineers Association", category: "Events" },
 ];
 
 export default function GalleryPage() {
@@ -60,7 +64,7 @@ export default function GalleryPage() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative py-32 overflow-hidden">
+      <section className="relative py-20 overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${heroBanner.src})` }}
@@ -182,40 +186,6 @@ export default function GalleryPage() {
         </div>
       )}
 
-      {/* Video Section */}
-      <section className="section-padding bg-secondary">
-        <div className="container-custom">
-          <div className="text-center mb-12">
-            <span className="text-accent font-medium text-sm uppercase tracking-wider">
-              Videos
-            </span>
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mt-3">
-              Event Highlights
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-card rounded-xl overflow-hidden card-shadow">
-                <div className="relative aspect-video bg-muted flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-16 h-16 rounded-full bg-accent/20 flex items-center justify-center mx-auto mb-2">
-                      <div className="w-0 h-0 border-t-8 border-t-transparent border-l-12 border-l-accent border-b-8 border-b-transparent ml-1" />
-                    </div>
-                    <p className="text-muted-foreground text-sm">Video coming soon</p>
-                  </div>
-                </div>
-                <div className="p-4">
-                  <h3 className="font-serif font-bold text-card-foreground">
-                    Annual Reunion 202{4 + i}
-                  </h3>
-                  <p className="text-muted-foreground text-sm">Event highlights video</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* CTA */}
       <section className="section-padding bg-primary">

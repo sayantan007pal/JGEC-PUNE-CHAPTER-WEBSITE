@@ -8,83 +8,43 @@ import { Calendar, MapPin, Clock, Users, ArrowRight, Filter } from "lucide-react
 import heroBanner from "@/assets/hero-banner.jpg";
 import event1 from "@/assets/event-1.jpg";
 import event2 from "@/assets/event-2.jpg";
+import meet2024 from "@/assets/meet-2024.jpg";
+import meet2025 from "@/assets/meet-2025.jpg";
+
+const featuredPastEvents = [
+  {
+    id: 1,
+    title: "Annual Alumni Reunion 2024",
+    date: "December 2024",
+    location: "Pune",
+    image: meet2024,
+    description: "A memorable gathering of JALPAIGURI ENGINEERS ASSOCIATION members, reconnecting old friends and celebrating our shared legacy.",
+  },
+  {
+    id: 2,
+    title: "Annual Alumni Reunion 2025",
+    date: "December 2025",
+    location: "Pune",
+    image: meet2025,
+    description: "Another successful reunion bringing together our alumni community for an evening of networking and nostalgia.",
+  },
+];
 
 const events = [
   {
     id: 1,
     title: "Annual Alumni Reunion 2026",
-    date: "March 15, 2026",
-    time: "6:00 PM onwards",
-    location: "Pune Convention Center",
+    date: "December, 2026",
+    time: "6:00 PM - 11:00 PM",
+    location: "To be announced",
     image: event1,
     description: "Join us for the biggest gathering of JALPAIGURI ENGINEERS ASSOCIATION this year. Network with fellow alumni, enjoy cultural programs, and relive your college memories.",
     category: "Reunion",
-    attendees: 250,
     featured: true,
-  },
-  {
-    id: 2,
-    title: "Career Mentorship Program",
-    date: "February 28, 2026",
-    time: "10:00 AM - 4:00 PM",
-    location: "Virtual Event",
-    image: event2,
-    description: "Connect with industry leaders and senior alumni who will share their career experiences and provide guidance for your professional growth.",
-    category: "Mentorship",
-    attendees: 100,
-    featured: true,
-  },
-  {
-    id: 3,
-    title: "Technical Workshop: AI/ML",
-    date: "April 10, 2026",
-    time: "2:00 PM - 6:00 PM",
-    location: "Tech Park, Hinjewadi",
-    image: event1,
-    description: "Hands-on workshop on the latest trends in Artificial Intelligence and Machine Learning, conducted by industry experts.",
-    category: "Workshop",
-    attendees: 50,
-    featured: false,
-  },
-  {
-    id: 4,
-    title: "Sports Day",
-    date: "May 5, 2026",
-    time: "8:00 AM - 5:00 PM",
-    location: "Balewadi Stadium",
-    image: event2,
-    description: "A day of sports activities including cricket, badminton, and table tennis. Bring your families for a fun-filled day.",
-    category: "Sports",
-    attendees: 150,
-    featured: false,
-  },
-  {
-    id: 5,
-    title: "Networking Dinner",
-    date: "June 20, 2026",
-    time: "7:00 PM onwards",
-    location: "JW Marriott, Pune",
-    image: event1,
-    description: "An elegant evening of networking and fine dining with fellow alumni. Great opportunity to expand your professional network.",
-    category: "Networking",
-    attendees: 80,
-    featured: false,
-  },
-  {
-    id: 6,
-    title: "Family Picnic",
-    date: "July 15, 2026",
-    time: "9:00 AM - 6:00 PM",
-    location: "Lavasa",
-    image: event2,
-    description: "A fun day out with families. Games, food, and entertainment for all ages. Kids' special activities included.",
-    category: "Social",
-    attendees: 200,
-    featured: false,
   },
 ];
 
-const categories = ["All", "Reunion", "Mentorship", "Workshop", "Sports", "Networking", "Social"];
+const categories = ["All", "Reunion"];
 
 export default function EventsPage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -98,7 +58,7 @@ export default function EventsPage() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative py-32 overflow-hidden">
+      <section className="relative py-20 overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${heroBanner.src})` }}
@@ -120,15 +80,15 @@ export default function EventsPage() {
         <div className="container-custom">
           <div className="text-center mb-12">
             <span className="text-accent font-medium text-sm uppercase tracking-wider">
-              Don't Miss Out
+              Highlights
             </span>
             <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mt-3">
-              Featured Events
+              Previous Events
             </h2>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            {featuredEvents.map((event) => (
+            {featuredPastEvents.map((event) => (
               <div
                 key={event.id}
                 className="bg-card rounded-2xl overflow-hidden card-shadow hover:elevated-shadow transition-shadow duration-300"
@@ -140,12 +100,6 @@ export default function EventsPage() {
                     fill
                     className="object-cover"
                   />
-                  <div className="absolute top-4 left-4 bg-accent text-accent-foreground px-4 py-2 rounded-full text-sm font-medium z-10">
-                    Featured
-                  </div>
-                  <div className="absolute bottom-4 right-4 bg-primary/90 backdrop-blur-sm text-primary-foreground px-4 py-2 rounded-full text-sm z-10">
-                    {event.category}
-                  </div>
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-serif font-bold text-card-foreground mb-3">
@@ -157,23 +111,11 @@ export default function EventsPage() {
                       {event.date}
                     </div>
                     <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                      <Clock className="w-4 h-4 text-accent" />
-                      {event.time}
-                    </div>
-                    <div className="flex items-center gap-2 text-muted-foreground text-sm">
                       <MapPin className="w-4 h-4 text-accent" />
                       {event.location}
                     </div>
-                    <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                      <Users className="w-4 h-4 text-accent" />
-                      {event.attendees} expected attendees
-                    </div>
                   </div>
-                  <p className="text-muted-foreground mb-4">{event.description}</p>
-                  <Button variant="default" size="lg" className="w-full">
-                    Register Now
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
+                  <p className="text-muted-foreground">{event.description}</p>
                 </div>
               </div>
             ))}

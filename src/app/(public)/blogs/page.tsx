@@ -10,6 +10,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Search, Trophy, PenLine, ChevronLeft, ChevronRight, X } from "lucide-react";
 import apiClient from "@/lib/axios";
 import Link from "next/link";
+import Image from "next/image";
+import heroBanner from "@/assets/hero-banner.jpg";
 
 interface Blog {
   _id: string;
@@ -114,21 +116,20 @@ function BlogsContent() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="py-16 bg-gradient-to-b from-accent/5 to-transparent">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Member Blogs</h1>
-            <p className="text-lg text-muted-foreground mb-8">
-              Stories, experiences, and insights from our alumni community. Share your journey
-              and inspire fellow JGECians!
-            </p>
-            <Link href="/dashboard/my-blogs">
-              <Button size="lg" className="gap-2">
-                <PenLine className="w-4 h-4" />
-                Write Your Blog
-              </Button>
-            </Link>
-          </div>
+      <section className="relative py-20 overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${heroBanner.src})` }}
+        />
+        <div className="absolute inset-0 overlay-gradient" />
+        
+        <div className="relative z-10 container-custom px-4 text-center">
+          <h1 className="text-4xl md:text-5xl font-serif font-bold text-primary-foreground mb-6">
+            Member Blogs
+          </h1>
+          <p className="text-primary-foreground/80 text-lg max-w-2xl mx-auto">
+            Stories, experiences, and insights from our alumni community
+          </p>
         </div>
       </section>
 
