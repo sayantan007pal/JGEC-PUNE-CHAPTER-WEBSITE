@@ -8,8 +8,8 @@ import { Calendar, MapPin, Clock, Users, ArrowRight, Filter } from "lucide-react
 import heroBanner from "@/assets/hero-banner.jpg";
 import event1 from "@/assets/event-1.jpg";
 import event2 from "@/assets/event-2.jpg";
-import meet2024 from "@/assets/2024_meet.jpg";
-import meet2025 from "@/assets/2025_meet.jpg";
+import meet2024 from "@/assets/meet-2024.jpg";
+import meet2025 from "@/assets/meet-2025.jpg";
 
 const featuredPastEvents = [
   {

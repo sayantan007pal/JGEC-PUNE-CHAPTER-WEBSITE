@@ -15,8 +15,8 @@ import alumni2 from "@/assets/Pradeep-da.jpg";
 import alumni3 from "@/assets/Pushpal-da.jpg";
 import event1 from "@/assets/2026-meet-2.jpg";
 import event2 from "@/assets/2026-meet-3.jpg";
-import meet2024 from "@/assets/2024_meet.jpg";
-import meet2025 from "@/assets/2025_meet.jpg";
+import meet2024 from "@/assets/meet-2024.jpg";
+import meet2025 from "@/assets/meet-2025.jpg";
 
 // const stats = [
 //   { number: "5000+", label: "Alumni Members", icon: Users },
