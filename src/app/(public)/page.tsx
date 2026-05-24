@@ -151,21 +151,14 @@ export default function HomePage() {
         <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <span className="text-accent font-medium text-sm uppercase tracking-wider">
-                About Us
-              </span>
               <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mt-3 mb-6">
-                A Legacy of Excellence and Brotherhood
+                Our Mission
               </h2>
-              <p className="text-muted-foreground leading-relaxed mb-6">
-                The JALPAIGURI ENGINEERS ASSOCIATION Pune Chapter brings together graduates from 
-                Jalpaiguri Government Engineering College who have made Pune their home. 
-                We are dedicated to fostering connections, supporting current students, 
-                and celebrating the achievements of our members.
-              </p>
               <p className="text-muted-foreground leading-relaxed mb-8">
-                Our mission is to create a vibrant community that nurtures professional 
-                growth, provides networking opportunities, and gives back to our alma mater.
+                To foster a strong and engaged community of Jalpaiguri Engineers 
+                in Pune and other places by promoting meaningful connections, nurturing lifelong 
+                relationships, encouraging collaboration, and contributing to our alma mater 
+                and the wider community.
               </p>
               <Link href="/about">
                 <Button variant="default" size="lg">

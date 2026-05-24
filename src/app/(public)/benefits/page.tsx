@@ -1,7 +1,9 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { MapPin, Users, Heart, Briefcase, GraduationCap, ArrowRight } from "lucide-react";
 import heroBanner from "@/assets/hero-banner.jpg";
+import associationLogo from "@/assets/Jalpaiguri-engineers-association.jpg";
 
 const benefits = [
   {
@@ -133,11 +135,13 @@ export default function BenefitsPage() {
                   </Link>
                 </div>
               </div>
-              <div className="hidden md:block h-full min-h-[300px] relative bg-secondary/20">
-                 {/* Decorative element or pattern could go here */}
-                 <div className="absolute inset-0 flex items-center justify-center p-8 text-primary-foreground/10">
-                    <Users className="w-32 h-32" />
-                 </div>
+              <div className="hidden md:block h-full min-h-[300px] relative">
+                    <Image 
+                      src={associationLogo} 
+                      alt="Jalpaiguri Engineers Association" 
+                      fill 
+                      className="object-cover"
+                    />
               </div>
             </div>
           </div>

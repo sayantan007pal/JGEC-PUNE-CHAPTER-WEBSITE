@@ -1,7 +1,50 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Target, Eye, Heart, Users, Award, BookOpen, ArrowRight, CheckCircle2 } from "lucide-react";
+import { Target, Eye, Heart, Users, Award, BookOpen, ArrowRight, CheckCircle2, Rocket, Handshake, Building2 } from "lucide-react";
 import heroBanner from "@/assets/hero-banner.jpg";
+
+const roadmap = [
+  {
+    year: "1st Year",
+    title: "Foundation & Setup",
+    icon: Building2,
+    color: "bg-[#1a365d]",
+    description: "Establish legal, operational, and digital frameworks required for sustainable growth.",
+    items: [
+      "Setting up governance structures",
+      "Initiating membership drives",
+      "Building a centralized database",
+      "Launching digital infrastructure",
+      "Building connections with college and alumni networks",
+      "Establishing transparent financial systems",
+    ],
+  },
+  {
+    year: "2nd Year",
+    title: "Program Activation",
+    icon: Handshake,
+    color: "bg-[#6b7c3f]",
+    description: "Create engagement with college and build partnerships with industry.",
+    items: [
+      "Implementing mentorship programs",
+      "Hosting networking events",
+      "Creating internship and scholarship opportunities",
+      "Building collaborations with industry partners to support students and alumni",
+    ],
+  },
+  {
+    year: "3rd Year",
+    title: "Legacy Transformation",
+    icon: Rocket,
+    color: "bg-[#2d5016]",
+    description: "Ensure lasting institutional impact.",
+    items: [
+      "Establishing a Sustainability Fund to finance college infrastructure upgrades",
+      "Hosting a large-scale annual alumni meet",
+      "Strengthening bridges between our global alumni chapters",
+    ],
+  },
+];
 
 const values = [
   {
@@ -58,72 +101,69 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Mission & Vision */}
+      {/* Mission */}
       <section className="section-padding bg-background">
         <div className="container-custom">
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="bg-card rounded-2xl p-8 card-shadow">
-              <div className="w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center mb-6">
-                <Target className="w-7 h-7 text-accent" />
-              </div>
-              <h2 className="text-2xl font-serif font-bold text-card-foreground mb-4">
-                Our Mission
-              </h2>
-              <p className="text-muted-foreground leading-relaxed">
-                To unite alumni of Jalpaiguri Government Engineering College residing in Pune 
-                and surrounding areas, fostering a spirit of camaraderie and mutual support. 
-                We strive to create meaningful connections that transcend professional boundaries 
-                and contribute to the growth of both our members and our alma mater.
-              </p>
+          <div className="bg-card rounded-2xl p-8 md:p-12 card-shadow text-center max-w-4xl mx-auto">
+            <div className="w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center mb-6 mx-auto">
+              <Target className="w-7 h-7 text-accent" />
             </div>
-
-            <div className="bg-card rounded-2xl p-8 card-shadow">
-              <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-6">
-                <Eye className="w-7 h-7 text-primary" />
-              </div>
-              <h2 className="text-2xl font-serif font-bold text-card-foreground mb-4">
-                Our Vision
-              </h2>
-              <p className="text-muted-foreground leading-relaxed">
-                To be the most vibrant and impactful regional alumni chapter, recognized for 
-                our commitment to professional excellence, community service, and the continuous 
-                development of our members. We envision a network where every alumnus finds 
-                opportunities for growth and meaningful contribution.
-              </p>
-            </div>
+            <h2 className="text-2xl md:text-3xl font-serif font-bold text-card-foreground mb-4">
+              Our Mission
+            </h2>
+            <p className="text-muted-foreground leading-relaxed text-lg">
+              To foster a strong and engaged community of Jalpaiguri Engineers in Pune 
+              and other places by promoting meaningful connections, nurturing lifelong 
+              relationships, encouraging collaboration, and contributing to our alma mater 
+              and the wider community.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* History */}
+      {/* Three Year Roadmap */}
       <section className="section-padding bg-secondary">
         <div className="container-custom">
-          <div className="max-w-3xl mx-auto text-center">
+          <div className="text-center mb-12">
             <span className="text-accent font-medium text-sm uppercase tracking-wider">
-              Our Journey
+              Our Strategy
             </span>
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mt-3 mb-8">
-              A Legacy of Excellence
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mt-3">
+              Three Year Roadmap
             </h2>
-            <div className="text-muted-foreground leading-relaxed space-y-6 text-left">
-              <p>
-                Jalpaiguri Government Engineering College (JGEC), established in 1961, has been 
-                a premier institution of engineering education in Eastern India. Over six decades, 
-                it has produced thousands of engineers who have made significant contributions 
-                across industries worldwide.
-              </p>
-              <p>
-                The JALPAIGURI ENGINEERS ASSOCIATION Pune Chapter was founded in 2005 by a group of 
-                passionate alumni who wanted to maintain their connection to their alma mater 
-                while building a supportive community in Pune. What started as informal 
-                gatherings has grown into a well-organized association with over 500 active members.
-              </p>
-              <p>
-                Today, our chapter organizes regular events, mentorship programs, and 
-                networking sessions. We actively contribute to JGEC's development through 
-                scholarships, infrastructure support, and industry connections for current students.
-              </p>
-            </div>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {roadmap.map((phase) => (
+              <div
+                key={phase.year}
+                className="bg-card rounded-2xl overflow-hidden card-shadow hover:elevated-shadow transition-shadow duration-300"
+              >
+                <div className={`${phase.color} p-4 text-center`}>
+                  <div className="w-16 h-16 rounded-full border-4 border-white bg-white flex items-center justify-center mx-auto mb-2">
+                    <span className="text-lg font-bold text-foreground">{phase.year.split(" ")[0]}</span>
+                  </div>
+                  <span className="text-white text-sm font-medium">{phase.year.split(" ")[1]}</span>
+                </div>
+                <div className="p-6">
+                  <div className="flex items-center gap-3 mb-3">
+                    <phase.icon className="w-6 h-6 text-accent" />
+                    <h3 className="text-lg font-serif font-bold text-card-foreground">
+                      {phase.title}
+                    </h3>
+                  </div>
+                  <p className="text-muted-foreground text-sm mb-4">{phase.description}</p>
+                  <ul className="space-y-2">
+                    {phase.items.map((item) => (
+                      <li key={item} className="flex items-start gap-2 text-sm text-muted-foreground">
+                        <CheckCircle2 className="w-4 h-4 text-accent shrink-0 mt-0.5" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
