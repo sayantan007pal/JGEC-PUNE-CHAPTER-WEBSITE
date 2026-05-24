@@ -8,6 +8,27 @@ import { Calendar, MapPin, Clock, Users, ArrowRight, Filter } from "lucide-react
 import heroBanner from "@/assets/hero-banner.jpg";
 import event1 from "@/assets/event-1.jpg";
 import event2 from "@/assets/event-2.jpg";
+import meet2024 from "@/assets/2024_meet.jpg";
+import meet2025 from "@/assets/2025_meet.jpg";
+
+const featuredPastEvents = [
+  {
+    id: 1,
+    title: "Annual Alumni Reunion 2024",
+    date: "December 2024",
+    location: "Pune",
+    image: meet2024,
+    description: "A memorable gathering of JALPAIGURI ENGINEERS ASSOCIATION members, reconnecting old friends and celebrating our shared legacy.",
+  },
+  {
+    id: 2,
+    title: "Annual Alumni Reunion 2025",
+    date: "December 2025",
+    location: "Pune",
+    image: meet2025,
+    description: "Another successful reunion bringing together our alumni community for an evening of networking and nostalgia.",
+  },
+];
 
 const events = [
   {
@@ -120,15 +141,15 @@ export default function EventsPage() {
         <div className="container-custom">
           <div className="text-center mb-12">
             <span className="text-accent font-medium text-sm uppercase tracking-wider">
-              Don't Miss Out
+              Highlights
             </span>
             <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mt-3">
-              Featured Events
+              Previous Events
             </h2>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            {featuredEvents.map((event) => (
+            {featuredPastEvents.map((event) => (
               <div
                 key={event.id}
                 className="bg-card rounded-2xl overflow-hidden card-shadow hover:elevated-shadow transition-shadow duration-300"
@@ -140,12 +161,6 @@ export default function EventsPage() {
                     fill
                     className="object-cover"
                   />
-                  <div className="absolute top-4 left-4 bg-accent text-accent-foreground px-4 py-2 rounded-full text-sm font-medium z-10">
-                    Featured
-                  </div>
-                  <div className="absolute bottom-4 right-4 bg-primary/90 backdrop-blur-sm text-primary-foreground px-4 py-2 rounded-full text-sm z-10">
-                    {event.category}
-                  </div>
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-serif font-bold text-card-foreground mb-3">
@@ -157,23 +172,11 @@ export default function EventsPage() {
                       {event.date}
                     </div>
                     <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                      <Clock className="w-4 h-4 text-accent" />
-                      {event.time}
-                    </div>
-                    <div className="flex items-center gap-2 text-muted-foreground text-sm">
                       <MapPin className="w-4 h-4 text-accent" />
                       {event.location}
                     </div>
-                    <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                      <Users className="w-4 h-4 text-accent" />
-                      {event.attendees} expected attendees
-                    </div>
                   </div>
-                  <p className="text-muted-foreground mb-4">{event.description}</p>
-                  <Button variant="default" size="lg" className="w-full">
-                    Register Now
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
+                  <p className="text-muted-foreground">{event.description}</p>
                 </div>
               </div>
             ))}

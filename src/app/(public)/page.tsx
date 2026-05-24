@@ -15,6 +15,8 @@ import alumni2 from "@/assets/Pradeep-da.jpg";
 import alumni3 from "@/assets/Pushpal-da.jpg";
 import event1 from "@/assets/event-1.jpg";
 import event2 from "@/assets/event-2.jpg";
+import meet2024 from "@/assets/2024_meet.jpg";
+import meet2025 from "@/assets/2025_meet.jpg";
 
 // const stats = [
 //   { number: "5000+", label: "Alumni Members", icon: Users },
@@ -49,20 +51,18 @@ const achievements = [
 
 const uniqueAchievements = achievements;
 
-const upcomingEvents = [
+const pastEvents = [
   {
-    title: "Annual Alumni Reunion 2026",
-    date: "March 15, 2026",
-    location: "Pune Convention Center",
-    image: event1,
-    description: "Join us for the biggest gathering of JALPAIGURI ENGINEERS ASSOCIATION this year.",
+    title: "Annual Alumni Reunion 2024",
+    location: "Pune",
+    image: meet2024,
+    description: "A memorable gathering of JALPAIGURI ENGINEERS ASSOCIATION members.",
   },
   {
-    title: "Career Mentorship Program",
-    date: "February 28, 2026",
-    location: "Virtual Event",
-    image: event2,
-    description: "Connect with industry leaders and advance your career.",
+    title: "Annual Alumni Reunion 2025",
+    location: "Pune",
+    image: meet2025,
+    description: "Another successful reunion bringing together our alumni community for an evening of networking and nostalgia.",
   },
 ];
 
@@ -191,20 +191,20 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Upcoming Events */}
+      {/* Past Events */}
       <section className="section-padding bg-secondary">
         <div className="container-custom">
           <div className="text-center mb-12">
             <span className="text-accent font-medium text-sm uppercase tracking-wider">
-              What's Happening
+              What Happened
             </span>
             <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mt-3">
-              Upcoming Events
+              Previous Events
             </h2>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            {upcomingEvents.map((event) => (
+            {pastEvents.map((event) => (
               <div
                 key={event.title}
                 className="bg-card rounded-2xl overflow-hidden card-shadow hover:elevated-shadow transition-shadow duration-300"
@@ -216,9 +216,6 @@ export default function HomePage() {
                     fill
                     className="object-cover"
                   />
-                  <div className="absolute top-4 left-4 bg-accent text-accent-foreground px-4 py-2 rounded-full text-sm font-medium z-10">
-                    {event.date}
-                  </div>
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-serif font-bold text-card-foreground mb-2">
