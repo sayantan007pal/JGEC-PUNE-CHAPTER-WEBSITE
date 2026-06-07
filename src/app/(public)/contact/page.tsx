@@ -5,7 +5,15 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { MapPin, Phone, Mail, Clock, Send, CheckCircle2, Loader2 } from "lucide-react";
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  Send,
+  CheckCircle2,
+  Loader2,
+} from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import heroBanner from "@/assets/hero-banner.jpg";
 
@@ -23,7 +31,9 @@ export default function ContactPage() {
     website: "", // Honeypot field - should remain empty
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -51,7 +61,7 @@ export default function ContactPage() {
         title: "Message sent!",
         description: "Thank you for contacting us. We'll get back to you soon.",
       });
-      
+
       // Reset form after a delay
       setTimeout(() => {
         setFormSubmitted(false);
@@ -68,7 +78,10 @@ export default function ContactPage() {
     } catch (error) {
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Failed to send message. Please try again.",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Failed to send message. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -85,7 +98,7 @@ export default function ContactPage() {
           style={{ backgroundImage: `url(${heroBanner.src})` }}
         />
         <div className="absolute inset-0 overlay-gradient" />
-        
+
         <div className="relative z-10 container-custom px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-serif font-bold text-primary-foreground mb-6">
             Contact Us
@@ -106,8 +119,8 @@ export default function ContactPage() {
                 Get in Touch
               </h2>
               <p className="text-muted-foreground mb-8">
-                Have questions or suggestions? We're here to help. Reach out to us 
-                through any of the following channels.
+                Have questions or suggestions? We're here to help. Reach out to
+                us through any of the following channels.
               </p>
 
               <div className="space-y-6">
@@ -117,9 +130,12 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-foreground">Address</h3>
-                    <p className="text-muted-foreground text-sm">
-                      JALPAIGURI ENGINEERS ASSOCIATION<br />
-                      Pune Chapter Office<br />
+                      <p className="text-muted-foreground text-xs">
+                      Alumni Association Jalpaiguri Government Engineering
+                      College
+                      <br />
+                      Pune Chapter Office
+                      <br />
                       Pune, Maharashtra, India
                     </p>
                   </div>
@@ -131,7 +147,10 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-foreground">Phone</h3>
-                    <a href="tel:+919876543210" className="text-muted-foreground text-sm hover:text-accent">
+                    <a
+                      href="tel:+919876543210"
+                      className="text-muted-foreground text-sm hover:text-accent"
+                    >
                       +91 98500 58907
                     </a>
                   </div>
@@ -143,7 +162,10 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-foreground">Email</h3>
-                    <a href="mailto:jgec.alumni.pune@gmail.com" className="text-muted-foreground text-sm hover:text-accent">
+                    <a
+                      href="mailto:jgec.alumni.pune@gmail.com"
+                      className="text-muted-foreground text-sm hover:text-accent"
+                    >
                       jgec.alumni.pune@gmail.com
                     </a>
                   </div>
@@ -154,9 +176,12 @@ export default function ContactPage() {
                     <Clock className="w-5 h-5 text-accent" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-foreground">Office Hours</h3>
+                    <h3 className="font-semibold text-foreground">
+                      Office Hours
+                    </h3>
                     <p className="text-muted-foreground text-sm">
-                      Monday - Friday: 10:00 AM - 6:00 PM<br />
+                      Monday - Friday: 10:00 AM - 6:00 PM
+                      <br />
                       Saturday: 10:00 AM - 2:00 PM
                     </p>
                   </div>
@@ -293,10 +318,10 @@ export default function ContactPage() {
                       />
                     </div>
 
-                    <Button 
-                      type="submit" 
-                      variant="default" 
-                      size="lg" 
+                    <Button
+                      type="submit"
+                      variant="default"
+                      size="lg"
                       className="w-full md:w-auto"
                       disabled={isLoading}
                     >
@@ -324,14 +349,22 @@ export default function ContactPage() {
       <section className="bg-secondary">
         <div className="container-custom section-padding">
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-serif font-bold text-foreground">Find Us</h2>
-            <p className="text-muted-foreground">Visit us at our chapter office</p>
+            <h2 className="text-2xl font-serif font-bold text-foreground">
+              Find Us
+            </h2>
+            <p className="text-muted-foreground">
+              Visit us at our chapter office
+            </p>
           </div>
           <div className="bg-muted rounded-2xl h-80 flex items-center justify-center">
             <div className="text-center">
               <MapPin className="w-12 h-12 text-accent mx-auto mb-3" />
-              <p className="text-muted-foreground">Interactive map coming soon</p>
-              <p className="text-sm text-muted-foreground mt-1">Pune, Maharashtra, India</p>
+              <p className="text-muted-foreground">
+                Interactive map coming soon
+              </p>
+              <p className="text-sm text-muted-foreground mt-1">
+                Pune, Maharashtra, India
+              </p>
             </div>
           </div>
         </div>
@@ -365,7 +398,9 @@ export default function ContactPage() {
               },
             ].map((faq, index) => (
               <div key={index} className="bg-card rounded-xl p-6 card-shadow">
-                <h3 className="font-semibold text-card-foreground mb-2">{faq.q}</h3>
+                <h3 className="font-semibold text-card-foreground mb-2">
+                  {faq.q}
+                </h3>
                 <p className="text-muted-foreground text-sm">{faq.a}</p>
               </div>
             ))}

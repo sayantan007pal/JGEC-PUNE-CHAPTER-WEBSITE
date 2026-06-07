@@ -69,7 +69,8 @@ function ResetPasswordContent() {
           Invalid Reset Link
         </h2>
         <p className="text-muted-foreground mb-6">
-          This password reset link is invalid or has expired. Please request a new one.
+          This password reset link is invalid or has expired. Please request a
+          new one.
         </p>
         <Link href="/forgot-password">
           <Button variant="default">Request New Link</Button>
@@ -103,9 +104,7 @@ function ResetPasswordContent() {
         <h2 className="text-2xl font-serif font-bold text-foreground mb-2">
           Set New Password
         </h2>
-        <p className="text-muted-foreground">
-          Enter your new password below.
-        </p>
+        <p className="text-muted-foreground">Enter your new password below.</p>
       </div>
 
       {error && (
@@ -135,7 +134,11 @@ function ResetPasswordContent() {
             onClick={() => setShowPassword(!showPassword)}
             className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
           >
-            {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            {showPassword ? (
+              <EyeOff className="w-4 h-4" />
+            ) : (
+              <Eye className="w-4 h-4" />
+            )}
           </button>
         </div>
       </div>
@@ -156,7 +159,13 @@ function ResetPasswordContent() {
         />
       </div>
 
-      <Button type="submit" variant="default" size="lg" className="w-full" disabled={isLoading}>
+      <Button
+        type="submit"
+        variant="default"
+        size="lg"
+        className="w-full"
+        disabled={isLoading}
+      >
         {isLoading ? (
           <>
             <Loader2 className="w-4 h-4 animate-spin" />
@@ -181,7 +190,13 @@ export default function ResetPasswordPage() {
         <div className="absolute inset-0 overlay-gradient" />
         <div className="relative z-10 flex flex-col justify-center items-center p-12 text-center">
           <div className="w-20 h-20 rounded-full overflow-hidden mb-6">
-            <Image src={logo} alt="Jalpaiguri Engineers Association" width={80} height={80} className="w-full h-full object-cover" />
+            <Image
+              src={logo}
+              alt="Alumni Association Jalpaiguri Government Engineering College"
+              width={80}
+              height={80}
+              className="w-full h-full object-cover"
+            />
           </div>
           <h1 className="text-4xl font-serif font-bold text-primary-foreground mb-4">
             New Password
@@ -194,7 +209,13 @@ export default function ResetPasswordPage() {
 
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-background">
         <div className="w-full max-w-md">
-          <Suspense fallback={<div className="text-center py-12"><Loader2 className="w-8 h-8 animate-spin mx-auto" /></div>}>
+          <Suspense
+            fallback={
+              <div className="text-center py-12">
+                <Loader2 className="w-8 h-8 animate-spin mx-auto" />
+              </div>
+            }
+          >
             <ResetPasswordContent />
           </Suspense>
           <div className="mt-8 text-center">

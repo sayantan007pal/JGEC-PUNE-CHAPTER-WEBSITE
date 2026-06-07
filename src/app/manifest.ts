@@ -2,10 +2,10 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "JALPAIGURI ENGINEERS ASSOCIATION - Pune Chapter",
-    short_name: "JEA Pune",
+    name: "Alumni Association Jalpaiguri Government Engineering College - Pune Chapter",
+    short_name: "AA JGEC Pune",
     description:
-      "Official community for JALPAIGURI ENGINEERS ASSOCIATION alumni in Pune. Connect, network, and give back.",
+      "Official community for Alumni Association Jalpaiguri Government Engineering College alumni in Pune. Connect, network, and give back.",
     start_url: "/",
     display: "standalone",
     background_color: "#ffffff",

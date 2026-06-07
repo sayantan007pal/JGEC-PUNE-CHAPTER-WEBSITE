@@ -1,7 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { MapPin, Users, Heart, Briefcase, GraduationCap, ArrowRight } from "lucide-react";
+import {
+  MapPin,
+  Users,
+  Heart,
+  Briefcase,
+  GraduationCap,
+  ArrowRight,
+} from "lucide-react";
 import heroBanner from "@/assets/hero-banner.jpg";
 import associationLogo from "@/assets/Jalpaiguri-engineers-association.jpg";
 
@@ -11,33 +18,40 @@ const benefits = [
     name: "Networking Opportunities",
     category: "Professional",
     icon: Users,
-    description: "Connect with fellow alumni, expand your professional network, and find mentors within the community.",
-    details: "Access our exclusive directory of alumni across various industries and globe."
+    description:
+      "Connect with fellow alumni, expand your professional network, and find mentors within the community.",
+    details:
+      "Access our exclusive directory of alumni across various industries and globe.",
   },
   {
     id: 2,
     name: "Career Support",
     category: "Growth",
     icon: Briefcase,
-    description: "Access job postings, career guidance, and skill development workshops exclusive to members.",
-    details: "Regular webinars and workshops on emerging technologies and soft skills."
+    description:
+      "Access job postings, career guidance, and skill development workshops exclusive to members.",
+    details:
+      "Regular webinars and workshops on emerging technologies and soft skills.",
   },
   {
     id: 3,
     name: "Mentorship Program",
     category: "Education",
     icon: GraduationCap,
-    description: "Give back by mentoring students or get guidance from experienced alumni.",
-    details: " Structured mentorship programs connecting students with industry veterans."
+    description:
+      "Give back by mentoring students or get guidance from experienced alumni.",
+    details:
+      " Structured mentorship programs connecting students with industry veterans.",
   },
   {
     id: 4,
     name: "Community Events",
     category: "Social",
     icon: Heart,
-    description: "Participate in regular meetups, annual gatherings, and fun social activities.",
-    details: "From official reunions to casual coffee meetups in your city."
-  }
+    description:
+      "Participate in regular meetups, annual gatherings, and fun social activities.",
+    details: "From official reunions to casual coffee meetups in your city.",
+  },
 ];
 
 export default function BenefitsPage() {
@@ -50,7 +64,7 @@ export default function BenefitsPage() {
           style={{ backgroundImage: `url(${heroBanner.src})` }}
         />
         <div className="absolute inset-0 overlay-gradient" />
-        
+
         <div className="relative z-10 container-custom px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-serif font-bold text-primary-foreground mb-6">
             Membership Benefits
@@ -71,9 +85,11 @@ export default function BenefitsPage() {
             Unlock Exclusive Advantages
           </h2>
           <p className="text-muted-foreground max-w-3xl mx-auto text-lg">
-            Joining the JALPAIGURI ENGINEERS ASSOCIATION Pune Chapter opens doors to a world of opportunities, 
-            friendships, and professional growth. We are committed to supporting our members 
-            in every stage of their personal and professional journey.
+            Joining the Alumni Association Jalpaiguri Government Engineering
+            College Pune Chapter opens doors to a world of opportunities,
+            friendships, and professional growth. We are committed to supporting
+            our members in every stage of their personal and professional
+            journey.
           </p>
         </div>
 
@@ -82,7 +98,7 @@ export default function BenefitsPage() {
             {benefits.map((benefit) => {
               const Icon = benefit.icon;
               return (
-                <div 
+                <div
                   key={benefit.id}
                   className="bg-card rounded-xl p-8 card-shadow hover:elevated-shadow transition-all duration-300 border border-border/50 group"
                 >
@@ -119,7 +135,8 @@ export default function BenefitsPage() {
                   Ready to Experience These Benefits?
                 </h2>
                 <p className="text-primary-foreground/80 text-lg mb-8">
-                  Join the Pune Chapter today and start connecting with your alma mater and fellow graduates.
+                  Join the Pune Chapter today and start connecting with your
+                  alma mater and fellow graduates.
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Link href="/contact">
@@ -128,20 +145,24 @@ export default function BenefitsPage() {
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
                   </Link>
-                   <Link href="/events">
-                    <Button variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary" size="lg">
+                  <Link href="/events">
+                    <Button
+                      variant="outline"
+                      className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"
+                      size="lg"
+                    >
                       Explore Events
                     </Button>
                   </Link>
                 </div>
               </div>
               <div className="hidden md:block h-full min-h-[300px] relative">
-                    <Image 
-                      src={associationLogo} 
-                      alt="Jalpaiguri Engineers Association" 
-                      fill 
-                      className="object-cover"
-                    />
+                <Image
+                  src={associationLogo}
+                  alt="Alumni Association Jalpaiguri Government Engineering College"
+                  fill
+                  className="object-cover"
+                />
               </div>
             </div>
           </div>

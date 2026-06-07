@@ -2,8 +2,10 @@ import Link from "next/link";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "JALPAIGURI ENGINEERS ASSOCIATION | Official Website",
-  description: "Join the network of Jalpaiguri Government Engineering College alumni in Pune. Stay updated with events, mentorship programs, and success stories.",
+  title:
+    "Alumni Association Jalpaiguri Government Engineering College | Official Website",
+  description:
+    "Join the network of Alumni Association Jalpaiguri Government Engineering College alumni in Pune. Stay updated with events, mentorship programs, and success stories.",
 };
 
 import Image from "next/image";
@@ -31,21 +33,24 @@ const achievements = [
     role: "Faculty & Executive Coach | Former IBM Leader",
     batch: "1980",
     image: alumni1,
-    quote: "Over 35 years at IBM, Fujitsu ICIM, and beyond — building teams, scaling businesses, and earning IBM's Person of the Year. Today, mentoring the next generation of leaders from Pune's top management institutes.",
+    quote:
+      "Over 35 years at IBM, Fujitsu ICIM, and beyond — building teams, scaling businesses, and earning IBM's Person of the Year. Today, mentoring the next generation of leaders from Pune's top management institutes.",
   },
   {
     name: "Cdr. Pradeep Bandyopadhyay",
     role: "Director of Capital Projects | Naval Veteran",
     batch: "1978",
     image: alumni2,
-    quote: "From warship operations in the Indian Navy to leading capital projects in Canada's energy sector — a journey across continents, industries, and decades, grounded in JGEC's engineering values.",
+    quote:
+      "From warship operations in the Indian Navy to leading capital projects in Canada's energy sector — a journey across continents, industries, and decades, grounded in JGEC's engineering values.",
   },
   {
     name: "Brig. Pushpal De, Retd.",
     role: "Brigadier (Retd.), Indian Army | Chief Engineer",
     batch: "1965",
     image: alumni3,
-    quote: "Commissioned in 1969, served across Army, Navy, and Air Force for 36+ years. Led iconic national projects including the Naval Academy at Ezhimala. His career is a living example of engineering in service of the nation.",
+    quote:
+      "Commissioned in 1969, served across Army, Navy, and Air Force for 36+ years. Led iconic national projects including the Naval Academy at Ezhimala. His career is a living example of engineering in service of the nation.",
   },
 ];
 
@@ -56,13 +61,15 @@ const pastEvents = [
     title: "Annual Alumni Reunion 2024",
     location: "Pune",
     image: meet2024,
-    description: "A memorable gathering of JALPAIGURI ENGINEERS ASSOCIATION members.",
+    description:
+      "A memorable gathering of Alumni Association Jalpaiguri Government Engineering College members.",
   },
   {
     title: "Annual Alumni Reunion 2025",
     location: "Pune",
     image: meet2025,
-    description: "Another successful reunion bringing together our alumni community for an evening of networking and nostalgia.",
+    description:
+      "Another successful reunion bringing together our alumni community for an evening of networking and nostalgia.",
   },
 ];
 
@@ -81,7 +88,7 @@ export default function HomePage() {
           />
         </div>
         <div className="absolute inset-0 overlay-gradient" />
-        
+
         <div className="relative z-10 container-custom px-4 text-center">
           <div className="max-w-4xl mx-auto animate-fade-in">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full mb-8">
@@ -90,17 +97,17 @@ export default function HomePage() {
                 Established 1961 • 50+ Years of Excellence
               </span>
             </div>
-            
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold text-primary-foreground mb-6 leading-tight">
-              Jalpaiguri Engineers Association
+
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-serif font-bold text-primary-foreground mb-6 leading-tight">
+              Alumni Association Jalpaiguri Government Engineering College
               <span className="block text-accent">Pune Chapter</span>
             </h1>
-            
-            <p className="text-lg md:text-xl text-primary-foreground/80 mb-10 max-w-2xl mx-auto leading-relaxed">
+
+            <p className="text-primary-foreground/80 text-base mb-8 max-w-2xl mx-auto leading-relaxed">
               Connecting graduates of Jalpaiguri Government Engineering College. 
               Building bridges, creating opportunities, and celebrating our shared legacy.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/about">
                 <Button variant="hero" size="xl">
@@ -155,10 +162,10 @@ export default function HomePage() {
                 Our Mission
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-8">
-                To foster a strong and engaged community of Jalpaiguri Engineers 
-                in Pune and other places by promoting meaningful connections, nurturing lifelong 
-                relationships, encouraging collaboration, and contributing to our alma mater 
-                and the wider community.
+                To foster a strong and engaged community of Jalpaiguri Engineers
+                in Pune and other places by promoting meaningful connections,
+                nurturing lifelong relationships, encouraging collaboration, and
+                contributing to our alma mater and the wider community.
               </p>
               <Link href="/about">
                 <Button variant="default" size="lg">
@@ -170,20 +177,38 @@ export default function HomePage() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-4">
                 <div className="rounded-2xl overflow-hidden card-shadow relative h-48">
-                  <Image src={event1} alt="Alumni event" fill className="object-cover" />
+                  <Image
+                    src={event1}
+                    alt="Alumni event"
+                    fill
+                    className="object-cover"
+                  />
                 </div>
                 <div className="bg-accent rounded-2xl p-6 text-center">
-                  <div className="text-2xl font-serif font-bold text-accent-foreground">Brotherhood</div>
-                  <div className="text-accent-foreground/80 text-sm">& Lifelong Bonds</div>
+                  <div className="text-2xl font-serif font-bold text-accent-foreground">
+                    Brotherhood
+                  </div>
+                  <div className="text-accent-foreground/80 text-sm">
+                    & Lifelong Bonds
+                  </div>
                 </div>
               </div>
               <div className="space-y-4 pt-8">
                 <div className="bg-primary rounded-2xl p-6 text-center">
-                  <div className="text-2xl font-serif font-bold text-primary-foreground">Excellence</div>
-                  <div className="text-primary-foreground/80 text-sm">& Collaboration</div>
+                  <div className="text-2xl font-serif font-bold text-primary-foreground">
+                    Excellence
+                  </div>
+                  <div className="text-primary-foreground/80 text-sm">
+                    & Collaboration
+                  </div>
                 </div>
                 <div className="rounded-2xl overflow-hidden card-shadow relative h-48">
-                  <Image src={event2} alt="Graduation ceremony" fill className="object-cover" />
+                  <Image
+                    src={event2}
+                    alt="Graduation ceremony"
+                    fill
+                    className="object-cover"
+                  />
                 </div>
               </div>
             </div>
@@ -225,7 +250,9 @@ export default function HomePage() {
                     <MapPin className="w-4 h-4" />
                     {event.location}
                   </div>
-                  <p className="text-muted-foreground mb-4">{event.description}</p>
+                  <p className="text-muted-foreground mb-4">
+                    {event.description}
+                  </p>
                   <Link href="/events">
                     <Button variant="outline" size="sm">
                       Learn More
@@ -278,12 +305,15 @@ export default function HomePage() {
                   {alumni.name}
                 </h3>
                 <p className="text-accent font-medium text-sm">{alumni.role}</p>
-                <p className="text-muted-foreground text-sm mb-4">Batch of {alumni.batch}</p>
-                <p className="text-muted-foreground text-sm italic">"{alumni.quote}"</p>
+                <p className="text-muted-foreground text-sm mb-4">
+                  Batch of {alumni.batch}
+                </p>
+                <p className="text-muted-foreground text-sm italic">
+                  "{alumni.quote}"
+                </p>
               </div>
             ))}
           </div>
-
         </div>
       </section>
 
@@ -291,21 +321,22 @@ export default function HomePage() {
       <section className="relative py-24 overflow-hidden">
         <div className="absolute inset-0">
           <Image
-             src={heroBanner}
-             alt="CTA Background"
-             fill
-             className="object-cover"
+            src={heroBanner}
+            alt="CTA Background"
+            fill
+            className="object-cover"
           />
         </div>
         <div className="absolute inset-0 overlay-gradient" />
-        
+
         <div className="relative z-10 container-custom px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary-foreground mb-6">
             Join Our Growing Community
           </h2>
           <p className="text-primary-foreground/80 text-lg mb-8 max-w-2xl mx-auto">
-            Become a part of the JALPAIGURI ENGINEERS ASSOCIATION and stay connected with 
-            your batchmates, access exclusive events, and contribute to our alma mater.
+            Become a part of the Alumni Association Jalpaiguri Government
+            Engineering College and stay connected with your batchmates, access
+            exclusive events, and contribute to our alma mater.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/about">

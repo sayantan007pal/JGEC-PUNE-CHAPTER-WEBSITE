@@ -60,14 +60,21 @@ function LoginForm() {
         <div className="absolute inset-0 overlay-gradient" />
         <div className="relative z-10 flex flex-col justify-center items-center p-12 text-center">
           <div className="w-20 h-20 rounded-full overflow-hidden mb-6">
-            <Image src={logo} alt="Jalpaiguri Engineers Association" width={80} height={80} className="w-full h-full object-cover" />
+            <Image
+              src={logo}
+              alt="Alumni Association Jalpaiguri Government Engineering College"
+              width={80}
+              height={80}
+              className="w-full h-full object-cover"
+            />
           </div>
           <h1 className="text-4xl font-serif font-bold text-primary-foreground mb-4">
             Welcome Back!
           </h1>
-          <p className="text-primary-foreground/80 text-lg max-w-md">
-            Connect with your fellow alumni, access exclusive resources, and stay
-            updated with the latest from JALPAIGURI ENGINEERS ASSOCIATION.
+          <p className="text-primary-foreground/80 text-base max-w-md">
+            Connect with your fellow alumni, access exclusive resources, and
+            stay updated with the latest from Alumni Association Jalpaiguri
+            Government Engineering College.
           </p>
         </div>
       </div>
@@ -79,10 +86,22 @@ function LoginForm() {
           <div className="lg:hidden text-center mb-8">
             <Link href="/" className="inline-flex items-center gap-3">
               <div className="w-14 h-14 rounded-full overflow-hidden">
-                <Image src={logo} alt="Jalpaiguri Engineers Association" width={56} height={56} className="w-full h-full object-cover" />
+                <Image
+                  src={logo}
+                  alt="Alumni Association Jalpaiguri Government Engineering College"
+                  width={56}
+                  height={56}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div className="text-left">
-                <h1 className="font-serif font-bold text-sm text-foreground leading-tight">Jalpaiguri Engineers<br />Association</h1>
+                <h1 className="font-serif font-bold text-xs text-foreground leading-tight">
+                  Alumni Association
+                  <br />
+                  Jalpaiguri Government
+                  <br />
+                  Engineering College
+                </h1>
                 <p className="text-muted-foreground text-xs">Pune Chapter</p>
               </div>
             </Link>
@@ -113,7 +132,9 @@ function LoginForm() {
                 placeholder="your.email@example.com"
                 required
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
               />
             </div>
 
@@ -128,14 +149,20 @@ function LoginForm() {
                   className="pr-10"
                   required
                   value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                 >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showPassword ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
                 </button>
               </div>
             </div>
@@ -143,14 +170,25 @@ function LoginForm() {
             <div className="flex items-center justify-between">
               <label className="flex items-center gap-2">
                 <input type="checkbox" className="rounded border-border" />
-                <span className="text-sm text-muted-foreground">Remember me</span>
+                <span className="text-sm text-muted-foreground">
+                  Remember me
+                </span>
               </label>
-              <Link href="/forgot-password" className="text-sm text-accent hover:underline">
+              <Link
+                href="/forgot-password"
+                className="text-sm text-accent hover:underline"
+              >
                 Forgot password?
               </Link>
             </div>
 
-            <Button type="submit" variant="default" size="lg" className="w-full" disabled={isLoading}>
+            <Button
+              type="submit"
+              variant="default"
+              size="lg"
+              className="w-full"
+              disabled={isLoading}
+            >
               {isLoading ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
@@ -168,14 +206,20 @@ function LoginForm() {
           <div className="mt-6 text-center">
             <p className="text-sm text-muted-foreground">
               Don&apos;t have an account?{" "}
-              <Link href="/signup" className="text-accent font-medium hover:underline">
+              <Link
+                href="/signup"
+                className="text-accent font-medium hover:underline"
+              >
                 Register here
               </Link>
             </p>
           </div>
 
           <div className="mt-4 text-center">
-            <Link href="/" className="text-sm text-muted-foreground hover:text-accent">
+            <Link
+              href="/"
+              className="text-sm text-muted-foreground hover:text-accent"
+            >
               ← Back to Home
             </Link>
           </div>
@@ -187,7 +231,13 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin" /></div>}>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <Loader2 className="w-8 h-8 animate-spin" />
+        </div>
+      }
+    >
       <LoginForm />
     </Suspense>
   );

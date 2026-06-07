@@ -4,7 +4,14 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Calendar, MapPin, Clock, Users, ArrowRight, Filter } from "lucide-react";
+import {
+  Calendar,
+  MapPin,
+  Clock,
+  Users,
+  ArrowRight,
+  Filter,
+} from "lucide-react";
 import heroBanner from "@/assets/hero-banner.jpg";
 import event1 from "@/assets/event-1.jpg";
 import event2 from "@/assets/event-2.jpg";
@@ -18,7 +25,8 @@ const featuredPastEvents = [
     date: "December 2024",
     location: "Pune",
     image: meet2024,
-    description: "A memorable gathering of JALPAIGURI ENGINEERS ASSOCIATION members, reconnecting old friends and celebrating our shared legacy.",
+    description:
+      "A memorable gathering of Alumni Association Jalpaiguri Government Engineering College members, reconnecting old friends and celebrating our shared legacy.",
   },
   {
     id: 2,
@@ -26,7 +34,8 @@ const featuredPastEvents = [
     date: "December 2025",
     location: "Pune",
     image: meet2025,
-    description: "Another successful reunion bringing together our alumni community for an evening of networking and nostalgia.",
+    description:
+      "Another successful reunion bringing together our alumni community for an evening of networking and nostalgia.",
   },
 ];
 
@@ -38,7 +47,8 @@ const events = [
     time: "6:00 PM - 11:00 PM",
     location: "To be announced",
     image: event1,
-    description: "Join us for the biggest gathering of JALPAIGURI ENGINEERS ASSOCIATION this year. Network with fellow alumni, enjoy cultural programs, and relive your college memories.",
+    description:
+      "Join us for the biggest gathering of Alumni Association Jalpaiguri Government Engineering College this year. Network with fellow alumni, enjoy cultural programs, and relive your college memories.",
     category: "Reunion",
     featured: true,
   },
@@ -49,11 +59,12 @@ const categories = ["All", "Reunion"];
 export default function EventsPage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  const filteredEvents = selectedCategory === "All" 
-    ? events 
-    : events.filter(event => event.category === selectedCategory);
+  const filteredEvents =
+    selectedCategory === "All"
+      ? events
+      : events.filter((event) => event.category === selectedCategory);
 
-  const featuredEvents = events.filter(event => event.featured);
+  const featuredEvents = events.filter((event) => event.featured);
 
   return (
     <div>
@@ -64,7 +75,7 @@ export default function EventsPage() {
           style={{ backgroundImage: `url(${heroBanner.src})` }}
         />
         <div className="absolute inset-0 overlay-gradient" />
-        
+
         <div className="relative z-10 container-custom px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-serif font-bold text-primary-foreground mb-6">
             Events
@@ -135,7 +146,7 @@ export default function EventsPage() {
                 All Upcoming Events
               </h2>
             </div>
-            
+
             {/* Category Filter */}
             <div className="flex flex-wrap gap-2">
               {categories.map((category) => (
@@ -202,7 +213,7 @@ export default function EventsPage() {
             Want to Host an Event?
           </h2>
           <p className="text-primary-foreground/80 text-lg mb-8 max-w-2xl mx-auto">
-            Have an idea for an alumni event? We'd love to hear from you! 
+            Have an idea for an alumni event? We'd love to hear from you!
             Propose your event and we'll help make it happen.
           </p>
           <Button variant="hero" size="xl">

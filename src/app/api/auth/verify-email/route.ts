@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
     if (!email || !otp) {
       return NextResponse.json(
         { error: "Email and verification code are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -25,21 +25,21 @@ export async function POST(request: NextRequest) {
     if (!user) {
       return NextResponse.json(
         { error: "No account found with this email" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
     if (user.isEmailVerified) {
       return NextResponse.json(
         { error: "Email is already verified" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (!user.emailVerificationOTP || !user.emailVerificationExpiry) {
       return NextResponse.json(
         { error: "No verification code found. Please request a new one." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -47,16 +47,19 @@ export async function POST(request: NextRequest) {
     if (new Date() > user.emailVerificationExpiry) {
       return NextResponse.json(
         { error: "Verification code has expired. Please request a new one." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     // Compare OTP
-    const isOTPValid = await bcrypt.compare(otp.toString(), user.emailVerificationOTP);
+    const isOTPValid = await bcrypt.compare(
+      otp.toString(),
+      user.emailVerificationOTP,
+    );
     if (!isOTPValid) {
       return NextResponse.json(
         { error: "Invalid verification code" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -70,14 +73,17 @@ export async function POST(request: NextRequest) {
     await sendWelcomeEmail(user.email, user.fullName);
 
     return NextResponse.json(
-      { message: "Email verified successfully! Welcome to JALPAIGURI ENGINEERS ASSOCIATION Pune." },
-      { status: 200 }
+      {
+        message:
+          "Email verified successfully! Welcome to Alumni Association Jalpaiguri Government Engineering College Pune.",
+      },
+      { status: 200 },
     );
   } catch (error) {
     console.error("Verify email error:", error);
     return NextResponse.json(
       { error: "Internal server error. Please try again later." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

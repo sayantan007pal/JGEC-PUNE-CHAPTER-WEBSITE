@@ -39,12 +39,12 @@ function emailWrapper(content: string): string {
     <body>
       <div class="container">
         <div class="header">
-          <h1>JALPAIGURI ENGINEERS ASSOCIATION</h1>
+          <h1>Alumni Association Jalpaiguri Government Engineering College</h1>
           <p>Pune Chapter</p>
         </div>
         ${content}
         <div class="footer">
-          <p>JALPAIGURI ENGINEERS ASSOCIATION, Pune Chapter</p>
+          <p>Alumni Association Jalpaiguri Government Engineering College, Pune Chapter</p>
           <p>Jalpaiguri Government Engineering College</p>
           <p>&copy; ${new Date().getFullYear()} All rights reserved.</p>
         </div>
@@ -70,7 +70,7 @@ export async function sendVerificationEmail(
   const html = emailWrapper(`
     <div class="body">
       <h2>Verify Your Email Address</h2>
-      <p>Welcome to the JALPAIGURI ENGINEERS ASSOCIATION, Pune Chapter! Please use the verification code below to complete your registration:</p>
+        <p>Welcome to the Alumni Association Jalpaiguri Government Engineering College, Pune Chapter! Please use the verification code below to complete your registration:</p>
       <div class="otp-box">
         <div class="otp-code">${otp}</div>
       </div>
@@ -82,9 +82,10 @@ export async function sendVerificationEmail(
   `);
 
   await transporter.sendMail({
-    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
+    from: `"Alumni Association Jalpaiguri Government Engineering College" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: "Verify Your Email - JALPAIGURI ENGINEERS ASSOCIATION",
+    subject:
+      "Verify Your Email - Alumni Association Jalpaiguri Government Engineering College",
     html,
   });
 }
@@ -96,7 +97,7 @@ export async function sendPasswordResetEmail(
   const html = emailWrapper(`
     <div class="body">
       <h2>Reset Your Password</h2>
-      <p>We received a request to reset the password for your JALPAIGURI ENGINEERS ASSOCIATION Pune account. Click the button below to set a new password:</p>
+        <p>We received a request to reset the password for your Alumni Association Jalpaiguri Government Engineering College Pune account. Click the button below to set a new password:</p>
       <div style="text-align: center;">
         <a href="${resetUrl}" class="btn">Reset Password</a>
       </div>
@@ -110,9 +111,10 @@ export async function sendPasswordResetEmail(
   `);
 
   await transporter.sendMail({
-    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
+    from: `"Alumni Association Jalpaiguri Government Engineering College" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: "Reset Your Password - JALPAIGURI ENGINEERS ASSOCIATION",
+    subject:
+      "Reset Your Password - Alumni Association Jalpaiguri Government Engineering College",
     html,
   });
 }
@@ -124,8 +126,8 @@ export async function sendWelcomeEmail(
   const html = emailWrapper(`
     <div class="body">
       <h2>Welcome to the Family, ${fullName}! 🎉</h2>
-      <p>Congratulations! Your email has been verified and your JALPAIGURI ENGINEERS ASSOCIATION account is now active.</p>
-      <p>We're thrilled to have you as part of our growing community of JALPAIGURI ENGINEERS ASSOCIATION alumni in Pune. Together, we're building bridges, creating opportunities, and celebrating our shared legacy.</p>
+        <p>Congratulations! Your email has been verified and your Alumni Association Jalpaiguri Government Engineering College account is now active.</p>
+      <p>We're thrilled to have you as part of our growing community of Alumni Association Jalpaiguri Government Engineering College alumni in Pune. Together, we're building bridges, creating opportunities, and celebrating our shared legacy.</p>
       <hr class="divider">
       <h2>Join Our WhatsApp Group 💬</h2>
       <p>Stay connected with fellow alumni! Join our official WhatsApp group to get the latest updates on events, meetups, and opportunities:</p>
@@ -147,9 +149,10 @@ export async function sendWelcomeEmail(
   `);
 
   await transporter.sendMail({
-    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
+    from: `"Alumni Association Jalpaiguri Government Engineering College" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: "Welcome to JALPAIGURI ENGINEERS ASSOCIATION! 🎓",
+    subject:
+      "Welcome to Alumni Association Jalpaiguri Government Engineering College! 🎓",
     html,
   });
 }
@@ -217,7 +220,7 @@ export async function sendDonationNotificationEmailToAdmins(
   `);
 
   await transporter.sendMail({
-    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
+    from: `"Alumni Association Jalpaiguri Government Engineering College" <${process.env.EMAIL_USER}>`,
     to: adminEmails,
     subject: `New Donation Submitted: ₹${payload.amount}`,
     html,
@@ -287,7 +290,7 @@ export async function sendDonationProofReceivedEmailToAdmins(
   `);
 
   await transporter.sendMail({
-    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
+    from: `"Alumni Association Jalpaiguri Government Engineering College" <${process.env.EMAIL_USER}>`,
     to: adminEmails,
     subject: `[Action Required] New Donation Proof — ₹${payload.amount.toLocaleString("en-IN")}`,
     html,
@@ -335,9 +338,10 @@ export async function sendDonationProofReceivedEmailToDonor(
   `);
 
   await transporter.sendMail({
-    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
+    from: `"Alumni Association Jalpaiguri Government Engineering College" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: "We received your donation proof — JALPAIGURI ENGINEERS ASSOCIATION",
+    subject:
+      "We received your donation proof — Alumni Association Jalpaiguri Government Engineering College",
     html,
   });
 }
@@ -379,7 +383,7 @@ export async function sendDonationVerifiedEmail(
   `);
 
   await transporter.sendMail({
-    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
+    from: `"Alumni Association Jalpaiguri Government Engineering College" <${process.env.EMAIL_USER}>`,
     to: email,
     subject: `Your donation of ₹${payload.amount.toLocaleString("en-IN")} is verified! 🎉`,
     html,
@@ -432,9 +436,10 @@ export async function sendDonationRejectedEmail(
   `);
 
   await transporter.sendMail({
-    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
+    from: `"Alumni Association Jalpaiguri Government Engineering College" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: "Your donation proof needs resubmission — JALPAIGURI ENGINEERS ASSOCIATION",
+    subject:
+      "Your donation proof needs resubmission — Alumni Association Jalpaiguri Government Engineering College",
     html,
   });
 }
@@ -449,7 +454,7 @@ interface BlogSubmittedAuthorPayload {
 
 export async function sendBlogSubmittedToAuthor(
   email: string,
-  payload: BlogSubmittedAuthorPayload
+  payload: BlogSubmittedAuthorPayload,
 ): Promise<void> {
   const authorName = escapeHtml(payload.authorName);
   const blogTitle = escapeHtml(payload.blogTitle);
@@ -473,9 +478,10 @@ export async function sendBlogSubmittedToAuthor(
   `);
 
   await transporter.sendMail({
-    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
+    from: `"Alumni Association Jalpaiguri Government Engineering College" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: "Your blog has been submitted for review — JALPAIGURI ENGINEERS ASSOCIATION",
+    subject:
+      "Your blog has been submitted for review — Alumni Association Jalpaiguri Government Engineering College",
     html,
   });
 }
@@ -489,7 +495,7 @@ interface BlogSubmittedAdminPayload {
 
 export async function sendBlogSubmittedToAdmins(
   adminEmails: string[],
-  payload: BlogSubmittedAdminPayload
+  payload: BlogSubmittedAdminPayload,
 ): Promise<void> {
   if (adminEmails.length === 0) return;
 
@@ -516,7 +522,7 @@ export async function sendBlogSubmittedToAdmins(
   `);
 
   await transporter.sendMail({
-    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
+    from: `"Alumni Association Jalpaiguri Government Engineering College" <${process.env.EMAIL_USER}>`,
     to: adminEmails,
     subject: `[Action Required] New Blog Submission — ${blogTitle}`,
     html,
@@ -531,7 +537,7 @@ interface BlogPublishedPayload {
 
 export async function sendBlogPublishedToAuthor(
   email: string,
-  payload: BlogPublishedPayload
+  payload: BlogPublishedPayload,
 ): Promise<void> {
   const authorName = escapeHtml(payload.authorName);
   const blogTitle = escapeHtml(payload.blogTitle);
@@ -553,7 +559,7 @@ export async function sendBlogPublishedToAuthor(
   `);
 
   await transporter.sendMail({
-    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
+    from: `"Alumni Association Jalpaiguri Government Engineering College" <${process.env.EMAIL_USER}>`,
     to: email,
     subject: `Your blog "${blogTitle}" is now live! 🎉`,
     html,
@@ -568,7 +574,7 @@ interface BlogRejectedPayload {
 
 export async function sendBlogRejectedToAuthor(
   email: string,
-  payload: BlogRejectedPayload
+  payload: BlogRejectedPayload,
 ): Promise<void> {
   const authorName = escapeHtml(payload.authorName);
   const blogTitle = escapeHtml(payload.blogTitle);
@@ -592,9 +598,10 @@ export async function sendBlogRejectedToAuthor(
   `);
 
   await transporter.sendMail({
-    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
+    from: `"Alumni Association Jalpaiguri Government Engineering College" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: "Your blog needs revision — JALPAIGURI ENGINEERS ASSOCIATION",
+    subject:
+      "Your blog needs revision — Alumni Association Jalpaiguri Government Engineering College",
     html,
   });
 }
@@ -613,7 +620,7 @@ interface ContactNotificationPayload {
 
 export async function sendContactNotificationToAdmins(
   adminEmails: string[],
-  payload: ContactNotificationPayload
+  payload: ContactNotificationPayload,
 ): Promise<void> {
   if (adminEmails.length === 0) return;
 
@@ -649,7 +656,7 @@ export async function sendContactNotificationToAdmins(
   `);
 
   await transporter.sendMail({
-    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
+    from: `"Alumni Association Jalpaiguri Government Engineering College" <${process.env.EMAIL_USER}>`,
     to: adminEmails,
     subject: `[Contact Form] ${subject}`,
     html,
@@ -665,7 +672,7 @@ interface ContactReplyPayload {
 
 export async function sendContactReplyToUser(
   email: string,
-  payload: ContactReplyPayload
+  payload: ContactReplyPayload,
 ): Promise<void> {
   const senderName = escapeHtml(payload.senderName);
   const originalSubject = escapeHtml(payload.originalSubject);
@@ -689,7 +696,7 @@ export async function sendContactReplyToUser(
   `);
 
   await transporter.sendMail({
-    from: `"Jalpaiguri Engineers Association" <${process.env.EMAIL_USER}>`,
+    from: `"Alumni Association Jalpaiguri Government Engineering College" <${process.env.EMAIL_USER}>`,
     to: email,
     subject: `Re: ${payload.originalSubject}`,
     html,
@@ -704,12 +711,25 @@ interface BlogBestOfMonthPayload {
 
 export async function sendBlogBestOfMonthToAuthor(
   email: string,
-  payload: BlogBestOfMonthPayload
+  payload: BlogBestOfMonthPayload,
 ): Promise<void> {
   const authorName = escapeHtml(payload.authorName);
   const blogTitle = escapeHtml(payload.blogTitle);
   const [year, month] = payload.monthYear.split("-");
-  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
   const monthName = monthNames[parseInt(month, 10) - 1] || month;
 
   const html = emailWrapper(`
@@ -726,7 +746,7 @@ export async function sendBlogBestOfMonthToAuthor(
   `);
 
   await transporter.sendMail({
-    from: `"JALPAIGURI ENGINEERS ASSOCIATION" <${process.env.EMAIL_USER}>`,
+    from: `"Alumni Association Jalpaiguri Government Engineering College" <${process.env.EMAIL_USER}>`,
     to: email,
     subject: `🏆 Congratulations! Your blog is Best of ${monthName} ${year}!`,
     html,

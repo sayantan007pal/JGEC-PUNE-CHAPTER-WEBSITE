@@ -1,6 +1,18 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Target, Eye, Heart, Users, Award, BookOpen, ArrowRight, CheckCircle2, Rocket, Handshake, Building2 } from "lucide-react";
+import {
+  Target,
+  Eye,
+  Heart,
+  Users,
+  Award,
+  BookOpen,
+  ArrowRight,
+  CheckCircle2,
+  Rocket,
+  Handshake,
+  Building2,
+} from "lucide-react";
 import heroBanner from "@/assets/hero-banner.jpg";
 
 const roadmap = [
@@ -9,7 +21,8 @@ const roadmap = [
     title: "Foundation & Setup",
     icon: Building2,
     color: "bg-[#1a365d]",
-    description: "Establish legal, operational, and digital frameworks required for sustainable growth.",
+    description:
+      "Establish legal, operational, and digital frameworks required for sustainable growth.",
     items: [
       "Setting up governance structures",
       "Initiating membership drives",
@@ -24,7 +37,8 @@ const roadmap = [
     title: "Program Activation",
     icon: Handshake,
     color: "bg-[#6b7c3f]",
-    description: "Create engagement with college and build partnerships with industry.",
+    description:
+      "Create engagement with college and build partnerships with industry.",
     items: [
       "Implementing mentorship programs",
       "Hosting networking events",
@@ -50,22 +64,26 @@ const values = [
   {
     icon: Heart,
     title: "Brotherhood",
-    description: "Fostering lifelong bonds among alumni regardless of batch or branch.",
+    description:
+      "Fostering lifelong bonds among alumni regardless of batch or branch.",
   },
   {
     icon: Award,
     title: "Excellence",
-    description: "Celebrating and promoting excellence in all professional endeavors.",
+    description:
+      "Celebrating and promoting excellence in all professional endeavors.",
   },
   {
     icon: BookOpen,
     title: "Mentorship",
-    description: "Guiding current students and young alumni in their career journeys.",
+    description:
+      "Guiding current students and young alumni in their career journeys.",
   },
   {
     icon: Users,
     title: "Community",
-    description: "Building a supportive network that extends beyond geographical boundaries.",
+    description:
+      "Building a supportive network that extends beyond geographical boundaries.",
   },
 ];
 
@@ -90,7 +108,7 @@ export default function AboutPage() {
           style={{ backgroundImage: `url(${heroBanner.src})` }}
         />
         <div className="absolute inset-0 overlay-gradient" />
-        
+
         <div className="relative z-10 container-custom px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-serif font-bold text-primary-foreground mb-6">
             About Us
@@ -112,10 +130,9 @@ export default function AboutPage() {
               Our Mission
             </h2>
             <p className="text-muted-foreground leading-relaxed text-lg">
-              To foster a strong and engaged community of Jalpaiguri Engineers in Pune 
-              and other places by promoting meaningful connections, nurturing lifelong 
-              relationships, encouraging collaboration, and contributing to our alma mater 
-              and the wider community.
+                Join hundreds of fellow alumni who have already made the Alumni Association Jalpaiguri Government Engineering College Pune Chapter their home away from home.
+              nurturing lifelong relationships, encouraging collaboration, and
+              contributing to our alma mater and the wider community.
             </p>
           </div>
         </div>
@@ -141,9 +158,13 @@ export default function AboutPage() {
               >
                 <div className={`${phase.color} p-4 text-center`}>
                   <div className="w-16 h-16 rounded-full border-4 border-white bg-white flex items-center justify-center mx-auto mb-2">
-                    <span className="text-lg font-bold text-foreground">{phase.year.split(" ")[0]}</span>
+                    <span className="text-lg font-bold text-foreground">
+                      {phase.year.split(" ")[0]}
+                    </span>
                   </div>
-                  <span className="text-white text-sm font-medium">{phase.year.split(" ")[1]}</span>
+                  <span className="text-white text-sm font-medium">
+                    {phase.year.split(" ")[1]}
+                  </span>
                 </div>
                 <div className="p-6">
                   <div className="flex items-center gap-3 mb-3">
@@ -152,10 +173,15 @@ export default function AboutPage() {
                       {phase.title}
                     </h3>
                   </div>
-                  <p className="text-muted-foreground text-sm mb-4">{phase.description}</p>
+                  <p className="text-muted-foreground text-sm mb-4">
+                    {phase.description}
+                  </p>
                   <ul className="space-y-2">
                     {phase.items.map((item) => (
-                      <li key={item} className="flex items-start gap-2 text-sm text-muted-foreground">
+                      <li
+                        key={item}
+                        className="flex items-start gap-2 text-sm text-muted-foreground"
+                      >
                         <CheckCircle2 className="w-4 h-4 text-accent shrink-0 mt-0.5" />
                         <span>{item}</span>
                       </li>
@@ -192,7 +218,9 @@ export default function AboutPage() {
                 <h3 className="text-lg font-serif font-bold text-card-foreground mb-2">
                   {value.title}
                 </h3>
-                <p className="text-muted-foreground text-sm">{value.description}</p>
+                <p className="text-muted-foreground text-sm">
+                  {value.description}
+                </p>
               </div>
             ))}
           </div>
@@ -211,8 +239,9 @@ export default function AboutPage() {
                 Benefits of Joining
               </h2>
               <p className="text-primary-foreground/80 leading-relaxed mb-8">
-                As a member of the JALPAIGURI ENGINEERS ASSOCIATION Pune Chapter, you gain access to 
-                a wealth of resources, connections, and opportunities designed to support 
+                As a member of the Alumni Association Jalpaiguri Government
+                Engineering College Pune Chapter, you gain access to a wealth of
+                resources, connections, and opportunities designed to support
                 your professional and personal growth.
               </p>
               <Link href="/contact">
@@ -228,7 +257,9 @@ export default function AboutPage() {
                 {benefits.map((benefit) => (
                   <li key={benefit} className="flex items-start gap-3">
                     <CheckCircle2 className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-                    <span className="text-primary-foreground/90">{benefit}</span>
+                    <span className="text-primary-foreground/90">
+                      {benefit}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -244,8 +275,9 @@ export default function AboutPage() {
             Ready to Reconnect?
           </h2>
           <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
-            Join hundreds of fellow alumni who have already made the Jalpaiguri Engineers 
-            Association Pune Chapter their home away from home.
+            Join hundreds of fellow alumni who have already made the Alumni
+            Association Jalpaiguri Government Engineering College Pune Chapter
+            their home away from home.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/contact">

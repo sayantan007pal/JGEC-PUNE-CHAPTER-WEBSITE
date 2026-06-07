@@ -5,7 +5,16 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Eye, EyeOff, UserPlus, Loader2, ChevronRight, ChevronLeft, UploadCloud, X } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  UserPlus,
+  Loader2,
+  ChevronRight,
+  ChevronLeft,
+  UploadCloud,
+  X,
+} from "lucide-react";
 import Image from "next/image";
 import heroBanner from "@/assets/hero-banner.jpg";
 import logo from "@/assets/Jalpaiguri-engineers-association.jpg";
@@ -76,29 +85,82 @@ export default function SignupPage() {
   const validateStep = (currentStep: number): boolean => {
     switch (currentStep) {
       case 1:
-        if (!formData.fullName.trim()) { setError("Full name is required"); return false; }
-        if (!formData.email.trim()) { setError("Email is required"); return false; }
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) { setError("Invalid email format"); return false; }
-        if (formData.password.length < 6) { setError("Password must be at least 6 characters"); return false; }
-        if (formData.password !== formData.confirmPassword) { setError("Passwords do not match"); return false; }
+        if (!formData.fullName.trim()) {
+          setError("Full name is required");
+          return false;
+        }
+        if (!formData.email.trim()) {
+          setError("Email is required");
+          return false;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+          setError("Invalid email format");
+          return false;
+        }
+        if (formData.password.length < 6) {
+          setError("Password must be at least 6 characters");
+          return false;
+        }
+        if (formData.password !== formData.confirmPassword) {
+          setError("Passwords do not match");
+          return false;
+        }
         return true;
       case 2:
-        if (!formData.passingYear.trim()) { setError("Passing year is required"); return false; }
-        if (!formData.department) { setError("Department is required"); return false; }
-        if (!formData.phoneNumber.trim()) { setError("Phone number is required"); return false; }
-        if (!formData.bloodGroup) { setError("Blood group is required"); return false; }
+        if (!formData.passingYear.trim()) {
+          setError("Passing year is required");
+          return false;
+        }
+        if (!formData.department) {
+          setError("Department is required");
+          return false;
+        }
+        if (!formData.phoneNumber.trim()) {
+          setError("Phone number is required");
+          return false;
+        }
+        if (!formData.bloodGroup) {
+          setError("Blood group is required");
+          return false;
+        }
         return true;
       case 3:
-        if (!formData.currentOrLastOrganization.trim()) { setError("Organization is required"); return false; }
-        if (!formData.designation.trim()) { setError("Designation is required"); return false; }
-        if (!formData.rolesAndResponsibility.trim()) { setError("Roles & responsibilities are required"); return false; }
+        if (!formData.currentOrLastOrganization.trim()) {
+          setError("Organization is required");
+          return false;
+        }
+        if (!formData.designation.trim()) {
+          setError("Designation is required");
+          return false;
+        }
+        if (!formData.rolesAndResponsibility.trim()) {
+          setError("Roles & responsibilities are required");
+          return false;
+        }
         return true;
       case 4:
-        if (!formData.addressInPune.trim()) { setError("Address in Pune is required"); return false; }
-        if (!formData.contributionInterest.trim()) { setError("Please specify how you want to contribute"); return false; }
-        if (!photoFile) { setError("Please upload a profile photo"); return false; }
-        if (!photoFile.type.startsWith("image/")) { setError("File must be an image (JPG, PNG, etc.)"); return false; }
-        if (photoFile.size > MAX_PHOTO_SIZE) { setError(`Photo must be ${MAX_PHOTO_SIZE / (1024 * 1024)} MB or smaller`); return false; }
+        if (!formData.addressInPune.trim()) {
+          setError("Address in Pune is required");
+          return false;
+        }
+        if (!formData.contributionInterest.trim()) {
+          setError("Please specify how you want to contribute");
+          return false;
+        }
+        if (!photoFile) {
+          setError("Please upload a profile photo");
+          return false;
+        }
+        if (!photoFile.type.startsWith("image/")) {
+          setError("File must be an image (JPG, PNG, etc.)");
+          return false;
+        }
+        if (photoFile.size > MAX_PHOTO_SIZE) {
+          setError(
+            `Photo must be ${MAX_PHOTO_SIZE / (1024 * 1024)} MB or smaller`,
+          );
+          return false;
+        }
         return true;
       default:
         return true;
@@ -124,7 +186,7 @@ export default function SignupPage() {
 
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] ?? null;
-    
+
     if (file && file.size > MAX_PHOTO_SIZE) {
       setError(`Photo must be ${MAX_PHOTO_SIZE / (1024 * 1024)} MB or smaller`);
       clearPhoto();
@@ -194,14 +256,21 @@ export default function SignupPage() {
         <div className="absolute inset-0 overlay-gradient" />
         <div className="relative z-10 flex flex-col justify-center items-center p-12 text-center">
           <div className="w-20 h-20 rounded-full overflow-hidden mb-6">
-            <Image src={logo} alt="Jalpaiguri Engineers Association" width={80} height={80} className="w-full h-full object-cover" />
+            <Image
+              src={logo}
+              alt="Alumni Association Jalpaiguri Government Engineering College"
+              width={80}
+              height={80}
+              className="w-full h-full object-cover"
+            />
           </div>
           <h1 className="text-4xl font-serif font-bold text-primary-foreground mb-4">
             Join Our Community
           </h1>
           <p className="text-primary-foreground/80 text-lg max-w-md">
-            Become a part of the JALPAIGURI ENGINEERS ASSOCIATION, Pune Chapter. Connect,
-            collaborate, and contribute to our growing network.
+            Become a part of the Alumni Association Jalpaiguri Government
+            Engineering College, Pune Chapter. Connect, collaborate, and
+            contribute to our growing network.
           </p>
 
           {/* Step indicator */}
@@ -213,8 +282,8 @@ export default function SignupPage() {
                   s === step
                     ? "bg-accent w-8"
                     : s < step
-                    ? "bg-accent/60"
-                    : "bg-primary-foreground/30"
+                      ? "bg-accent/60"
+                      : "bg-primary-foreground/30"
                 }`}
               />
             ))}
@@ -232,10 +301,22 @@ export default function SignupPage() {
           <div className="lg:hidden text-center mb-6">
             <Link href="/" className="inline-flex items-center gap-3">
               <div className="w-12 h-12 rounded-full overflow-hidden">
-                <Image src={logo} alt="Jalpaiguri Engineers Association" width={48} height={48} className="w-full h-full object-cover" />
+                <Image
+                  src={logo}
+                  alt="Alumni Association Jalpaiguri Government Engineering College"
+                  width={48}
+                  height={48}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div className="text-left">
-                <h1 className="font-serif font-bold text-sm text-foreground leading-tight">Jalpaiguri Engineers<br />Association</h1>
+                <h1 className="font-serif font-bold text-sm text-foreground leading-tight">
+                  Alumni Association
+                  <br />
+                  Jalpaiguri Government
+                  <br />
+                  Engineering College
+                </h1>
                 <p className="text-muted-foreground text-xs">Pune Chapter</p>
               </div>
             </Link>
@@ -318,7 +399,11 @@ export default function SignupPage() {
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                     >
-                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      {showPassword ? (
+                        <EyeOff className="w-4 h-4" />
+                      ) : (
+                        <Eye className="w-4 h-4" />
+                      )}
                     </button>
                   </div>
                 </div>
@@ -329,7 +414,9 @@ export default function SignupPage() {
                   <Input
                     type="password"
                     value={formData.confirmPassword}
-                    onChange={(e) => updateField("confirmPassword", e.target.value)}
+                    onChange={(e) =>
+                      updateField("confirmPassword", e.target.value)
+                    }
                     placeholder="Re-enter your password"
                   />
                 </div>
@@ -346,7 +433,9 @@ export default function SignupPage() {
                     </label>
                     <Input
                       value={formData.passingYear}
-                      onChange={(e) => updateField("passingYear", e.target.value)}
+                      onChange={(e) =>
+                        updateField("passingYear", e.target.value)
+                      }
                       placeholder="e.g., 2015"
                     />
                   </div>
@@ -356,12 +445,16 @@ export default function SignupPage() {
                     </label>
                     <select
                       value={formData.bloodGroup}
-                      onChange={(e) => updateField("bloodGroup", e.target.value)}
+                      onChange={(e) =>
+                        updateField("bloodGroup", e.target.value)
+                      }
                       className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
                       <option value="">Select</option>
                       {BLOOD_GROUPS.map((bg) => (
-                        <option key={bg} value={bg}>{bg}</option>
+                        <option key={bg} value={bg}>
+                          {bg}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -378,14 +471,17 @@ export default function SignupPage() {
                   >
                     <option value="">Select department</option>
                     {DEPARTMENTS.map((dept) => (
-                      <option key={dept} value={dept}>{dept}</option>
+                      <option key={dept} value={dept}>
+                        {dept}
+                      </option>
                     ))}
                   </select>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-1.5">
-                    Phone Number (WhatsApp-enabled) <span className="text-destructive">*</span>
+                    Phone Number (WhatsApp-enabled){" "}
+                    <span className="text-destructive">*</span>
                   </label>
                   <Input
                     type="tel"
@@ -397,7 +493,8 @@ export default function SignupPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-1.5">
-                    Nickname <span className="text-muted-foreground">(optional)</span>
+                    Nickname{" "}
+                    <span className="text-muted-foreground">(optional)</span>
                   </label>
                   <Input
                     value={formData.nickName}
@@ -413,11 +510,14 @@ export default function SignupPage() {
               <>
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-1.5">
-                    Current / Last Organization <span className="text-destructive">*</span>
+                    Current / Last Organization{" "}
+                    <span className="text-destructive">*</span>
                   </label>
                   <Input
                     value={formData.currentOrLastOrganization}
-                    onChange={(e) => updateField("currentOrLastOrganization", e.target.value)}
+                    onChange={(e) =>
+                      updateField("currentOrLastOrganization", e.target.value)
+                    }
                     placeholder="e.g., Tata Consultancy Services"
                   />
                 </div>
@@ -435,11 +535,14 @@ export default function SignupPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-1.5">
-                    Roles & Responsibilities <span className="text-destructive">*</span>
+                    Roles & Responsibilities{" "}
+                    <span className="text-destructive">*</span>
                   </label>
                   <textarea
                     value={formData.rolesAndResponsibility}
-                    onChange={(e) => updateField("rolesAndResponsibility", e.target.value)}
+                    onChange={(e) =>
+                      updateField("rolesAndResponsibility", e.target.value)
+                    }
                     placeholder="Brief description of your key roles..."
                     rows={3}
                     className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring resize-none"
@@ -453,11 +556,14 @@ export default function SignupPage() {
               <>
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-1.5">
-                    Address of Stay in Pune <span className="text-destructive">*</span>
+                    Address of Stay in Pune{" "}
+                    <span className="text-destructive">*</span>
                   </label>
                   <textarea
                     value={formData.addressInPune}
-                    onChange={(e) => updateField("addressInPune", e.target.value)}
+                    onChange={(e) =>
+                      updateField("addressInPune", e.target.value)
+                    }
                     placeholder="Your current address in Pune..."
                     rows={2}
                     className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring resize-none"
@@ -466,11 +572,14 @@ export default function SignupPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-1.5">
-                    How do you want to contribute? <span className="text-destructive">*</span>
+                    How do you want to contribute?{" "}
+                    <span className="text-destructive">*</span>
                   </label>
                   <textarea
                     value={formData.contributionInterest}
-                    onChange={(e) => updateField("contributionInterest", e.target.value)}
+                    onChange={(e) =>
+                      updateField("contributionInterest", e.target.value)
+                    }
                     placeholder="e.g., Mentoring juniors, organizing events, sponsoring activities..."
                     rows={3}
                     className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring resize-none"
@@ -528,12 +637,20 @@ export default function SignupPage() {
 
                 <div>
                   <label className="flex items-start gap-2">
-                    <input type="checkbox" className="rounded border-border mt-1" required />
+                    <input
+                      type="checkbox"
+                      className="rounded border-border mt-1"
+                      required
+                    />
                     <span className="text-sm text-muted-foreground">
                       I agree to the{" "}
-                      <a href="#" className="text-accent hover:underline">Terms of Service</a>
-                      {" "}and{" "}
-                      <a href="#" className="text-accent hover:underline">Privacy Policy</a>
+                      <a href="#" className="text-accent hover:underline">
+                        Terms of Service
+                      </a>{" "}
+                      and{" "}
+                      <a href="#" className="text-accent hover:underline">
+                        Privacy Policy
+                      </a>
                     </span>
                   </label>
                 </div>
@@ -543,18 +660,36 @@ export default function SignupPage() {
             {/* Navigation Buttons */}
             <div className="flex gap-3 pt-2">
               {step > 1 && (
-                <Button type="button" variant="outline" size="lg" onClick={handleBack} className="flex-1">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="lg"
+                  onClick={handleBack}
+                  className="flex-1"
+                >
                   <ChevronLeft className="w-4 h-4" />
                   Back
                 </Button>
               )}
               {step < 4 ? (
-                <Button type="button" variant="default" size="lg" onClick={handleNext} className="flex-1">
+                <Button
+                  type="button"
+                  variant="default"
+                  size="lg"
+                  onClick={handleNext}
+                  className="flex-1"
+                >
                   Next
                   <ChevronRight className="w-4 h-4" />
                 </Button>
               ) : (
-                <Button type="submit" variant="default" size="lg" className="flex-1" disabled={isLoading}>
+                <Button
+                  type="submit"
+                  variant="default"
+                  size="lg"
+                  className="flex-1"
+                  disabled={isLoading}
+                >
                   {isLoading ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />
@@ -574,14 +709,20 @@ export default function SignupPage() {
           <div className="mt-6 text-center">
             <p className="text-sm text-muted-foreground">
               Already have an account?{" "}
-              <Link href="/login" className="text-accent font-medium hover:underline">
+              <Link
+                href="/login"
+                className="text-accent font-medium hover:underline"
+              >
                 Login here
               </Link>
             </p>
           </div>
 
           <div className="mt-4 text-center">
-            <Link href="/" className="text-sm text-muted-foreground hover:text-accent">
+            <Link
+              href="/"
+              className="text-sm text-muted-foreground hover:text-accent"
+            >
               ← Back to Home
             </Link>
           </div>

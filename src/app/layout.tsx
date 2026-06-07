@@ -12,18 +12,32 @@ const playfair = Playfair_Display({
   variable: "--font-playfair",
 });
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://jgec-pune-chapter.vercel.app';
+const baseUrl =
+  process.env.NEXT_PUBLIC_BASE_URL || "https://jgec-pune-chapter.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "JALPAIGURI ENGINEERS ASSOCIATION | Jalpaiguri Government Engineering College",
-    template: "%s | JALPAIGURI ENGINEERS ASSOCIATION",
+    default:
+      "Alumni Association Jalpaiguri Government Engineering College | Jalpaiguri Government Engineering College",
+    template:
+      "%s | Alumni Association Jalpaiguri Government Engineering College",
   },
-  description: "Official website of JALPAIGURI ENGINEERS ASSOCIATION Pune Chapter. Connect with fellow graduates, attend events, and grow your professional network.",
-  keywords: ["JGEC", "Alumni", "Pune", "Jalpaiguri Government Engineering College", "Engineering", "Community", "Networking"],
-  authors: [{ name: "JALPAIGURI ENGINEERS ASSOCIATION" }],
-  creator: "JALPAIGURI ENGINEERS ASSOCIATION",
+  description:
+    "Official website of Alumni Association Jalpaiguri Government Engineering College Pune Chapter. Connect with fellow graduates, attend events, and grow your professional network.",
+  keywords: [
+    "JGEC",
+    "Alumni",
+    "Pune",
+    "Jalpaiguri Government Engineering College",
+    "Engineering",
+    "Community",
+    "Networking",
+  ],
+  authors: [
+    { name: "Alumni Association Jalpaiguri Government Engineering College" },
+  ],
+  creator: "Alumni Association Jalpaiguri Government Engineering College",
   manifest: "/manifest.webmanifest",
   icons: {
     icon: "/icon.jpg",
@@ -33,15 +47,18 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: baseUrl,
-    title: "JALPAIGURI ENGINEERS ASSOCIATION Pune Chapter",
-    description: "Official community for JALPAIGURI ENGINEERS ASSOCIATION alumni in Pune. Join us to network, mentor, and give back.",
-    siteName: "JALPAIGURI ENGINEERS ASSOCIATION",
+    title:
+      "Alumni Association Jalpaiguri Government Engineering College Pune Chapter",
+    description:
+      "Official community for Alumni Association Jalpaiguri Government Engineering College alumni in Pune. Join us to network, mentor, and give back.",
+    siteName: "Alumni Association Jalpaiguri Government Engineering College",
     images: ["/icon.jpg"],
   },
   twitter: {
     card: "summary_large_image",
-    title: "JALPAIGURI ENGINEERS ASSOCIATION",
-    description: "Official community for JALPAIGURI ENGINEERS ASSOCIATION alumni in Pune.",
+    title: "Alumni Association Jalpaiguri Government Engineering College",
+    description:
+      "Official community for Alumni Association Jalpaiguri Government Engineering College alumni in Pune.",
     images: ["/icon.jpg"],
   },
 };
@@ -67,7 +84,9 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body className={`${inter.variable} ${playfair.variable} font-sans antialiased min-h-screen flex flex-col`}>
+      <body
+        className={`${inter.variable} ${playfair.variable} font-sans antialiased min-h-screen flex flex-col`}
+      >
         <Providers>
           {children}
           <Toaster />

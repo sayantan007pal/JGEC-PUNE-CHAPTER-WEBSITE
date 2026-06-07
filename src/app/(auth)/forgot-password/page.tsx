@@ -51,7 +51,13 @@ export default function ForgotPasswordPage() {
         <div className="absolute inset-0 overlay-gradient" />
         <div className="relative z-10 flex flex-col justify-center items-center p-12 text-center">
           <div className="w-20 h-20 rounded-full overflow-hidden mb-6">
-            <Image src={logo} alt="Jalpaiguri Engineers Association" width={80} height={80} className="w-full h-full object-cover" />
+            <Image
+              src={logo}
+              alt="Alumni Association Jalpaiguri Government Engineering College"
+              width={80}
+              height={80}
+              className="w-full h-full object-cover"
+            />
           </div>
           <h1 className="text-4xl font-serif font-bold text-primary-foreground mb-4">
             Forgot Password?
@@ -73,8 +79,9 @@ export default function ForgotPasswordPage() {
                 Check Your Email
               </h2>
               <p className="text-muted-foreground mb-6">
-                If an account exists with <strong>{email}</strong>, we&apos;ve sent a password
-                reset link to your inbox. Please check your email and follow the instructions.
+                If an account exists with <strong>{email}</strong>, we&apos;ve
+                sent a password reset link to your inbox. Please check your
+                email and follow the instructions.
               </p>
               <p className="text-sm text-muted-foreground">
                 Didn&apos;t receive it? Check your spam folder or{" "}
@@ -96,7 +103,8 @@ export default function ForgotPasswordPage() {
                   Reset Password
                 </h2>
                 <p className="text-muted-foreground">
-                  Enter your email address and we&apos;ll send you a link to reset your password.
+                  Enter your email address and we&apos;ll send you a link to
+                  reset your password.
                 </p>
               </div>
 
@@ -122,7 +130,13 @@ export default function ForgotPasswordPage() {
                 />
               </div>
 
-              <Button type="submit" variant="default" size="lg" className="w-full" disabled={isLoading}>
+              <Button
+                type="submit"
+                variant="default"
+                size="lg"
+                className="w-full"
+                disabled={isLoading}
+              >
                 {isLoading ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin" />

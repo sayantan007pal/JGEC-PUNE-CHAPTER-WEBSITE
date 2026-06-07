@@ -1,6 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin } from "lucide-react";
+import {
+  Facebook,
+  Twitter,
+  Linkedin,
+  Instagram,
+  Mail,
+  Phone,
+  MapPin,
+} from "lucide-react";
 import logo from "@/assets/Jalpaiguri-engineers-association.jpg";
 
 const Footer = () => {
@@ -12,22 +20,38 @@ const Footer = () => {
           <div>
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 rounded-full overflow-hidden">
-                <Image src={logo} alt="Jalpaiguri Engineers Association" width={48} height={48} className="w-full h-full object-cover" />
+                <Image
+                  src={logo}
+                  alt="Alumni Association Jalpaiguri Government Engineering College"
+                  width={48}
+                  height={48}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div>
-                <h3 className="font-serif font-bold text-base leading-tight">Jalpaiguri Engineers<br />Association</h3>
-                <p className="text-primary-foreground/70 text-sm">Pune Chapter</p>
+                <h3 className="font-serif font-bold text-sm leading-tight">
+                  Alumni Association
+                  <br />
+                  Jalpaiguri Government
+                  <br />
+                  Engineering College
+                </h3>
+                <p className="text-primary-foreground/70 text-xs">
+                  Pune Chapter
+                </p>
               </div>
             </div>
-            <p className="text-primary-foreground/80 text-sm leading-relaxed">
-              Connecting graduates of Jalpaiguri Government Engineering College, 
+            <p className="text-primary-foreground/80 text-xs leading-relaxed">
+              Connecting graduates of Jalpaiguri Government Engineering College,
               fostering lifelong relationships and professional growth.
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-serif font-semibold text-lg mb-6">Quick Links</h4>
+            <h4 className="font-serif font-semibold text-lg mb-6">
+              Quick Links
+            </h4>
             <ul className="space-y-3">
               {[
                 { name: "About Us", path: "/about" },
@@ -50,7 +74,9 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h4 className="font-serif font-semibold text-lg mb-6">Contact Us</h4>
+            <h4 className="font-serif font-semibold text-lg mb-6">
+              Contact Us
+            </h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-accent shrink-0 mt-0.5" />
@@ -84,7 +110,11 @@ const Footer = () => {
             <h4 className="font-serif font-semibold text-lg mb-6">Follow Us</h4>
             <div className="flex gap-3">
               {[
-                { icon: Instagram, href: "https://www.instagram.com/jgec_pune?igsh=ZDY5Yjk0dG40aDlv", label: "Instagram" },
+                {
+                  icon: Instagram,
+                  href: "https://www.instagram.com/jgec_pune?igsh=ZDY5Yjk0dG40aDlv",
+                  label: "Instagram",
+                },
               ].map(({ icon: Icon, href, label }) => (
                 <a
                   key={label}
@@ -97,7 +127,9 @@ const Footer = () => {
               ))}
             </div>
             <div className="mt-8">
-              <h4 className="font-serif font-semibold text-lg mb-4">Newsletter</h4>
+              <h4 className="font-serif font-semibold text-lg mb-4">
+                Newsletter
+              </h4>
               <form className="flex gap-2">
                 <input
                   type="email"
@@ -119,13 +151,22 @@ const Footer = () => {
       {/* Bottom Bar */}
       <div className="border-t border-white/10">
         <div className="container-custom px-4 py-6">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-primary-foreground/70">
-            <p>© 2026 JALPAIGURI ENGINEERS ASSOCIATION. All rights reserved.</p>
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-primary-foreground/70">
+            <p>
+              © 2026 Alumni Association Jalpaiguri Government College. All
+              rights reserved.
+            </p>
             <div className="flex gap-6">
-              <Link href="/privacy" className="hover:text-accent transition-colors">
+              <Link
+                href="/privacy"
+                className="hover:text-accent transition-colors"
+              >
                 Privacy Policy
               </Link>
-              <Link href="/terms" className="hover:text-accent transition-colors">
+              <Link
+                href="/terms"
+                className="hover:text-accent transition-colors"
+              >
                 Terms of Use
               </Link>
             </div>
