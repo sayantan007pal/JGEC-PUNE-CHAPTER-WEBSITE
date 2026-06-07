@@ -17,7 +17,7 @@ import heroBanner from "@/assets/hero-banner.jpg";
 
 const roadmap = [
   {
-    year: "2024",
+    year: "2024-2025",
     title: "Foundation & Setup",
     icon: Building2,
     color: "bg-[#1a365d]",
@@ -33,7 +33,7 @@ const roadmap = [
     ],
   },
   {
-    year: "2025",
+    year: "2025-2026",
     title: "Program Activation",
     icon: Handshake,
     color: "bg-[#6b7c3f]",
@@ -47,7 +47,7 @@ const roadmap = [
     ],
   },
   {
-    year: "2026",
+    year: "2026-2027",
     title: "Legacy Transformation",
     icon: Rocket,
     color: "bg-[#2d5016]",
@@ -130,9 +130,11 @@ export default function AboutPage() {
               Our Mission
             </h2>
             <p className="text-muted-foreground leading-relaxed text-lg">
-                Join hundreds of fellow alumni who have already made the Alumni Association Jalpaiguri Government Engineering College Pune Chapter their home away from home.
-              nurturing lifelong relationships, encouraging collaboration, and
-              contributing to our alma mater and the wider community.
+              Join hundreds of fellow alumni who have already made the Alumni
+              Association Jalpaiguri Government Engineering College Pune Chapter
+              their home away from home. nurturing lifelong relationships,
+              encouraging collaboration, and contributing to our alma mater and
+              the wider community.
             </p>
           </div>
         </div>
@@ -157,14 +159,11 @@ export default function AboutPage() {
                 className="bg-card rounded-2xl overflow-hidden card-shadow hover:elevated-shadow transition-shadow duration-300"
               >
                 <div className={`${phase.color} p-4 text-center`}>
-                  <div className="w-16 h-16 rounded-full border-4 border-white bg-white flex items-center justify-center mx-auto mb-2">
-                    <span className="text-lg font-bold text-foreground">
-                      {phase.year.split(" ")[0]}
+                  <div className="inline-flex min-h-11 px-4 rounded-xl border-2 border-white bg-white items-center justify-center mx-auto">
+                    <span className="text-sm font-bold text-foreground tracking-wide">
+                      {phase.year}
                     </span>
                   </div>
-                  <span className="text-white text-sm font-medium">
-                    {phase.year.split(" ")[1]}
-                  </span>
                 </div>
                 <div className="p-6">
                   <div className="flex items-center gap-3 mb-3">
