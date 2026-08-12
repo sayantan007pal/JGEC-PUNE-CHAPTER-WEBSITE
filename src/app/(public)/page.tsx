@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "JALPAIGURI ENGINEERS ASSOCIATION | Official Website",
+  title: "JGEC Alumni Association Pune | Official Website",
   description: "Join the network of Jalpaiguri Government Engineering College alumni in Pune. Stay updated with events, mentorship programs, and success stories.",
 };
 
@@ -29,7 +29,7 @@ const achievements = [
   {
     name: "Shri Adip Roy",
     role: "Faculty & Executive Coach | Former IBM Leader",
-    batch: "1980",
+    batch: "1979",
     image: alumni1,
     quote: "Over 35 years at IBM, Fujitsu ICIM, and beyond — building teams, scaling businesses, and earning IBM's Person of the Year. Today, mentoring the next generation of leaders from Pune's top management institutes.",
   },
