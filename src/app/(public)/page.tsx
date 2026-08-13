@@ -8,8 +8,11 @@ export const metadata: Metadata = {
 
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Calendar, Users, Award, MapPin, ArrowRight, Star } from "lucide-react";
+import { MapPin, ArrowRight } from "lucide-react";
+import HeroCarousel from "@/components/HeroCarousel";
 import heroBanner from "@/assets/hero-banner.jpg";
+import campusImage1 from "@/assets/Campus-image_1.jpg";
+import campusImage2 from "@/assets/Campus_image_2.jpg";
 import alumni1 from "@/assets/Adip-da.jpg";
 import alumni2 from "@/assets/Pradeep-da.jpg";
 import alumni3 from "@/assets/Pushpal-da.jpg";
@@ -17,6 +20,7 @@ import event1 from "@/assets/2026-meet-2.jpg";
 import event2 from "@/assets/2026-meet-3.jpg";
 import meet2024 from "@/assets/meet-2024.jpg";
 import meet2025 from "@/assets/meet-2025.jpg";
+import logo from "@/assets/JEAP_Logo_transparent_bg.png";
 
 // const stats = [
 //   { number: "5000+", label: "Alumni Members", icon: Users },
@@ -29,7 +33,7 @@ const achievements = [
   {
     name: "Shri Adip Roy",
     role: "Faculty & Executive Coach | Former IBM Leader",
-    batch: "1979",
+    batch: "1969",
     image: alumni1,
     quote: "Over 35 years at IBM, Fujitsu ICIM, and beyond — building teams, scaling businesses, and earning IBM's Person of the Year. Today, mentoring the next generation of leaders from Pune's top management institutes.",
   },
@@ -56,7 +60,7 @@ const pastEvents = [
     title: "Annual Alumni Reunion 2024",
     location: "Pune",
     image: meet2024,
-    description: "A memorable gathering of JALPAIGURI ENGINEERS ASSOCIATION members.",
+    description: "A memorable gathering of JGEC Alumni Association, Pune Chapter's members.",
   },
   {
     title: "Annual Alumni Reunion 2025",
@@ -69,61 +73,19 @@ const pastEvents = [
 export default function HomePage() {
   return (
     <div>
-      {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src={heroBanner}
-            alt="Hero Banner"
-            fill
-            className="object-cover"
-            priority
+      {/* Hero Carousel */}
+      <HeroCarousel
+        slides={[
+          { src: heroBanner, alt: "JGEC Campus" },
+          { src: campusImage1, alt: "JGEC Campus" },
+          { src: campusImage2, alt: "JGEC Campus" },
+        ]}
           />
-        </div>
-        <div className="absolute inset-0 overlay-gradient" />
         
-        <div className="relative z-10 container-custom px-4 text-center">
-          <div className="max-w-4xl mx-auto animate-fade-in">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full mb-8">
-              <Star className="w-4 h-4 text-accent" />
-              <span className="text-primary-foreground/90 text-sm font-medium">
-                Established 1961 • 50+ Years of Excellence
-              </span>
-            </div>
             
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold text-primary-foreground mb-6 leading-tight">
-              Jalpaiguri Engineers Association
-              <span className="block text-accent">Pune Chapter</span>
-            </h1>
             
-            <p className="text-lg md:text-xl text-primary-foreground/80 mb-10 max-w-2xl mx-auto leading-relaxed">
-              Connecting graduates of Jalpaiguri Government Engineering College. 
-              Building bridges, creating opportunities, and celebrating our shared legacy.
-            </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/about">
-                <Button variant="hero" size="xl">
-                  Register Now
-                  <ArrowRight className="w-5 h-5" />
-                </Button>
-              </Link>
-              <Link href="/login">
-                <Button variant="heroOutline" size="xl">
-                  Alumni Login
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float">
-          <div className="w-6 h-10 border-2 border-primary-foreground/50 rounded-full flex justify-center pt-2">
-            <div className="w-1.5 h-3 bg-accent rounded-full" />
-          </div>
-        </div>
-      </section>
 
       {/* Stats Section */}
       {/* <section className="bg-primary py-16">
@@ -147,7 +109,7 @@ export default function HomePage() {
       </section> */}
 
       {/* About Preview */}
-      <section className="section-padding bg-background">
+      <section className="section-padding md:pt-2 bg-background">
         <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -155,7 +117,7 @@ export default function HomePage() {
                 Our Mission
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-8">
-                To foster a strong and engaged community of Jalpaiguri Engineers 
+                To foster a strong and engaged community of Jalpaiguri Government Engineering College Alumni Association 
                 in Pune and other places by promoting meaningful connections, nurturing lifelong 
                 relationships, encouraging collaboration, and contributing to our alma mater 
                 and the wider community.
@@ -167,43 +129,23 @@ export default function HomePage() {
                 </Button>
               </Link>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-4">
-                <div className="rounded-2xl overflow-hidden card-shadow relative h-48">
-                  <Image src={event1} alt="Alumni event" fill className="object-cover" />
-                </div>
-                <div className="bg-accent rounded-2xl p-6 text-center">
-                  <div className="text-2xl font-serif font-bold text-accent-foreground">Brotherhood</div>
-                  <div className="text-accent-foreground/80 text-sm">& Lifelong Bonds</div>
-                </div>
-              </div>
-              <div className="space-y-4 pt-8">
-                <div className="bg-primary rounded-2xl p-6 text-center">
-                  <div className="text-2xl font-serif font-bold text-primary-foreground">Excellence</div>
-                  <div className="text-primary-foreground/80 text-sm">& Collaboration</div>
-                </div>
-                <div className="rounded-2xl overflow-hidden card-shadow relative h-48">
-                  <Image src={event2} alt="Graduation ceremony" fill className="object-cover" />
-                </div>
-              </div>
+            <div className="flex items-center justify-center">
+              <Image src={logo} alt="Jalpaiguri Engineers Association" width={400} height={400} className="w-full max-w-sm object-contain" />
             </div>
           </div>
         </div>
       </section>
 
       {/* Past Events */}
-      <section className="section-padding bg-secondary">
+      <section className="py-10 md:py-14 px-4 md:px-8 bg-secondary">
         <div className="container-custom">
-          <div className="text-center mb-12">
-            <span className="text-accent font-medium text-sm uppercase tracking-wider">
-              What Happened
-            </span>
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mt-3">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground">
               Previous Events
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-6">
             {pastEvents.map((event) => (
               <div
                 key={event.title}
@@ -304,7 +246,7 @@ export default function HomePage() {
             Join Our Growing Community
           </h2>
           <p className="text-primary-foreground/80 text-lg mb-8 max-w-2xl mx-auto">
-            Become a part of the JALPAIGURI ENGINEERS ASSOCIATION and stay connected with 
+            Become a part of the JGEC Alumni Association Pune and stay connected with
             your batchmates, access exclusive events, and contribute to our alma mater.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
