@@ -83,7 +83,7 @@ const Header = () => {
             <div className="w-12 h-12 rounded-full overflow-hidden">
               <Image
                 src={logo}
-                alt="Jalpaiguri Engineers Association"
+                alt="JGEC Alumni Association Pune"
                 width={48}
                 height={48}
                 className="w-full h-full object-cover"
@@ -91,7 +91,7 @@ const Header = () => {
             </div>
             <div className="hidden sm:block">
               <h1 className="text-primary-foreground font-serif font-bold text-lg leading-tight">
-                Jalpaiguri Engineers Association
+                JGEC Alumni Association Pune
               </h1>
               <p className="text-primary-foreground/70 text-xs">Pune Chapter</p>
             </div>
