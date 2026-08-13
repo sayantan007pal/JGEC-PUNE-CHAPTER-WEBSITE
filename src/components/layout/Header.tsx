@@ -89,9 +89,9 @@ const Header = () => {
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="hidden sm:block">
-              <h1 className="text-primary-foreground font-serif font-bold text-lg leading-tight">
-                JGEC Alumni Association Pune
+            <div className="block">
+              <h1 className="text-primary-foreground font-serif font-bold text-sm sm:text-lg leading-tight">
+                JGEC Alumni Association
               </h1>
               <p className="text-primary-foreground/70 text-xs">Pune Chapter</p>
             </div>
@@ -117,12 +117,6 @@ const Header = () => {
 
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center gap-3">
-            <Link href="/donate">
-              <Button variant="gold" size="sm">
-                Donate
-              </Button>
-            </Link>
-
             {isLoading ? (
               <div className="w-20 h-9 bg-white/10 rounded-md animate-pulse" />
             ) : user ? (
@@ -203,16 +197,6 @@ const Header = () => {
           ))}
 
           <div className="pt-4 flex flex-col gap-3">
-            <Link
-              href="/donate"
-              onClick={() => setIsOpen(false)}
-              className="block w-full"
-            >
-              <Button variant="gold" size="lg" className="w-full">
-                Donate
-              </Button>
-            </Link>
-
             {!isLoading && user ? (
               <>
                 {/* Logged-in user info on mobile */}

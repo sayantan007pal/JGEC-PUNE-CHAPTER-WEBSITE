@@ -5,30 +5,22 @@ import Image from "next/image";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import heroBanner from "@/assets/hero-banner.jpg";
 import event1 from "@/assets/event-1.jpg";
-import event2 from "@/assets/event-2.jpg";
-import alumni1 from "@/assets/Adip-da.jpg";
-import alumni2 from "@/assets/Pradeep-da.jpg";
-import alumni3 from "@/assets/Pushpal-da.jpg";
 import meet2024 from "@/assets/meet-2024.jpg";
 import meet2025 from "@/assets/meet-2025.jpg";
 import meet2026_2 from "@/assets/2026-meet-2.jpg";
 import meet2026_3 from "@/assets/2026-meet-3.jpg";
 import associationLogo from "@/assets/Jalpaiguri-engineers-association.jpg";
 
-const categories = ["All", "Reunions", "Alumni", "Events"];
+const categories = ["All", "Reunions", "Events"];
 
 const galleryItems = [
   { id: 1, src: meet2024, alt: "Annual Alumni Reunion 2024", category: "Reunions" },
   { id: 2, src: meet2025, alt: "Annual Alumni Reunion 2025", category: "Reunions" },
   { id: 3, src: meet2026_2, alt: "Alumni Meet 2026", category: "Reunions" },
   { id: 4, src: meet2026_3, alt: "Alumni Gathering 2026", category: "Reunions" },
-  { id: 5, src: alumni1, alt: "Shri Adip Roy", category: "Alumni" },
-  { id: 6, src: alumni2, alt: "Cdr. Pradeep Bandyopadhyay", category: "Alumni" },
-  { id: 7, src: alumni3, alt: "Brig. Pushpal De, Retd.", category: "Alumni" },
   { id: 8, src: event1, alt: "Community Event", category: "Events" },
-  { id: 9, src: event2, alt: "Alumni Celebration", category: "Events" },
   { id: 10, src: heroBanner, alt: "JGEC Campus", category: "Events" },
-  { id: 11, src: associationLogo, alt: "Jalpaiguri Engineers Association", category: "Events" },
+  { id: 11, src: associationLogo, alt: "JGEC Alumni Association Pune", category: "Events" },
 ];
 
 export default function GalleryPage() {

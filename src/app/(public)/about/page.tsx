@@ -102,7 +102,7 @@ export default function AboutPage() {
       </section>
 
       {/* Mission */}
-      <section className="section-padding bg-background">
+      <section className="section-padding pb-4 md:pb-6 bg-background">
         <div className="container-custom">
           <div className="bg-card rounded-2xl p-8 md:p-12 card-shadow text-center max-w-4xl mx-auto">
             <div className="w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center mb-6 mx-auto">
@@ -112,7 +112,7 @@ export default function AboutPage() {
               Our Mission
             </h2>
             <p className="text-muted-foreground leading-relaxed text-lg">
-              To foster a strong and engaged community of Jalpaiguri Engineers in Pune 
+              To foster a strong and engaged community of Jalpaiguri Government Engineering College Alumni Association in Pune
               and other places by promoting meaningful connections, nurturing lifelong 
               relationships, encouraging collaboration, and contributing to our alma mater 
               and the wider community.
@@ -122,13 +122,10 @@ export default function AboutPage() {
       </section>
 
       {/* Three Year Roadmap */}
-      <section className="section-padding bg-secondary">
+      <section className="py-10 md:py-14 px-4 md:px-8 bg-secondary">
         <div className="container-custom">
-          <div className="text-center mb-12">
-            <span className="text-accent font-medium text-sm uppercase tracking-wider">
-              Our Strategy
-            </span>
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mt-3">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground">
               Three Year Roadmap
             </h2>
           </div>
