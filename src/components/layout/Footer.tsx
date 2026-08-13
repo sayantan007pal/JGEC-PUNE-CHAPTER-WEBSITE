@@ -12,10 +12,10 @@ const Footer = () => {
           <div>
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 rounded-full overflow-hidden">
-                <Image src={logo} alt="Jalpaiguri Engineers Association" width={48} height={48} className="w-full h-full object-cover" />
+                <Image src={logo} alt="JGEC Alumni Association Pune" width={48} height={48} className="w-full h-full object-cover" />
               </div>
               <div>
-                <h3 className="font-serif font-bold text-base leading-tight">Jalpaiguri Engineers<br />Association</h3>
+                <h3 className="font-serif font-bold text-base leading-tight">JGEC Alumni<br />Association Pune</h3>
                 <p className="text-primary-foreground/70 text-sm">Pune Chapter</p>
               </div>
             </div>
