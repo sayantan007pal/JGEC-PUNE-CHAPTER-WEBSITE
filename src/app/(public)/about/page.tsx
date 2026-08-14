@@ -1,7 +1,74 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Target, Eye, Heart, Users, Award, BookOpen, ArrowRight, CheckCircle2, Rocket, Handshake, Building2 } from "lucide-react";
+import { Target, ArrowRight, CheckCircle2, Rocket, Handshake, Building2, Linkedin } from "lucide-react";
 import heroBanner from "@/assets/hero-banner.jpg";
+import adipRoyImage from "@/assets/Adip-da.jpg";
+import debashisMitraImage from "@/assets/debashisi_mitra.jpg";
+import nilanjanSasmalImage from "@/assets/nilanjan2.jpeg";
+import arnabGuhaImage from "@/assets/ArnabGuho.jpg";
+import debaPrasadImage from "@/assets/DebaPrasad.jpg";
+import sabreenaBeggImage from "@/assets/Sabreena.jpg";
+import chitradeepSinhaImage from "@/assets/Chitradeep.jpg";
+
+const governingBody = [
+  {
+    name: "Adip Nath Roy",
+    title: "President",
+    department: "Electrical",
+    year: "1969",
+    linkedin: "https://www.linkedin.com/in/adip-roy-25b8453/",
+    image: adipRoyImage,
+  },
+  {
+    name: "Debashis Mitra",
+    title: "Vice President",
+    department: "Mechanical",
+    year: "1992",
+    linkedin: "https://www.linkedin.com/in/debashis-mitra-b4113869/",
+    image: debashisMitraImage,
+  },
+  {
+    name: "Nilanjan Sasmal",
+    title: "Secretary",
+    department: "Mechanical",
+    year: "1998",
+    linkedin: "https://www.linkedin.com/in/nilanjansasmal/",
+    image: nilanjanSasmalImage,
+  },
+  {
+    name: "Arnab Guha",
+    title: "Treasurer",
+    department: "Mechanical",
+    year: "2000",
+    linkedin: "https://www.linkedin.com/in/arnab-guha-3135668/",
+    image: arnabGuhaImage,
+  },
+  {
+    name: "Deba Prasad Das",
+    title: "GB Member",
+    department: "Mechanical",
+    year: "1995",
+    linkedin: "https://www.linkedin.com/in/deba-prasad-das-3489244/",
+    image: debaPrasadImage,
+  },
+  {
+    name: "Sabreena Begg",
+    title: "GB Member",
+    department: "CSE",
+    year: "2013",
+    linkedin: "https://www.linkedin.com/in/sabreena-begg-07a524115/",
+    image: sabreenaBeggImage,
+  },
+  {
+    name: "Chitradeep Sinha",
+    title: "GB Member",
+    department: "Electrical",
+    year: "2023",
+    linkedin: "https://www.linkedin.com/in/chitradeepsinha/",
+    image: chitradeepSinhaImage,
+  },
+];
 
 const roadmap = [
   {
@@ -43,29 +110,6 @@ const roadmap = [
       "Hosting a large-scale annual alumni meet",
       "Strengthening bridges between our global alumni chapters",
     ],
-  },
-];
-
-const values = [
-  {
-    icon: Heart,
-    title: "Brotherhood",
-    description: "Fostering lifelong bonds among alumni regardless of batch or branch.",
-  },
-  {
-    icon: Award,
-    title: "Excellence",
-    description: "Celebrating and promoting excellence in all professional endeavors.",
-  },
-  {
-    icon: BookOpen,
-    title: "Mentorship",
-    description: "Guiding current students and young alumni in their career journeys.",
-  },
-  {
-    icon: Users,
-    title: "Community",
-    description: "Building a supportive network that extends beyond geographical boundaries.",
   },
 ];
 
@@ -165,31 +209,48 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Values */}
+      {/* Governing Body */}
       <section className="section-padding bg-background">
         <div className="container-custom">
           <div className="text-center mb-12">
             <span className="text-accent font-medium text-sm uppercase tracking-wider">
-              What We Stand For
+              Leadership
             </span>
             <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mt-3">
-              Our Core Values
+              Governing Body
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map((value) => (
+          <div className="grid md:grid-cols-3 gap-8">
+            {governingBody.map((member) => (
               <div
-                key={value.title}
-                className="bg-card rounded-2xl p-6 card-shadow text-center hover:elevated-shadow transition-shadow duration-300"
+                key={member.name}
+                className="bg-card rounded-2xl p-6 card-shadow hover:elevated-shadow transition-all duration-300 text-center"
               >
-                <div className="w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4">
-                  <value.icon className="w-7 h-7 text-accent" />
+                <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 ring-4 ring-accent/20 relative">
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    fill
+                    className="object-cover"
+                  />
                 </div>
-                <h3 className="text-lg font-serif font-bold text-card-foreground mb-2">
-                  {value.title}
+                <h3 className="text-lg font-serif font-bold text-card-foreground">
+                  {member.name}
                 </h3>
-                <p className="text-muted-foreground text-sm">{value.description}</p>
+                <p className="text-accent font-medium text-sm">{member.title}</p>
+                <p className="text-muted-foreground text-sm">
+                  {member.department} | Batch of {member.year}
+                </p>
+                <a
+                  href={member.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${member.name}'s LinkedIn profile`}
+                  className="inline-flex items-center justify-center mt-4 text-muted-foreground hover:text-accent transition-colors"
+                >
+                  <Linkedin className="w-5 h-5" />
+                </a>
               </div>
             ))}
           </div>

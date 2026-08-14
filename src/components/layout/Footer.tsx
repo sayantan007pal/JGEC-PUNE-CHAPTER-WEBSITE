@@ -32,7 +32,8 @@ const Footer = () => {
               {[
                 { name: "About Us", path: "/about" },
                 { name: "Events", path: "/events" },
-                { name: "Achievements", path: "/achievements" },
+                { name: "Blog", path: "/blogs" },
+                { name: "Alumni Corner", path: "/alumni-corner" },
                 { name: "Gallery", path: "/gallery" },
                 { name: "Contact", path: "/contact" },
               ].map((link) => (

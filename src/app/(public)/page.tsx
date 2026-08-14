@@ -8,14 +8,11 @@ export const metadata: Metadata = {
 
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { MapPin, ArrowRight } from "lucide-react";
+import { MapPin, ArrowRight, Award, BookOpen, Users } from "lucide-react";
 import HeroCarousel from "@/components/HeroCarousel";
 import heroBanner from "@/assets/hero-banner.jpg";
 import campusImage1 from "@/assets/Campus-image_1.jpg";
 import campusImage2 from "@/assets/Campus_image_2.jpg";
-import alumni1 from "@/assets/Adip-da.jpg";
-import alumni2 from "@/assets/Pradeep-da.jpg";
-import alumni3 from "@/assets/Pushpal-da.jpg";
 import event1 from "@/assets/2026-meet-2.jpg";
 import event2 from "@/assets/2026-meet-3.jpg";
 import meet2024 from "@/assets/meet-2024.jpg";
@@ -29,31 +26,23 @@ import logo from "@/assets/JEAP_Logo_transparent_bg.png";
 //   { number: "50+", label: "Years of Legacy", icon: Award },
 // ];
 
-const achievements = [
+const values = [
   {
-    name: "Shri Adip Roy",
-    role: "Faculty & Executive Coach | Former IBM Leader",
-    batch: "1969",
-    image: alumni1,
-    quote: "Over 35 years at IBM, Fujitsu ICIM, and beyond — building teams, scaling businesses, and earning IBM's Person of the Year. Today, mentoring the next generation of leaders from Pune's top management institutes.",
+    icon: Award,
+    title: "Excellence",
+    description: "Celebrating and promoting excellence in all professional endeavors.",
   },
   {
-    name: "Cdr. Pradeep Bandyopadhyay",
-    role: "Director of Capital Projects | Naval Veteran",
-    batch: "1978",
-    image: alumni2,
-    quote: "From warship operations in the Indian Navy to leading capital projects in Canada's energy sector — a journey across continents, industries, and decades, grounded in JGEC's engineering values.",
+    icon: BookOpen,
+    title: "Mentorship",
+    description: "Guiding current students and young alumni in their career journeys.",
   },
   {
-    name: "Brig. Pushpal De, Retd.",
-    role: "Brigadier (Retd.), Indian Army | Chief Engineer",
-    batch: "1965",
-    image: alumni3,
-    quote: "Commissioned in 1969, served across Army, Navy, and Air Force for 36+ years. Led iconic national projects including the Naval Academy at Ezhimala. His career is a living example of engineering in service of the nation.",
+    icon: Users,
+    title: "Community",
+    description: "Building a supportive network that extends beyond geographical boundaries.",
   },
 ];
-
-const uniqueAchievements = achievements;
 
 const pastEvents = [
   {
@@ -190,38 +179,31 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Achievements Section */}
+      {/* Core Values Section */}
       <section className="section-padding bg-background">
         <div className="container-custom">
           <div className="text-center mb-12">
             <span className="text-accent font-medium text-sm uppercase tracking-wider">
-              Success Stories
+              What We Stand For
             </span>
             <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mt-3">
-              Our Distinguished Alumni
+              Our Core Values
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {uniqueAchievements.map((alumni) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
+            {values.map((value) => (
               <div
-                key={alumni.name}
-                className="bg-card rounded-2xl p-6 card-shadow hover:elevated-shadow transition-all duration-300 text-center"
+                key={value.title}
+                className="bg-card rounded-2xl p-6 card-shadow text-center hover:elevated-shadow transition-shadow duration-300"
               >
-                <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 ring-4 ring-accent/20 relative">
-                  <Image
-                    src={alumni.image}
-                    alt={alumni.name}
-                    fill
-                    className="object-cover"
-                  />
+                <div className="w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center mx-auto mb-4">
+                  <value.icon className="w-7 h-7 text-accent" />
                 </div>
-                <h3 className="text-lg font-serif font-bold text-card-foreground">
-                  {alumni.name}
+                <h3 className="text-lg font-serif font-bold text-card-foreground mb-2">
+                  {value.title}
                 </h3>
-                <p className="text-accent font-medium text-sm">{alumni.role}</p>
-                <p className="text-muted-foreground text-sm mb-4">Batch of {alumni.batch}</p>
-                <p className="text-muted-foreground text-sm italic">"{alumni.quote}"</p>
+                <p className="text-muted-foreground text-sm">{value.description}</p>
               </div>
             ))}
           </div>
