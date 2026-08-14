@@ -118,8 +118,7 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-semibold text-foreground">Address</h3>
                     <p className="text-muted-foreground text-sm">
-                      JGEC Alumni Association Pune<br />
-                       Maharashtra, India
+                      Atria 802, Zircon, Viman Nagar, Pune, 411014
                     </p>
 
                   </div>
@@ -309,23 +308,6 @@ export default function ContactPage() {
                   </form>
                 )}
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Map Section */}
-      <section className="bg-secondary">
-        <div className="container-custom section-padding">
-          <div className="text-center mb-8">
-            <h2 className="text-2xl font-serif font-bold text-foreground">Find Us</h2>
-            <p className="text-muted-foreground">Visit us at our chapter office</p>
-          </div>
-          <div className="bg-muted rounded-2xl h-80 flex items-center justify-center">
-            <div className="text-center">
-              <MapPin className="w-12 h-12 text-accent mx-auto mb-3" />
-              <p className="text-muted-foreground">Interactive map coming soon</p>
-              <p className="text-sm text-muted-foreground mt-1">Pune, Maharashtra, India</p>
             </div>
           </div>
         </div>
