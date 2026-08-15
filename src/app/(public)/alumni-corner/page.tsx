@@ -8,7 +8,7 @@ const achievements = [
   {
     name: "Shri Adip Roy",
     role: "Faculty & Executive Coach | Former IBM Leader",
-    batch: "1969",
+    batch: "1970",
     image: alumni1,
     quote: "Over 35 years at IBM, Fujitsu ICIM, and beyond — building teams, scaling businesses, and earning IBM's Person of the Year. Today, mentoring the next generation of leaders from Pune's top management institutes.",
   },

@@ -9,6 +9,14 @@ import meet2024 from "@/assets/meet-2024.jpg";
 import meet2025 from "@/assets/meet-2025.jpg";
 import meet2026_2 from "@/assets/2026-meet-2.jpg";
 import meet2026_3 from "@/assets/2026-meet-3.jpg";
+import meetup2024_1 from "@/assets/meetup_2024_1.JPEG";
+import meetup2024_2 from "@/assets/meetup_2024_2.JPEG";
+import meetup2024_3 from "@/assets/meetup_2024_3.JPEG";
+import meetup2024_4 from "@/assets/meetup_2024_4.JPEG";
+import meetup2025_1 from "@/assets/meetup_2025_1.JPEG";
+import meetup2025_2 from "@/assets/meetup_2025_2.JPEG";
+import meetup2025_3 from "@/assets/meetup_2025_3.JPEG";
+import meetup2025_4 from "@/assets/meetup_2025_4.JPEG";
 import associationLogo from "@/assets/Jalpaiguri-engineers-association.jpg";
 
 const categories = ["All", "Reunions", "Events"];
@@ -18,6 +26,14 @@ const galleryItems = [
   { id: 2, src: meet2025, alt: "Annual Alumni Reunion 2025", category: "Reunions" },
   { id: 3, src: meet2026_2, alt: "Alumni Meet 2026", category: "Reunions" },
   { id: 4, src: meet2026_3, alt: "Alumni Gathering 2026", category: "Reunions" },
+  { id: 13, src: meetup2024_1, alt: "Annual Alumni Reunion 2024", category: "Reunions" },
+  { id: 14, src: meetup2024_2, alt: "Annual Alumni Reunion 2024", category: "Reunions" },
+  { id: 15, src: meetup2024_3, alt: "Annual Alumni Reunion 2024", category: "Reunions" },
+  { id: 16, src: meetup2024_4, alt: "Annual Alumni Reunion 2024", category: "Reunions" },
+  { id: 17, src: meetup2025_1, alt: "Annual Alumni Reunion 2025", category: "Reunions" },
+  { id: 18, src: meetup2025_2, alt: "Annual Alumni Reunion 2025", category: "Reunions" },
+  { id: 19, src: meetup2025_3, alt: "Annual Alumni Reunion 2025", category: "Reunions" },
+  { id: 20, src: meetup2025_4, alt: "Annual Alumni Reunion 2025", category: "Reunions" },
   { id: 8, src: event1, alt: "Community Event", category: "Events" },
   { id: 10, src: heroBanner, alt: "JGEC Campus", category: "Events" },
   { id: 11, src: associationLogo, alt: "JGEC Alumni Association Pune", category: "Events" },
