@@ -16,7 +16,7 @@ const governingBody = [
     name: "Adip Nath Roy",
     title: "President",
     department: "Electrical",
-    year: "1969",
+    year: "1970",
     linkedin: "https://www.linkedin.com/in/adip-roy-25b8453/",
     image: adipRoyImage,
   },
@@ -47,7 +47,7 @@ const governingBody = [
   {
     name: "Deba Prasad Das",
     title: "GB Member",
-    department: "Mechanical",
+    department: "Civil",
     year: "1995",
     linkedin: "https://www.linkedin.com/in/deba-prasad-das-3489244/",
     image: debaPrasadImage,
@@ -55,7 +55,7 @@ const governingBody = [
   {
     name: "Sabreena Begg",
     title: "GB Member",
-    department: "CSE",
+    department: "Computer Science",
     year: "2013",
     linkedin: "https://www.linkedin.com/in/sabreena-begg-07a524115/",
     image: sabreenaBeggImage,
